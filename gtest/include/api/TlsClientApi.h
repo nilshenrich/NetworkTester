@@ -1,37 +1,37 @@
-#ifndef TCP_CLIENT_API_H_
-#define TCP_CLIENT_API_H_
+#ifndef TLS_CLIENT_API_H_
+#define TLS_CLIENT_API_H_
 
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "NetworkClient/TcpClient.h"
+#include "NetworkClient/TlsClient.h"
 #include "TestDefines.h"
 
 namespace TestApi
 {
-    class TcpClientApi : private networking::TcpClient
+    class TlsClientApi : private networking::TlsClient
     {
     public:
-        TcpClientApi();
-        virtual ~TcpClientApi();
+        TlsClientApi();
+        virtual ~TlsClientApi();
 
         /**
-         * @brief Connect to TCP server
+         * @brief Connect to TLS server
          *
-         * @param ip IP address of TCP server
-         * @param port TCP port of TCP server
-         * @return int NETWORKCLIENT_CONNECT_OK if successful, other if failed
+         * @param ip IP address of TLS server
+         * @param port TLS port of TLS server
+         * @return int TLSCLIENT_CONNECT_OK if successful, other if failed
          */
         int start(const std::string &ip, const int port);
 
         /**
-         * @brief Disconnect from TCP server
+         * @brief Disconnect from TLS server
          */
         void stop();
 
         /**
-         * @brief Send message to TCP server
+         * @brief Send message to TLS server
          *
          * @param tcpMsg Message to send
          * @return bool true if successful, false if failed
@@ -39,7 +39,7 @@ namespace TestApi
         bool sendMsg(const std::string &tcpMsg);
 
         /**
-         * @brief Get buffered message from TCP server and clear buffer
+         * @brief Get buffered message from TLS server and clear buffer
          *
          * @return std::vector<std::string> Vector of buffered messages
          */
@@ -51,11 +51,11 @@ namespace TestApi
          *
          * @param tcpMsgFromServer Nachricht vom Server
          */
-        void workOnMessage_TcpClient(const std::string tcpMsgFromServer) override;
+        void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
     };
 } // namespace TestApi
 
-#endif // TCP_CLIENT_API_H_
+#endif // TLS_CLIENT_API_H_

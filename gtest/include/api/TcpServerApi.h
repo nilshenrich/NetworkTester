@@ -1,3 +1,6 @@
+#ifndef TCP_SERVER_API_H_
+#define TCP_SERVER_API_H_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -69,3 +72,5 @@ namespace TestApi
         std::vector<MessageFromClient> bufferedMsg;
     };
 } // namespace TestApi
+
+#endif // TCP_SERVER_API_H_
