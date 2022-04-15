@@ -32,6 +32,7 @@ vector<int> TlsServerApi::getClientIds()
 {
     // Get IDs from activeConnections
     vector<int> clientIds;
+    lock_guard<mutex> lock(activeConnections_m);
     for (auto &client : activeConnections)
         clientIds.push_back(client.first);
     return clientIds;
