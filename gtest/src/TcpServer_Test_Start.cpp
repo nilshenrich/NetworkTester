@@ -7,6 +7,13 @@ using namespace networking;
 TcpServer_Test_Start::TcpServer_Test_Start() {}
 TcpServer_Test_Start::~TcpServer_Test_Start() {}
 
+void TcpServer_Test_Start::SetUp()
+{
+    // Get free TCP port
+    port = HelperFunctions::getFreePort();
+    return;
+}
+
 void TcpServer_Test_Start::TearDown()
 {
     tcpServer.stop();
@@ -15,5 +22,5 @@ void TcpServer_Test_Start::TearDown()
 
 TEST_F(TcpServer_Test_Start, PosTest)
 {
-    EXPECT_EQ(tcpServer.start(TcpServerPort), NETWORKLISTENER_START_OK);
+    EXPECT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
 }
