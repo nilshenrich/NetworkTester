@@ -7,8 +7,15 @@ cmake_minimum_required(VERSION 3.10)
 # Project name: networktester
 project(networktester)
 
+# Include directories
+include_directories(include include/api ../NetworkListener/include ../NetworkClient/include)
+
 # Add source files (All files in src folder)
-file(GLOB sourcefiles "src/*.cpp")
+file(GLOB sourcefiles
+    "src/*.cpp"
+    "src/*/*.cpp"
+    "../NetworkListener/src/*.cpp"
+    "../NetworkClient/src/*.cpp")
 add_executable(networktester ${sourcefiles})
 
 # Use C++17 standard
@@ -19,5 +26,7 @@ set_target_properties(networktester PROPERTIES
 # Add libraries
 target_link_libraries(networktester
     -pthread
-    -lgtest)
+    -lgtest
+    -lcrypto
+    -lssl)
 
