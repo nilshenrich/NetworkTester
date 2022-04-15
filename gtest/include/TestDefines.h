@@ -23,4 +23,11 @@ namespace KeyPaths
     const std::string ClientKey{};
 } // namespace KeyPaths
 
+namespace Test
+{
+    // Standard ports
+    const int TcpServerPort{8081};
+    const int TlsServerPort{8082};
+}
+
 #endif // TEST_DEFINES_H_
