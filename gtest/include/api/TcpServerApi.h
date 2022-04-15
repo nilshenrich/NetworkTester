@@ -1,17 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "NetworkListener/TcpServer.h"
+#include "TestDefines.h"
 
 namespace TestApi
 {
-    // Message from TCP client (Client ID, Message)
-    struct MessageFromClient
-    {
-        int id;
-        std::string msg;
-    };
-
     class TcpServerApi : private networking::TcpServer
     {
     public:

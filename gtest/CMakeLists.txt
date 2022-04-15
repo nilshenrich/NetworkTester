@@ -18,10 +18,8 @@ file(GLOB sourcefiles
     "../NetworkClient/src/*.cpp")
 add_executable(networktester ${sourcefiles})
 
-# Use C++17 standard
-set_target_properties(networktester PROPERTIES
-    CXX_STANDARD 17
-    CMAKE_CXX_STANDARD_REQUIRED True)
+# Set compiler flags
+target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og -DDEVELOP)
 
 # Add libraries
 target_link_libraries(networktester
@@ -30,3 +28,7 @@ target_link_libraries(networktester
     -lcrypto
     -lssl)
 
+# Use C++17 standard
+set_target_properties(networktester PROPERTIES
+    CXX_STANDARD 17
+    CMAKE_CXX_STANDARD_REQUIRED True)
