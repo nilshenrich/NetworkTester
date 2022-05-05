@@ -7,9 +7,9 @@ using namespace networking;
 TlsServerApi::TlsServerApi() : TlsServer{'\x00'} {}
 TlsServerApi::~TlsServerApi() {}
 
-int TlsServerApi::start(const int port)
+int TlsServerApi::start(const int port, const string pathToCaCert, const string pathToListenerCert, const string pathToListenerKey)
 {
-    return TlsServer::start(port, KeyPaths::CaCert.c_str(), KeyPaths::ListenerCert.c_str(), KeyPaths::ListenerKey.c_str());
+    return TlsServer::start(port, pathToCaCert.c_str(), pathToListenerCert.c_str(), pathToListenerKey.c_str());
 }
 
 void TlsServerApi::stop()

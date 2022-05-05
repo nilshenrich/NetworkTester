@@ -23,7 +23,7 @@ namespace TestApi
          * @param port TLS port to listen on
          * @return int NETWORKLISTENER_START_OK if successful, other if failed
          */
-        int start(const int port);
+        int start(const int port, const std::string pathToCaCert = KeyPaths::CaCert, const std::string pathToListenerCert = KeyPaths::ListenerCert, const std::string pathToListenerKey = KeyPaths::ListenerKey);
 
         /**
          * @brief Stop TLS server

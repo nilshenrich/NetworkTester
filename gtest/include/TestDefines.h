@@ -15,7 +15,7 @@ namespace TestApi
 
 namespace KeyPaths
 {
-    const std::string rootDir{"../keys"};
+    const std::string rootDir{"../../keys"};
     const std::string CaDir{rootDir + "/ca"};
     const std::string CaCert{CaDir + "/ca.crt"};
     const std::string CaKey{CaDir + "/ca.key"};

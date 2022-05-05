@@ -7,9 +7,9 @@ using namespace networking;
 TlsClientApi::TlsClientApi() : TlsClient{'\x00'} {}
 TlsClientApi::~TlsClientApi() {}
 
-int TlsClientApi::start(const std::string &ip, const int port)
+int TlsClientApi::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
 {
-    return TlsClient::start(ip, port, KeyPaths::CaCert.c_str(), KeyPaths::ClientCert.c_str(), KeyPaths::ClientKey.c_str());
+    return TlsClient::start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
 }
 
 void TlsClientApi::stop()

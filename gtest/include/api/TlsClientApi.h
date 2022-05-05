@@ -23,7 +23,7 @@ namespace TestApi
          * @param port TLS port of TLS server
          * @return int TLSCLIENT_CONNECT_OK if successful, other if failed
          */
-        int start(const std::string &ip, const int port);
+        int start(const std::string &ip, const int port, const std::string pathToCaCert = KeyPaths::CaCert, const std::string pathToClientCert = KeyPaths::ClientCert, const std::string pathToClientKey = KeyPaths::ClientKey);
 
         /**
          * @brief Disconnect from TLS server
