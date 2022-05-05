@@ -15,12 +15,16 @@ namespace TestApi
 
 namespace KeyPaths
 {
-    const std::string CaCert{};
-    const std::string CaKey{};
-    const std::string ServerCert{};
-    const std::string ServerKey{};
-    const std::string ClientCert{};
-    const std::string ClientKey{};
+    const std::string rootDir{"../keys"};
+    const std::string CaDir{rootDir + "/ca"};
+    const std::string CaCert{CaDir + "/ca.crt"};
+    const std::string CaKey{CaDir + "/ca.key"};
+    const std::string ListenerDir{rootDir + "/listener"};
+    const std::string ListenerCert{ListenerDir + "/listener.crt"};
+    const std::string ListenerKey{ListenerDir + "/listener.key"};
+    const std::string ClientDir{rootDir + "/client"};
+    const std::string ClientCert{ClientDir + "/client.crt"};
+    const std::string ClientKey{ClientDir + "/client.key"};
 } // namespace KeyPaths
 
 #endif // TEST_DEFINES_H_
