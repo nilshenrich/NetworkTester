@@ -72,3 +72,63 @@ TEST_F(TlsServer_Test_Start, NegTest_PortInUse)
     TestApi::TlsServerApi tlsServer2{};
     EXPECT_EQ(tlsServer2.start(port), NETWORKLISTENER_ERROR_START_BIND_PORT);
 }
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if path to CA cert is incorrect
+// Steps:      Try to start TLS server with incorrect path to CA cert
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CA_PATH
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongCaPath)
+{
+    EXPECT_EQ(tlsServer.start(port, "fake/path/to/ca.crt", KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CA_PATH);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if path to listener cert is incorrect
+// Steps:      Try to start TLS server with incorrect path to listener cert
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CERT_PATH
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongCertPath)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, "fake/path/to/listener.crt", KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CERT_PATH);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if path to listener key is incorrect
+// Steps:      Try to start TLS server with incorrect path to listener key
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_KEY_PATH
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongKeyPath)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, "fake/path/to/listener.key"), NETWORKLISTENER_ERROR_START_WRONG_KEY_PATH);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if CA cert is incorrect (wrong format)
+// Steps:      Try to start TLS server with incorrect CA cert
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CA
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongCa)
+{
+    EXPECT_EQ(tlsServer.start(port, FakeKeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CA);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if listener cert is incorrect (wrong format)
+// Steps:      Try to start TLS server with incorrect listener cert
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CERT
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongCert)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, FakeKeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CERT);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if listener key is incorrect (wrong format)
+// Steps:      Try to start TLS server with incorrect listener key
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_KEY
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_WrongKey)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, FakeKeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_KEY);
+}
