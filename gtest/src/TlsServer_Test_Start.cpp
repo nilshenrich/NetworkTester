@@ -108,7 +108,7 @@ TEST_F(TlsServer_Test_Start, NegTest_WrongKeyPath)
 // Steps:      Try to start TLS server with incorrect CA cert
 // Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CA
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Start, NegTest_WrongCa)
+TEST_F(TlsServer_Test_Start, NegTest_FakeCa)
 {
     EXPECT_EQ(tlsServer.start(port, FakeKeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CA);
 }
@@ -118,7 +118,7 @@ TEST_F(TlsServer_Test_Start, NegTest_WrongCa)
 // Steps:      Try to start TLS server with incorrect listener cert
 // Exp Result: NETWORKLISTENER_ERROR_START_WRONG_CERT
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Start, NegTest_WrongCert)
+TEST_F(TlsServer_Test_Start, NegTest_FakeCert)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, FakeKeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_CERT);
 }
@@ -128,7 +128,7 @@ TEST_F(TlsServer_Test_Start, NegTest_WrongCert)
 // Steps:      Try to start TLS server with incorrect listener key
 // Exp Result: NETWORKLISTENER_ERROR_START_WRONG_KEY
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Start, NegTest_WrongKey)
+TEST_F(TlsServer_Test_Start, NegTest_FakeKey)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, FakeKeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_KEY);
 }
