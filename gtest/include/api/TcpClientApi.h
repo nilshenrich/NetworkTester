@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "NetworkClient/TcpClient.h"
+#include "TcpClient.h"
 #include "TestDefines.h"
 
 namespace TestApi

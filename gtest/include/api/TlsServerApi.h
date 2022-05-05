@@ -6,7 +6,7 @@
 #include <vector>
 #include <mutex>
 
-#include "NetworkListener/TlsServer.h"
+#include "TlsServer.h"
 #include "TestDefines.h"
 
 namespace TestApi

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "NetworkClient/TlsClient.h"
+#include "TlsClient.h"
 #include "TestDefines.h"
 
 namespace TestApi
