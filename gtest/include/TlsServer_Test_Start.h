@@ -18,7 +18,7 @@ namespace Test
         void SetUp() override;
         void TearDown() override;
 
-        // TCP Server
+        // TLS Server
         TestApi::TlsServerApi tlsServer{};
 
         // Port to use
