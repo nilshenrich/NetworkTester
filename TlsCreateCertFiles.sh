@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# =================================================================================================
+# Good certificates
+# =================================================================================================
+
 # Recreate directories
 rm -r keys/
 mkdir -p keys/ca
@@ -19,3 +23,49 @@ openssl x509 -req -days 36500 -in keys/listener/listener.csr -CA keys/ca/ca.crt 
 openssl genrsa -out keys/client/client.key 2048
 openssl req -new -key keys/client/client.key -out keys/client/client.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
 openssl x509 -req -days 36500 -in keys/client/client.csr -CA keys/ca/ca.crt -CAkey keys/ca/ca.key -CAcreateserial -out keys/client/client.crt
+
+# =================================================================================================
+# Fake certificates
+# =================================================================================================
+
+# Recreate directories
+rm -r fakeKeys/
+mkdir -p fakeKeys/ca
+mkdir -p fakeKeys/listener
+mkdir -p fakeKeys/client
+
+# Create CA key and certificate
+echo "This is a fake CA key" > fakeKeys/ca/ca.key
+echo "This is a fake CA certificate" > fakeKeys/ca/ca.crt
+
+# Create listener key and certificate
+echo "This is a fake listener key" > fakeKeys/listener/listener.key
+echo "This is a fake listener certificate request" > fakeKeys/listener/listener.csr
+echo "This is a fake listener certificate" > fakeKeys/listener/listener.crt
+
+# Create client key and certificate
+echo "This is a fake client key" > fakeKeys/client/client.key
+echo "This is a fake client certificate request" > fakeKeys/client/client.csr
+echo "This is a fake client certificate" > fakeKeys/client/client.crt
+
+# =================================================================================================
+# Self signed certificates
+# =================================================================================================
+
+# Recreate directories
+rm -r selfSignedKeys/
+mkdir -p selfSignedKeys/ca
+mkdir -p selfSignedKeys/listener
+mkdir -p selfSignedKeys/client
+
+# Create CA key and certificate
+openssl genrsa -out selfSignedKeys/ca/ca.key 2048
+openssl req -new -x509 -days 36500 -key selfSignedKeys/ca/ca.key -out selfSignedKeys/ca/ca.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=CA/CN=localhost"
+
+# Create listener key and certificate signed by self
+openssl genrsa -out selfSignedKeys/listener/listener.key 2048
+openssl req -new -x509 -days 36500 -key selfSignedKeys/listener/listener.key -out selfSignedKeys/listener/listener.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Listener/CN=localhost"
+
+# Create client key and certificate signed by self
+openssl genrsa -out selfSignedKeys/client/client.key 2048
+openssl req -new -x509 -days 36500 -key selfSignedKeys/client/client.key -out selfSignedKeys/client/client.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
