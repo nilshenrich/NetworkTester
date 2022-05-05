@@ -27,4 +27,17 @@
 		],
 		"description": "HeaderCommentTestFixture"
 	},
+	"HeaderFileSetup": {
+		"scope": "h",
+		"prefix": "HeaderFileSetup",
+		"body": [
+			"#ifndef $1_H_",
+			"#define $1_H_",
+			"",
+			"",
+			"",
+			"#endif // $1_H_"
+		],
+		"description": "HeaderFileSetup"
+	}
 }
