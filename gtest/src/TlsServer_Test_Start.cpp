@@ -132,3 +132,13 @@ TEST_F(TlsServer_Test_Start, NegTest_FakeKey)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, FakeKeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_KEY);
 }
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if listener certificate and key don't match
+// Steps:      Try to start TLS server with incorrect listener cert and key
+// Exp Result: NETWORKLISTENER_ERROR_START_WRONG_KEY
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_NotMatchingCertAndKey)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, SelfSignedKeyPaths::ListenerKey), NETWORKLISTENER_ERROR_START_WRONG_KEY);
+}
