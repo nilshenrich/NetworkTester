@@ -9,7 +9,7 @@ TlsServerApi::~TlsServerApi() {}
 
 int TlsServerApi::start(const int port)
 {
-    return TlsServer::start(port, KeyPaths::CaCert.c_str(), KeyPaths::ServerCert.c_str(), KeyPaths::ServerKey.c_str());
+    return TlsServer::start(port, KeyPaths::CaCert.c_str(), KeyPaths::ListenerCert.c_str(), KeyPaths::ListenerKey.c_str());
 }
 
 void TlsServerApi::stop()
