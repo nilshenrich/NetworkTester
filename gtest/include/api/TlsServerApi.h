@@ -62,6 +62,13 @@ namespace TestApi
          */
         void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
 
+        /**
+         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         *
+         * @param tcpClientId ID des Clients
+         */
+        void workOnClosed_TlsServer(const int tlsClientId) override;
+
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
     };

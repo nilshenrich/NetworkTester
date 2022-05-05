@@ -43,3 +43,8 @@ void TlsServerApi::workOnMessage_TlsServer(const int tlsClientId, const std::str
     bufferedMsg.push_back({tlsClientId, move(tlsMsgFromClient)});
     return;
 }
+
+void TlsServerApi::workOnClosed_TlsServer(const int tlsClientId)
+{
+    return;
+}
