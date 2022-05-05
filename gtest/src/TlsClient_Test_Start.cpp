@@ -22,3 +22,15 @@ void TlsClient_Test_Start::TearDown()
     tlsServer.stop();
     return;
 }
+
+// ====================================================================================================================
+// Desc:       Check if the TLS client starts properly
+// Steps:      Start TLS client with correct parameters
+// Exp Result: NETWORKCLIENT_START_OK
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, PosTest)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 1);
+}
