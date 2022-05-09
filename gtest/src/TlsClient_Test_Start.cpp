@@ -34,3 +34,23 @@ TEST_F(TlsClient_Test_Start, PosTest)
     this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't accept negative port number
+// Steps:      Try to start TLS client with -1
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_PORT
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_WrongPort_Negative)
+{
+    EXPECT_EQ(tlsClient.start("localhost", -1), NETWORKCLIENT_ERROR_START_WRONG_PORT);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't accept too big port number
+// Steps:      Try to start TLS client with 65536
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_PORT
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_WrongPort_TooBig)
+{
+    EXPECT_EQ(tlsClient.start("localhost", 65536), NETWORKCLIENT_ERROR_START_WRONG_PORT);
+}
