@@ -62,6 +62,19 @@ TEST_F(TcpClient_Test_Start, NegTest_WrongPort_TooBig)
 }
 
 // ====================================================================================================================
+// Desc:       Check if client stops properly when server is not running
+// Steps:      Try to start TCP client after stopping server
+// Exp Result: NETWORKCLIENT_ERROR_START_CONNECT
+// ====================================================================================================================
+TEST_F(TcpClient_Test_Start, NegTest_ServerNotRunning)
+{
+    tcpServer.stop();
+    EXPECT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
+    this_thread::sleep_for(1ms);
+    EXPECT_EQ(tcpServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
 // Desc:       Check if client doesn't start if it is already running
 // Steps:      Start TCP client and then try to start it again
 // Exp Result: -1

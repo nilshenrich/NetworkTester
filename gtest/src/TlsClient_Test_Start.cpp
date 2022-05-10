@@ -56,6 +56,17 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongPort_TooBig)
 }
 
 // ====================================================================================================================
+// Desc:       Check if client stops properly when server is not running
+// Steps:      Try to start TLS client after stopping server
+// Exp Result: NETWORKCLIENT_ERROR_START_CONNECT
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_ServerNotRunning)
+{
+    tlsServer.stop();
+    EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
+}
+
+// ====================================================================================================================
 // Desc:       Check if client doesn't start if it is already running
 // Steps:      Try to start TLS client and then try to start it again
 // Exp Result: -1
@@ -64,16 +75,4 @@ TEST_F(TlsClient_Test_Start, NegTest_AlreadyRunning)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port), -1);
-}
-
-// ====================================================================================================================
-// Desc:       Check if client doesn't start if port is already in use
-// Steps:      Try to start TLS client with port that is already in use
-// Exp Result: NETWORKCLIENT_ERROR_START_CONNECT
-// ====================================================================================================================
-TEST_F(TlsClient_Test_Start, NegTest_PortInUse)
-{
-    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
-    TestApi::TlsClientApi tlsClient2{};
-    EXPECT_EQ(tlsClient2.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
 }
