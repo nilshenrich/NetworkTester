@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 
 #include "TlsServerApi.h"
+#include "TlsClientApi.h"
 #include "HelperFunctions.h"
 
 namespace Test

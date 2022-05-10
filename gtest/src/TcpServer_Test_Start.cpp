@@ -51,14 +51,27 @@ TEST_F(TcpServer_Test_Start, NegTest_WrongPort_TooBig)
 }
 
 // ====================================================================================================================
-// Desc:       Check if server doesn't start if it is already running
-// Steps:      Start TCP server and then try to start it again
+// Desc:       Check if server doesn't start if it is already running having no active connections
+// Steps:      Start TCP server and then try to start it again on free port
 // Exp Result: -1
 // ====================================================================================================================
-TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning)
+TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 {
-    EXPECT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
-    EXPECT_EQ(tcpServer.start(port), -1);
+    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
+    EXPECT_EQ(tcpServer.start(HelperFunctions::getFreePort()), -1);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if it is already running having 1 active connection
+// Steps:      Start TCP server, connect a client and then try to start it again on free port
+// Exp Result: -1
+// ====================================================================================================================
+TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
+{
+    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
+    TestApi::TcpClientApi tcpClient{};
+    ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    EXPECT_EQ(tcpServer.start(HelperFunctions::getFreePort()), -1);
 }
 
 // ====================================================================================================================

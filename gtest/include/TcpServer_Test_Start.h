@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 
 #include "TcpServerApi.h"
+#include "TcpClientApi.h"
 #include "HelperFunctions.h"
 
 namespace Test

@@ -51,14 +51,27 @@ TEST_F(TlsServer_Test_Start, NegTest_WrongPort_TooBig)
 }
 
 // ====================================================================================================================
-// Desc:       Check if server doesn't start if it is already running
-// Steps:      Start TLS server and then try to start it again
+// Desc:       Check if server doesn't start if it is already running having no active connections
+// Steps:      Start TLS server and then try to start it again on free port
 // Exp Result: -1
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning)
+TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 {
-    EXPECT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
-    EXPECT_EQ(tlsServer.start(port), -1);
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
+    EXPECT_EQ(tlsServer.start(HelperFunctions::getFreePort()), -1);
+}
+
+// ====================================================================================================================
+// Desc:       Check if server doesn't start if it is already running having 1 active connection
+// Steps:      Start TLS server, connect a client and then try to start it again on free port
+// Exp Result: -1
+// ====================================================================================================================
+TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
+{
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
+    TestApi::TlsClientApi tlsClient{};
+    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    EXPECT_EQ(tlsServer.start(HelperFunctions::getFreePort()), -1);
 }
 
 // ====================================================================================================================
