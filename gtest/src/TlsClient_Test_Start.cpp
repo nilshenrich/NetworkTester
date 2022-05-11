@@ -43,7 +43,7 @@ TEST_F(TlsClient_Test_Start, PosTest)
 TEST_F(TlsClient_Test_Start, NegTest_WrongPort_Negative)
 {
     EXPECT_EQ(tlsClient.start("localhost", -1), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -55,7 +55,7 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongPort_Negative)
 TEST_F(TlsClient_Test_Start, NegTest_WrongPort_TooBig)
 {
     EXPECT_EQ(tlsClient.start("localhost", 65536), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -68,7 +68,7 @@ TEST_F(TlsClient_Test_Start, NegTest_ServerNotRunning)
 {
     tlsServer.stop();
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -81,6 +81,6 @@ TEST_F(TlsClient_Test_Start, NegTest_AlreadyRunning)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port), -1);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
