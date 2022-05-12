@@ -20,8 +20,13 @@ void TcpClient_Test_Start::SetUp()
 
 void TcpClient_Test_Start::TearDown()
 {
+    // Stop TCP server and client
     tcpClient.stop();
     tcpServer.stop();
+
+    // Check if no pipe error occurred
+    EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
+
     return;
 }
 

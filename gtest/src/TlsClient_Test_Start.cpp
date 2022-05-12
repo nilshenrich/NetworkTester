@@ -18,8 +18,13 @@ void TlsClient_Test_Start::SetUp()
 
 void TlsClient_Test_Start::TearDown()
 {
+    // Stop TLS server and client
     tlsClient.stop();
     tlsServer.stop();
+
+    // Check if no pipe error occurred
+    EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
+
     return;
 }
 

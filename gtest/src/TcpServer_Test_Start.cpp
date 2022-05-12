@@ -16,7 +16,12 @@ void TcpServer_Test_Start::SetUp()
 
 void TcpServer_Test_Start::TearDown()
 {
+    // Stop TCP server
     tcpServer.stop();
+
+    // Check if no pipe error occurred
+    EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
+
     return;
 }
 

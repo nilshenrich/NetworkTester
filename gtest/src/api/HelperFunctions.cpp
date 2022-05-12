@@ -2,6 +2,8 @@
 
 using namespace std;
 
+atomic_flag HelperFunctions::pipeError{ATOMIC_FLAG_INIT};
+
 int HelperFunctions::getFreePort()
 {
     for (int port{8081}; port < 65536; port += 1)
@@ -24,4 +26,18 @@ int HelperFunctions::getFreePort()
 
     // If we get here, no free port was found. Return -1.
     return -1;
+}
+
+void HelperFunctions::setPipeError()
+{
+    pipeError.test_and_set();
+    cout << "SIGPIPE detected" << endl;
+    return;
+}
+
+bool HelperFunctions::getAndResetPipeError()
+{
+    bool ret{pipeError.test_and_set()};
+    pipeError.clear();
+    return ret;
 }

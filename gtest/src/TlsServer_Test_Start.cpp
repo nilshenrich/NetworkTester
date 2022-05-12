@@ -16,7 +16,12 @@ void TlsServer_Test_Start::SetUp()
 
 void TlsServer_Test_Start::TearDown()
 {
+    // Stop TLS server
     tlsServer.stop();
+
+    // Check if no pipe error occurred
+    EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
+
     return;
 }
 
