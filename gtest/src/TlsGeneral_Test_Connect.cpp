@@ -71,10 +71,23 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithSelfSignedCert)
 // Steps:      Try to connect to server a with certificates signed by unknown CA
 // Exp Result: NETWORKLISTENER_START_OK, NETWORKCLIENT_ERROR_START_CONNECT_INIT
 // ====================================================================================================================
-TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithUnknownCaCert)
+TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithUnknownCa)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, SecondKeyPaths::ClientCert, SecondKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if the TLS server rejects connections with certificates with a certificate chain depth of 2
+// Steps:      Try to connect to server a with certificates with a certificate chain depth of 2
+// Exp Result: NETWORKLISTENER_START_OK, NETWORKCLIENT_ERROR_START_CONNECT_INIT
+// ====================================================================================================================
+TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithCertChainDepth2)
+{
+    EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
+    EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, CertChainDepth2KeyPaths::ClientCert, CertChainDepth2KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
     this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
