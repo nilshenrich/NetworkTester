@@ -93,3 +93,27 @@ openssl x509 -req -days 36500 -in secondKeys/listener/listener.csr -CA secondKey
 openssl genrsa -out secondKeys/client/client.key 2048
 openssl req -new -key secondKeys/client/client.key -out secondKeys/client/client.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
 openssl x509 -req -days 36500 -in secondKeys/client/client.csr -CA secondKeys/ca/ca.crt -CAkey secondKeys/ca/ca.key -CAcreateserial -out secondKeys/client/client.crt
+
+# =================================================================================================
+# Certificates signed by listener cert signed by CA (cert chain depth 2)
+# =================================================================================================
+
+# Recreate directories
+rm -r certChainDepth2Keys/
+mkdir -p certChainDepth2Keys/ca
+mkdir -p certChainDepth2Keys/listener
+mkdir -p certChainDepth2Keys/client
+
+# Create CA key and certificate (CA in this case is the listener)
+cp keys/listener/listener.key certChainDepth2Keys/ca/ca.key
+cp keys/listener/listener.crt certChainDepth2Keys/ca/ca.crt
+
+# Create listener key and certificate signed by listener cert (listener in this case is the CA)
+openssl genrsa -out certChainDepth2Keys/listener/listener.key 2048
+openssl req -new -key certChainDepth2Keys/listener/listener.key -out certChainDepth2Keys/listener/listener.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Listener/CN=localhost"
+openssl x509 -req -days 36500 -in certChainDepth2Keys/listener/listener.csr -CA certChainDepth2Keys/ca/ca.crt -CAkey certChainDepth2Keys/ca/ca.key -CAcreateserial -out certChainDepth2Keys/listener/listener.crt
+
+# Create client key and certificate signed by listener cert (listener in this case is the CA)
+openssl genrsa -out certChainDepth2Keys/client/client.key 2048
+openssl req -new -key certChainDepth2Keys/client/client.key -out certChainDepth2Keys/client/client.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
+openssl x509 -req -days 36500 -in certChainDepth2Keys/client/client.csr -CA certChainDepth2Keys/ca/ca.crt -CAkey certChainDepth2Keys/ca/ca.key -CAcreateserial -out certChainDepth2Keys/client/client.crt
