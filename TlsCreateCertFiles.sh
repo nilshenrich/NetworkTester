@@ -86,7 +86,7 @@ openssl req -new -x509 -days 36500 -key secondKeys/ca/ca.key -out secondKeys/ca/
 
 # Create listener key and certificate signed by second CA
 openssl genrsa -out secondKeys/listener/listener.key 2048
-openssl req -new -key secondKeys/listener/listener.key -out secondKeys/listener/listener.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Listener/CN=localhost"
+openssl req -new -key secondKeys/listener/listener.key -out secondKeys/listener/listener.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Listener/CN=localhost"
 openssl x509 -req -days 36500 -in secondKeys/listener/listener.csr -CA secondKeys/ca/ca.crt -CAkey secondKeys/ca/ca.key -CAcreateserial -out secondKeys/listener/listener.crt
 
 # Create client key and certificate signed by second CA
