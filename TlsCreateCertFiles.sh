@@ -69,3 +69,27 @@ openssl req -new -x509 -days 36500 -key selfSignedKeys/listener/listener.key -ou
 # Create client key and certificate signed by self
 openssl genrsa -out selfSignedKeys/client/client.key 2048
 openssl req -new -x509 -days 36500 -key selfSignedKeys/client/client.key -out selfSignedKeys/client/client.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
+
+# =================================================================================================
+# Second certificates signed by other CA
+# =================================================================================================
+
+# Recreate directories
+rm -r secondKeys/
+mkdir -p secondKeys/ca
+mkdir -p secondKeys/listener
+mkdir -p secondKeys/client
+
+# Create CA key and certificate
+openssl genrsa -out secondKeys/ca/ca.key 2048
+openssl req -new -x509 -days 36500 -key secondKeys/ca/ca.key -out secondKeys/ca/ca.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=CA/CN=localhost"
+
+# Create listener key and certificate signed by second CA
+openssl genrsa -out secondKeys/listener/listener.key 2048
+openssl req -new -key secondKeys/listener/listener.key -out secondKeys/listener/listener.crt -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Listener/CN=localhost"
+openssl x509 -req -days 36500 -in secondKeys/listener/listener.csr -CA secondKeys/ca/ca.crt -CAkey secondKeys/ca/ca.key -CAcreateserial -out secondKeys/listener/listener.crt
+
+# Create client key and certificate signed by second CA
+openssl genrsa -out secondKeys/client/client.key 2048
+openssl req -new -key secondKeys/client/client.key -out secondKeys/client/client.csr -subj "/C=DE/ST=Baden-Wuerttemberg/L=Stuttgart/O=NetworkTester/OU=Client/CN=localhost"
+openssl x509 -req -days 36500 -in secondKeys/client/client.csr -CA secondKeys/ca/ca.crt -CAkey secondKeys/ca/ca.key -CAcreateserial -out secondKeys/client/client.crt
