@@ -89,3 +89,75 @@ TEST_F(TlsClient_Test_Start, NegTest_AlreadyRunning)
     this_thread::sleep_for(5ms);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if path to CA certificate is wrong
+// Steps:      Try to start TLS client with wrong path to CA certificate
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CA_PATH
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_WrongCaPath)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, "fake/path/to/ca.crt", KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA_PATH);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if path to client certificate is wrong
+// Steps:      Try to start TLS client with wrong path to client certificate
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CERT_PATH
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_WrongCertPath)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, "fake/path/to/client.crt", KeyPaths::ListenerKey), NETWORKCLIENT_ERROR_START_WRONG_CERT_PATH);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if path to client key is wrong
+// Steps:      Try to start TLS client with wrong path to client key
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_KEY_PATH
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_WrongKeyPath)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, "fake/path/to/client.key"), NETWORKCLIENT_ERROR_START_WRONG_KEY_PATH);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if CA certificate is incorrect (wrong format)
+// Steps:      Try to start TLS client with incorrect CA certificate
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CA
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_FakeCa)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, FakeKeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if client certificate is incorrect (wrong format)
+// Steps:      Try to start TLS client with incorrect client certificate
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CERT
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_FakeCert)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, FakeKeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CERT);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
+
+// ====================================================================================================================
+// Desc:       Check if client doesn't start if client key is incorrect (wrong format)
+// Steps:      Try to start TLS client with incorrect client key
+// Exp Result: NETWORKCLIENT_ERROR_START_WRONG_KEY
+// ====================================================================================================================
+TEST_F(TlsClient_Test_Start, NegTest_FakeKey)
+{
+    EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, FakeKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_KEY);
+    this_thread::sleep_for(5ms);
+    EXPECT_EQ(tlsServer.getClientIds().size(), 0);
+}
