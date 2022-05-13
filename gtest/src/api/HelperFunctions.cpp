@@ -2,7 +2,7 @@
 
 using namespace std;
 
-atomic_flag HelperFunctions::pipeError{ATOMIC_FLAG_INIT};
+bool HelperFunctions::pipeError{false};
 
 int HelperFunctions::getFreePort()
 {
@@ -30,14 +30,14 @@ int HelperFunctions::getFreePort()
 
 void HelperFunctions::setPipeError()
 {
-    pipeError.test_and_set();
+    pipeError = true;
     cout << "SIGPIPE detected" << endl;
     return;
 }
 
 bool HelperFunctions::getAndResetPipeError()
 {
-    bool ret{pipeError.test_and_set()};
-    pipeError.clear();
+    bool ret{pipeError};
+    pipeError = false;
     return ret;
 }

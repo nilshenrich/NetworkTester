@@ -3,7 +3,6 @@
 
 #include <unistd.h>
 #include <netinet/in.h>
-#include <atomic>
 #include <iostream>
 
 class HelperFunctions
@@ -29,7 +28,7 @@ public:
     static bool getAndResetPipeError();
 
 private:
-    static std::atomic_flag pipeError;
+    static bool pipeError;
 };
 
 #endif // HELPERFUNCTIONS_H_
