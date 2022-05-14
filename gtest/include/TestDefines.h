@@ -18,6 +18,19 @@ namespace TestApi
     {
         int id;
         std::string msg;
+
+        // Overload operator==
+        bool operator==(const MessageFromClient &other) const
+        {
+            return (id == other.id && msg == other.msg);
+        }
+
+        // Overload operator<<
+        friend std::ostream &operator<<(std::ostream &os, const MessageFromClient &msg)
+        {
+            os << "id: " << msg.id << ", msg: " << msg.msg;
+            return os;
+        }
     };
 } // namespace TestApi
 

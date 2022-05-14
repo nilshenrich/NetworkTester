@@ -4,9 +4,7 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpClient_Test_Start::TcpClient_Test_Start()
-{
-}
+TcpClient_Test_Start::TcpClient_Test_Start() {}
 TcpClient_Test_Start::~TcpClient_Test_Start() {}
 
 void TcpClient_Test_Start::SetUp()
