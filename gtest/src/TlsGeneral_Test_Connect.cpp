@@ -3,7 +3,6 @@
 using namespace std;
 using namespace Test;
 using namespace networking;
-using namespace std::chrono_literals;
 
 TlsGeneral_Test_Connect::TlsGeneral_Test_Connect() {}
 TlsGeneral_Test_Connect::~TlsGeneral_Test_Connect() {}

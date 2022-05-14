@@ -3,7 +3,6 @@
 using namespace std;
 using namespace Test;
 using namespace networking;
-using namespace std::chrono_literals;
 
 TlsClient_Test_Start::TlsClient_Test_Start() {}
 TlsClient_Test_Start::~TlsClient_Test_Start() {}
