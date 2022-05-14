@@ -6,9 +6,15 @@
 
 namespace TestConstants
 {
-    // Wait for TCP/TLS message
-    const std::chrono::milliseconds WAITFORTCP{1};
-    const std::chrono::milliseconds WAITFORTLS{5};
+    // Wait for TCP/TLS connection
+    const std::chrono::milliseconds WAITFOR_CONNECT_TCP{2};
+    const std::chrono::milliseconds WAITFOR_CONNECT_TLS{10};
+
+    // Wait for TCP/TLS message transfer
+    const std::chrono::milliseconds WAITFOR_MSG_TCP{100};
+    const std::chrono::milliseconds WAITFOR_MSG_TLS{100};
+    const std::chrono::milliseconds WAITFOR_MSG_LONG_TCP{500};
+    const std::chrono::milliseconds WAITFOR_MSG_LONG_TLS{500};
 }
 
 namespace TestApi
