@@ -2,6 +2,14 @@
 #define TEST_DEFINES_H_
 
 #include <string>
+#include <chrono>
+
+namespace TestConstants
+{
+    // Wait for TCP/TLS message
+    const std::chrono::milliseconds WAITFORTCP{1};
+    const std::chrono::milliseconds WAITFORTLS{5};
+}
 
 namespace TestApi
 {

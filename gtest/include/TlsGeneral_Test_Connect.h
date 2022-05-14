@@ -1,5 +1,5 @@
-#ifndef TLSGENERAL_TEST_CONNECT_H_
-#define TLSGENERAL_TEST_CONNECT_H_
+#ifndef TLS_GENERAL_TEST_CONNECT_H_
+#define TLS_GENERAL_TEST_CONNECT_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -30,4 +30,4 @@ namespace Test
     };
 }
 
-#endif // TLSGENERAL_TEST_CONNECT_H_
+#endif // TLS_GENERAL_TEST_CONNECT_H_

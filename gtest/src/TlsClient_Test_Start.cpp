@@ -36,7 +36,7 @@ void TlsClient_Test_Start::TearDown()
 TEST_F(TlsClient_Test_Start, PosTest)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
 
@@ -48,7 +48,7 @@ TEST_F(TlsClient_Test_Start, PosTest)
 TEST_F(TlsClient_Test_Start, NegTest_WrongPort_Negative)
 {
     EXPECT_EQ(tlsClient.start("localhost", -1), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -60,7 +60,7 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongPort_Negative)
 TEST_F(TlsClient_Test_Start, NegTest_WrongPort_TooBig)
 {
     EXPECT_EQ(tlsClient.start("localhost", 65536), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -73,7 +73,7 @@ TEST_F(TlsClient_Test_Start, NegTest_ServerNotRunning)
 {
     tlsServer.stop();
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -86,7 +86,7 @@ TEST_F(TlsClient_Test_Start, NegTest_AlreadyRunning)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port), -1);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
 
@@ -98,7 +98,7 @@ TEST_F(TlsClient_Test_Start, NegTest_AlreadyRunning)
 TEST_F(TlsClient_Test_Start, NegTest_WrongCaPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, "fake/path/to/ca.crt", KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA_PATH);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -110,7 +110,7 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongCaPath)
 TEST_F(TlsClient_Test_Start, NegTest_WrongCertPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, "fake/path/to/client.crt", KeyPaths::ListenerKey), NETWORKCLIENT_ERROR_START_WRONG_CERT_PATH);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -122,7 +122,7 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongCertPath)
 TEST_F(TlsClient_Test_Start, NegTest_WrongKeyPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, "fake/path/to/client.key"), NETWORKCLIENT_ERROR_START_WRONG_KEY_PATH);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -134,7 +134,7 @@ TEST_F(TlsClient_Test_Start, NegTest_WrongKeyPath)
 TEST_F(TlsClient_Test_Start, NegTest_FakeCa)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, FakeKeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -146,7 +146,7 @@ TEST_F(TlsClient_Test_Start, NegTest_FakeCa)
 TEST_F(TlsClient_Test_Start, NegTest_FakeCert)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, FakeKeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CERT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -158,6 +158,6 @@ TEST_F(TlsClient_Test_Start, NegTest_FakeCert)
 TEST_F(TlsClient_Test_Start, NegTest_FakeKey)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, FakeKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_KEY);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }

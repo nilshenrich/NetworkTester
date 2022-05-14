@@ -38,7 +38,7 @@ void TcpClient_Test_Start::TearDown()
 TEST_F(TcpClient_Test_Start, PosTest)
 {
     EXPECT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(TestConstants::WAITFORTCP);
     EXPECT_EQ(tcpServer.getClientIds().size(), 1);
 }
 
@@ -50,7 +50,7 @@ TEST_F(TcpClient_Test_Start, PosTest)
 TEST_F(TcpClient_Test_Start, NegTest_WrongPort_Negative)
 {
     EXPECT_EQ(tcpClient.start("localhost", -1), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(TestConstants::WAITFORTCP);
     EXPECT_EQ(tcpServer.getClientIds().size(), 0);
 }
 
@@ -62,7 +62,7 @@ TEST_F(TcpClient_Test_Start, NegTest_WrongPort_Negative)
 TEST_F(TcpClient_Test_Start, NegTest_WrongPort_TooBig)
 {
     EXPECT_EQ(tcpClient.start("localhost", 65536), NETWORKCLIENT_ERROR_START_WRONG_PORT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(TestConstants::WAITFORTCP);
     EXPECT_EQ(tcpServer.getClientIds().size(), 0);
 }
 
@@ -75,7 +75,7 @@ TEST_F(TcpClient_Test_Start, NegTest_ServerNotRunning)
 {
     tcpServer.stop();
     EXPECT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(TestConstants::WAITFORTCP);
     EXPECT_EQ(tcpServer.getClientIds().size(), 0);
 }
 
@@ -88,6 +88,6 @@ TEST_F(TcpClient_Test_Start, NegTest_AlreadyRunning)
 {
     ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tcpClient.start("localhost", port), -1);
-    this_thread::sleep_for(1ms);
+    this_thread::sleep_for(TestConstants::WAITFORTCP);
     EXPECT_EQ(tcpServer.getClientIds().size(), 1);
 }

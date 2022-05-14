@@ -36,7 +36,7 @@ TEST_F(TlsGeneral_Test_Connect, PosTest_MainCerts)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
 
@@ -49,7 +49,7 @@ TEST_F(TlsGeneral_Test_Connect, PosTest_SecondCerts)
 {
     EXPECT_EQ(tlsServer.start(port, SecondKeyPaths::CaCert, SecondKeyPaths::ListenerCert, SecondKeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, SecondKeyPaths::CaCert, SecondKeyPaths::ClientCert, SecondKeyPaths::ClientKey), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
 }
 
@@ -62,7 +62,7 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithSelfSignedCert)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, SelfSignedKeyPaths::ClientCert, SelfSignedKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -75,7 +75,7 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithUnknownCa)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, SecondKeyPaths::ClientCert, SecondKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -88,7 +88,7 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ClientWithCertChainDepth2)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, KeyPaths::ListenerCert, KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, CertChainDepth2KeyPaths::ClientCert, CertChainDepth2KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -101,7 +101,7 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ServerWithSelfSignedCert)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, SelfSignedKeyPaths::ListenerCert, SelfSignedKeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -114,7 +114,7 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ServerWithUnknownCa)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, SecondKeyPaths::ListenerCert, SecondKeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
 
@@ -127,6 +127,6 @@ TEST_F(TlsGeneral_Test_Connect, NegTest_ServerWithCertChainDepth2)
 {
     EXPECT_EQ(tlsServer.start(port, KeyPaths::CaCert, CertChainDepth2KeyPaths::ListenerCert, CertChainDepth2KeyPaths::ListenerKey), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_CONNECT_INIT);
-    this_thread::sleep_for(5ms);
+    this_thread::sleep_for(TestConstants::WAITFORTLS);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
 }
