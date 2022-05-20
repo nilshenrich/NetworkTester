@@ -19,7 +19,7 @@ file(GLOB sourcefiles
 add_executable(networktester ${sourcefiles})
 
 # Set compiler flags
-target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og -DDEVELOP)
+target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og)
 
 # Add libraries
 target_link_libraries(networktester
