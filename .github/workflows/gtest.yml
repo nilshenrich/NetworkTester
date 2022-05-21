@@ -16,22 +16,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
       - name: Install gtest
         run: |
-          git submodule update --init --recursive
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest/
           mkdir build
           cd build/
           cmake ..
-          sudo make install -j4
+          sudo make install -j8
 
-      - name: Compile
+      - name: Compile test
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
           mkdir build
           cd build/
           cmake ..
-          make -j4
+          make -j8
 
       - name: Create second certs
         run: |
