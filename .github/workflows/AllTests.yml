@@ -1,6 +1,6 @@
 # This owrkflow automaticlly runs all unit tests implemented using gtest every time a new release is created
 
-name: gtest
+name: All tests
 
 # Run automatically every time a new release is created
 on:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  gtest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
