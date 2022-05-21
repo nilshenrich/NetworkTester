@@ -5,10 +5,11 @@
 using namespace std;
 
 // Handle SIGPIPE
-void sigpipe_handler(int)
+void sigpipe_handler(int sig)
 {
     // Set pipe error flag
-    HelperFunctions::setPipeError();
+    if (SIGPIPE == sig)
+        HelperFunctions::setPipeError();
     return;
 }
 
