@@ -18,11 +18,11 @@ jobs:
       - name: Install gtest
         run: |
           git submodule update --init --recursive
-          cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest
+          cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest/
           mkdir build
           cd build/
           cmake ..
-          make -j4
+          sudo make install -j4
 
       - name: Compile
         run: |
