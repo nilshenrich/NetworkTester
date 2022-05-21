@@ -1,9 +1,12 @@
-# This owrkflow automaticlly runs all unit tests implemented using gtest every time a new release is created for NetworkListener or NetworkClient
+# This owrkflow automaticlly runs all unit tests implemented using gtest every time a new release is created
 
 name: gtest
 
-# TODO: Run automatically every time a new release is created for NetworkListener or NetworkClient
+# Run automatically every time a new release is created
 on:
+  release:
+    types: [created]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
