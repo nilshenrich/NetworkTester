@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install gtest
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         run: |
           git submodule update --init --recursive
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest
@@ -24,7 +24,6 @@ jobs:
           cmake ..
           make -j4
 
-      - uses: actions/checkout@v3
       - name: Compile
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
@@ -33,7 +32,6 @@ jobs:
           cmake ..
           make -j4
 
-      - uses: actions/checkout@v3
       - name: Run all tests
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
