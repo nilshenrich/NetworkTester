@@ -14,7 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Install gtest
         run: |
           git submodule update --init --recursive
@@ -31,6 +32,11 @@ jobs:
           cd build/
           cmake ..
           make -j4
+
+      - name: Create second certs
+        run: |
+          /home/runner/work/NetworkTester/NetworkTester/
+          ./TlsCreateCertFiles.sh
 
       - name: Run all tests
         run: |
