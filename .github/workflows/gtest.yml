@@ -1,0 +1,39 @@
+# This owrkflow automaticlly runs all unit tests implemented using gtest every time, the main branch is updated
+
+name: gtest
+
+# Runs every time, the main branch is updated
+on:
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install gtest
+        run: |
+          cd gtest/googletest
+          mkdir build
+          cd build/
+          cmake ..
+          make -j4
+      
+      - uses: actions/checkout@v3
+      - name: Compile
+        run: |
+          cd gtest/
+          mkdir build
+          cd build/
+          cmake ..
+          make -j4
+      
+      - uses: actions/checkout@v3
+      - name: Run all tests
+        run: |
+          cd gtest/
+          ./RunAllTests.sh
