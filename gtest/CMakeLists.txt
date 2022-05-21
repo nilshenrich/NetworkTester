@@ -20,6 +20,7 @@ add_executable(networktester ${sourcefiles})
 
 # Set compiler flags
 target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og)
+# target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og -DDEVELOP)   # For debugging
 
 # Add libraries
 target_link_libraries(networktester
