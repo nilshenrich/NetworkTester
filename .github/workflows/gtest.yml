@@ -16,9 +16,8 @@ jobs:
     steps:
       - name: Install gtest
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
         run: |
+          git submodule update --init --recursive
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest
           mkdir build
           cd build/
