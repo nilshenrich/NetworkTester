@@ -4,6 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
+// TODO: Decrease established connection timeout
 TlsClientApi::TlsClientApi() : TlsClient{'\x00'} {}
 TlsClientApi::~TlsClientApi() {}
 

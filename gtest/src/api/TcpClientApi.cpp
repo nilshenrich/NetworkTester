@@ -4,6 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
+// TODO: Decrease established connection timeout
 TcpClientApi::TcpClientApi() : TcpClient{'\x00'} {}
 TcpClientApi::~TcpClientApi() {}
 
