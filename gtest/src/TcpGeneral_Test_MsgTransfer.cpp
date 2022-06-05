@@ -15,7 +15,6 @@ void TcpGeneral_Test_Messages::SetUp()
     // Start TCP server and connect client
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
     ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TCP);
 
     // Get client ID
     vector<int> clientIds{tcpServer.getClientIds()};

@@ -15,7 +15,6 @@ void TlsGeneral_Test_Messages::SetUp()
     // Start TLS server and connect client
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
     ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
-    this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TLS);
 
     // Get client ID
     vector<int> clientIds{tlsServer.getClientIds()};

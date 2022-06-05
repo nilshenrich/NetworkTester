@@ -4,8 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-// TODO: Decrease established connection timeout
-TcpClientApi::TcpClientApi() : TcpClient{'\x00'} {}
+TcpClientApi::TcpClientApi() : TcpClient{'\x00', std::numeric_limits<size_t>::max() - 1, TestConstants::CONNECTION_TIMEOUT_TCP_ms} {}
 TcpClientApi::~TcpClientApi() {}
 
 int TcpClientApi::start(const std::string &ip, const int port)

@@ -6,9 +6,9 @@
 
 namespace TestConstants
 {
-    // Wait for TCP/TLS connection
-    const std::chrono::milliseconds WAITFOR_CONNECT_TCP{2};
-    const std::chrono::milliseconds WAITFOR_CONNECT_TLS{10};
+    // TCP/TLS connection timeout
+    const int CONNECTION_TIMEOUT_TCP_ms{2};
+    const int CONNECTION_TIMEOUT_TLS_ms{10};
 
     // Wait for TCP/TLS message transfer
     const std::chrono::milliseconds WAITFOR_MSG_TCP{100};
