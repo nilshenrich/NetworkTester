@@ -15,7 +15,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Checkout submodules
         run: git submodule update --init --recursive
@@ -43,11 +44,18 @@ jobs:
 
       - name: Run all tests
         run: |
-          cd /home/runner/work/NetworkTester/NetworkTester/gtest/
-          ./RunAllTests.sh
+          cd /home/runner/work/NetworkTester/NetworkTester/gtest/build/
+          ./networktester --gtest_output=results.xml
 
       - name: Read XML result file
         if: always()
         uses: andstor/file-reader-action@v1
         with:
-          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/results.xml"
+          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/build/results.xml"
+
+      - name: Archive results XML file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: gtest-complete-report
+          path: /home/runner/work/NetworkTester/NetworkTester/gtest/build/results.xml
