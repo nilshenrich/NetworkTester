@@ -12,10 +12,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Checkout submodules
         run: git submodule update --init --recursive
@@ -43,11 +44,19 @@ jobs:
 
       - name: Run all tests
         run: |
-          cd /home/runner/work/NetworkTester/NetworkTester/gtest/
-          ./RunAllTests.sh
+          cd /home/runner/work/NetworkTester/NetworkTester/gtest/build/
+          ./networktester --gtest_output=json:results.json
 
-      - name: Read XML result file
+      - name: Read JSON result file
         if: always()
         uses: andstor/file-reader-action@v1
         with:
-          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/results.xml"
+          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/build/results.json"
+
+      - name: Archive results JSON file
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: gtest-complete-report
+          path: /home/runner/work/NetworkTester/NetworkTester/gtest/build/results.json
+          if-no-files-found: error
