@@ -45,7 +45,7 @@ jobs:
       - name: Run all tests
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/build/
-          ./networktester --gtest_output=results.xml
+          ./networktester --gtest_output=xml:results.xml
 
       - name: Read XML result file
         if: always()
@@ -59,3 +59,4 @@ jobs:
         with:
           name: gtest-complete-report
           path: /home/runner/work/NetworkTester/NetworkTester/gtest/build/results.xml
+          if-no-files-found: error
