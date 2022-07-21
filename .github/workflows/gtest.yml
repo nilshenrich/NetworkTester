@@ -41,12 +41,13 @@ jobs:
           cd /home/runner/work/NetworkTester/NetworkTester/
           ./TlsCreateCertFiles.sh
 
-      # - name: Run all tests
-      #   run: |
-      #     cd /home/runner/work/NetworkTester/NetworkTester/gtest/
-      #     ./RunAllTests.sh
+      - name: Run all tests
+        run: |
+          cd /home/runner/work/NetworkTester/NetworkTester/gtest/
+          ./RunAllTests.sh
 
       - name: Read file contents
+        if: always()
         uses: andstor/file-reader-action@v1
         with:
           path: "/home/runner/work/NetworkTester/NetworkTester/gtest/include/TestDefines.h"
