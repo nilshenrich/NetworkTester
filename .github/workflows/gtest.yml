@@ -46,8 +46,8 @@ jobs:
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
           ./RunAllTests.sh
 
-      - name: Read file contents
+      - name: Read XML result file
         if: always()
         uses: andstor/file-reader-action@v1
         with:
-          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/include/TestDefines.h"
+          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/results.xml"
