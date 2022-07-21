@@ -46,10 +46,11 @@ jobs:
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
           ./RunAllTests.sh
 
-      - name: "Read XML output file"
+      - name: "Read XML results file"
+        id: read_xml_results
         uses: andstor/file-reader-action@v1
         with:
           path: "/home/runner/work/NetworkTester/NetworkTester/gtest/results.xml"
 
-      - name: Show output file content
-        run: echo "${ steps.read_file.outputs.contents }"
+      - name: Show results file content
+        run: echo "${ steps.read_xml_results.outputs.contents }"
