@@ -47,10 +47,6 @@ jobs:
       #     ./RunAllTests.sh
 
       - name: Read file contents
-        id: read_file
         uses: andstor/file-reader-action@v1
         with:
           path: "/home/runner/work/NetworkTester/NetworkTester/gtest/include/TestDefines.h"
-
-      - name: File contents
-        run: echo "File content - ${{ steps.read_file.outputs.contents }}"
