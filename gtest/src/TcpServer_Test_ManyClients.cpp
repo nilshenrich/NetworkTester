@@ -61,7 +61,7 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsSingleThread)
     // Create messages to send
     map<int, string> messages;
     for (auto &client : tcpClients)
-        messages[client.first] = "Sending from client " + to_string(client.first) + " server in single thread";
+        messages[client.first] = "Sending from client " + to_string(client.first) + " to server in single thread";
 
     // Send messages consecutively
     for (auto &client : tcpClients)
@@ -115,7 +115,7 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
     // Create messages to send
     map<int, string> messages;
     for (auto &client : tcpClients)
-        messages[client.first] = "Sending from client " + to_string(client.first) + " server in multiple threads";
+        messages[client.first] = "Sending from client " + to_string(client.first) + " to server in multiple threads";
 
     // Send messages in parallel
     vector<thread> sendingThreads;
