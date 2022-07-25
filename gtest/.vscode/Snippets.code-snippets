@@ -28,7 +28,7 @@
 		"description": "HeaderCommentTestFixture"
 	},
 	"HeaderFileSetup": {
-		"scope": "h",
+		"scope": "cpp",
 		"prefix": "HeaderFileSetup",
 		"body": [
 			"#ifndef $1_H_",
