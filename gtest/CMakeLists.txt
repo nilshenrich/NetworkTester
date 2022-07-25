@@ -1,3 +1,5 @@
+# For debugging please use the command "cmake -DCMAKE_BUILD_TYPE=Debug .."
+
 # Build entire gtest project
 # All source files from src folder should be compiled
 
@@ -19,8 +21,8 @@ file(GLOB sourcefiles
 add_executable(networktester ${sourcefiles})
 
 # Set compiler flags
-target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og)
-# target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og -DDEVELOP)   # For debugging
+target_compile_options(networktester PRIVATE -fexceptions -Wall -g -Og
+    $<$<CONFIG:DEBUG>: -DDEVELOP>)
 
 # Add libraries
 target_link_libraries(networktester
