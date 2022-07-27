@@ -37,7 +37,7 @@ jobs:
           cmake ..
           make -j8
 
-      - name: Create second certs
+      - name: Create certs
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/
           ./TlsCreateCertFiles.sh

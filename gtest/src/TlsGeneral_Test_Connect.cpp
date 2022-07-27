@@ -1,5 +1,3 @@
-// TODO: Add tests with mismatching cipher suites
-
 #include "TlsGeneral_Test_Connect.h"
 
 using namespace std;
