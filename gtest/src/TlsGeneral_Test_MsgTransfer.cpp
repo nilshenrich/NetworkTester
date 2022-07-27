@@ -1,3 +1,5 @@
+// TODO: Add tests: Send/Receive maxLen/TooLong msg in both directions (Like for TCP)
+
 #include "TlsGeneral_Test_MsgTransfer.h"
 
 using namespace std;

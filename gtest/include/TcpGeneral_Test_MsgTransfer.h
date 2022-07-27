@@ -24,8 +24,8 @@ namespace Test
         void TearDown() override;
 
         // TCP server and Client
-        TestApi::TcpServerApi tcpServer{};
-        TestApi::TcpClientApi tcpClient{};
+        TestApi::TcpServerApi tcpServer_selfLong_frgnLong{};
+        TestApi::TcpClientApi tcpClient_selfLong_frgnLong{};
 
         // Port to use
         int port;

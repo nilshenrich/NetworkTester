@@ -15,11 +15,11 @@ void TcpGeneral_Test_MsgTransfer::SetUp()
     port = HelperFunctions::getFreePort();
 
     // Start TCP server and connect client
-    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
-    ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    ASSERT_EQ(tcpServer_selfLong_frgnLong.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tcpClient_selfLong_frgnLong.start("localhost", port), NETWORKCLIENT_START_OK);
 
     // Get client ID
-    vector<int> clientIds{tcpServer.getClientIds()};
+    vector<int> clientIds{tcpServer_selfLong_frgnLong.getClientIds()};
     ASSERT_EQ(clientIds.size(), 1);
     clientId = clientIds[0];
 
@@ -29,8 +29,8 @@ void TcpGeneral_Test_MsgTransfer::SetUp()
 void TcpGeneral_Test_MsgTransfer::TearDown()
 {
     // Stop TCP server and client
-    tcpClient.stop();
-    tcpServer.stop();
+    tcpClient_selfLong_frgnLong.stop();
+    tcpServer_selfLong_frgnLong.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
@@ -47,12 +47,12 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
 {
     // Send message from client to server
     string msg{"Hello server!"};
-    EXPECT_TRUE(tcpClient.sendMsg(msg));
+    EXPECT_TRUE(tcpClient_selfLong_frgnLong.sendMsg(msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by server
     vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId, msg}};
-    EXPECT_EQ(tcpServer.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -64,12 +64,12 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 {
     // Send message from server to client
     string msg{"Hello client!"};
-    EXPECT_TRUE(tcpServer.sendMsg(clientId, msg));
+    EXPECT_TRUE(tcpServer_selfLong_frgnLong.sendMsg(clientId, msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by client
     vector<string> messagesExpected{msg};
-    EXPECT_EQ(tcpClient.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // TODO: Implement test
@@ -127,12 +127,12 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_TRUE(tcpClient.sendMsg(msg));
+    EXPECT_TRUE(tcpClient_selfLong_frgnLong.sendMsg(msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by server
     vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId, msg}};
-    EXPECT_EQ(tcpServer.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -148,10 +148,10 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_TRUE(tcpServer.sendMsg(clientId, msg));
+    EXPECT_TRUE(tcpServer_selfLong_frgnLong.sendMsg(clientId, msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by client
     vector<string> messagesExpected{msg};
-    EXPECT_EQ(tcpClient.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
