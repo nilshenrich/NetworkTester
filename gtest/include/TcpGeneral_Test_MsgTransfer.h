@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TcpGeneral_Test_Messages : public testing::Test
+    class TcpGeneral_Test_MsgTransfer : public testing::Test
     {
     public:
-        TcpGeneral_Test_Messages();
-        virtual ~TcpGeneral_Test_Messages();
+        TcpGeneral_Test_MsgTransfer();
+        virtual ~TcpGeneral_Test_MsgTransfer();
 
     protected:
         void SetUp() override;

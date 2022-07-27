@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpGeneral_Test_Messages::TcpGeneral_Test_Messages() {}
-TcpGeneral_Test_Messages::~TcpGeneral_Test_Messages() {}
+TcpGeneral_Test_MsgTransfer::TcpGeneral_Test_MsgTransfer() {}
+TcpGeneral_Test_MsgTransfer::~TcpGeneral_Test_MsgTransfer() {}
 
-void TcpGeneral_Test_Messages::SetUp()
+void TcpGeneral_Test_MsgTransfer::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
@@ -24,7 +24,7 @@ void TcpGeneral_Test_Messages::SetUp()
     return;
 }
 
-void TcpGeneral_Test_Messages::TearDown()
+void TcpGeneral_Test_MsgTransfer::TearDown()
 {
     // Stop TCP server and client
     tcpClient.stop();
@@ -41,7 +41,7 @@ void TcpGeneral_Test_Messages::TearDown()
 // Steps:      Send normal message from client to server
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_Messages, PosTest_ClientToServer_NormalMsg)
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
 {
     // Send message from client to server
     string msg{"Hello server!"};
@@ -58,7 +58,7 @@ TEST_F(TcpGeneral_Test_Messages, PosTest_ClientToServer_NormalMsg)
 // Steps:      Send normal message from server to client
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_Messages, PosTest_ServerToClient_NormalMsg)
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 {
     // Send message from server to client
     string msg{"Hello client!"};
@@ -75,7 +75,7 @@ TEST_F(TcpGeneral_Test_Messages, PosTest_ServerToClient_NormalMsg)
 // Steps:      Send long message from client to server (1000000 bytes)
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_Messages, PosTest_ClientToServer_LongMsg)
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;
@@ -96,7 +96,7 @@ TEST_F(TcpGeneral_Test_Messages, PosTest_ClientToServer_LongMsg)
 // Steps:      Send long message from server to client (1000000 bytes)
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_Messages, PosTest_ServerToClient_LongMsg)
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;
