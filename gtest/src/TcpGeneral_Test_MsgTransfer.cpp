@@ -1,3 +1,5 @@
+// TODO: Add tests: Send/Receive maxLen/TooLong msg in both directions
+
 #include "TcpGeneral_Test_MsgTransfer.h"
 
 using namespace std;
@@ -69,6 +71,48 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
     vector<string> messagesExpected{msg};
     EXPECT_EQ(tcpClient.getBufferedMsg(), messagesExpected);
 }
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message with max length from client to server
+// Steps:      Send message with max length from short client to short server
+// Exp Result: Message receive by server
+// ====================================================================================================================
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message exceeding max receiving length from client to server
+// Steps:      Send message with length max+1 from long client to short server
+// Exp Result: Message sent but not received
+// ====================================================================================================================
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message exceeding max sending length from client to server
+// Steps:      Try sending message with length max+1 from short client to long server
+// Exp Result: Message not sent
+// ====================================================================================================================
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message with max length from server to client
+// Steps:      Send message with max length from short server to short client
+// Exp Result: Message receive by client
+// ====================================================================================================================
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message exceeding max receiving length from server to client
+// Steps:      Send message with length max+1 from long server to short client
+// Exp Result: Message sent but not received
+// ====================================================================================================================
+
+// TODO: Implement test
+// ====================================================================================================================
+// Desc:       Send message exceeding max sending length from server to client
+// Steps:      Try sending message with length max+1 from short server to long client
+// Exp Result: Message not sent
+// ====================================================================================================================
 
 // ====================================================================================================================
 // Desc:       Send long message from client to server
