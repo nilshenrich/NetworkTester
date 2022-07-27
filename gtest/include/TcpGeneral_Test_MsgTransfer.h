@@ -28,10 +28,10 @@ namespace Test
         TestApi::TcpClientApi tcpClient_selfLong_frgnLong{};
 
         // Port to use
-        int port;
+        int port_serverLong_clientLong;
 
         // Client ID
-        int clientId;
+        int clientId_serverLong_clientLong;
     };
 }
 
