@@ -4,7 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpServerApi::TcpServerApi() : TcpServer{'\x00'} {}
+TcpServerApi::TcpServerApi() : TcpServer{'\x00', TestConstants::MAXLEN_MSG_B} {}
 TcpServerApi::~TcpServerApi() {}
 
 int TcpServerApi::start(const int port)

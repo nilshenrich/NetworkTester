@@ -72,14 +72,14 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 
 // ====================================================================================================================
 // Desc:       Send long message from client to server
-// Steps:      Send long message from client to server (1000000 bytes)
+// Steps:      Send long message from client to server (max length)
 // Exp Result: Message received by server
 // ====================================================================================================================
 TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 {
-    // Generate message with 1000000 elements of ASCII characters 33 - 126
+    // Generate message with max elements of ASCII characters 33 - 126
     string msg;
-    for (int i = 0; i < 1000000; i += 1)
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_B; i += 1)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
@@ -93,14 +93,14 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 
 // ====================================================================================================================
 // Desc:       Send long message from server to client
-// Steps:      Send long message from server to client (1000000 bytes)
+// Steps:      Send long message from server to client (max length)
 // Exp Result: Message received by client
 // ====================================================================================================================
 TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
 {
-    // Generate message with 1000000 elements of ASCII characters 33 - 126
+    // Generate message with max elements of ASCII characters 33 - 126
     string msg;
-    for (int i = 0; i < 1000000; i += 1)
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_B; i += 1)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client

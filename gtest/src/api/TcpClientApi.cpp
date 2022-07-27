@@ -4,7 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpClientApi::TcpClientApi() : TcpClient{'\x00', std::numeric_limits<size_t>::max() - 1, TestConstants::CONNECTION_TIMEOUT_TCP_ms} {}
+TcpClientApi::TcpClientApi() : TcpClient{'\x00', TestConstants::MAXLEN_MSG_B, TestConstants::CONNECTION_TIMEOUT_TCP_ms} {}
 TcpClientApi::~TcpClientApi() {}
 
 int TcpClientApi::start(const std::string &ip, const int port)

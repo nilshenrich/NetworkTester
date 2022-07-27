@@ -4,7 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsClientApi::TlsClientApi() : TlsClient{'\x00', std::numeric_limits<size_t>::max() - 1, TestConstants::CONNECTION_TIMEOUT_TLS_ms} {}
+TlsClientApi::TlsClientApi() : TlsClient{'\x00', TestConstants::MAXLEN_MSG_B, TestConstants::CONNECTION_TIMEOUT_TLS_ms} {}
 TlsClientApi::~TlsClientApi() {}
 
 int TlsClientApi::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
