@@ -14,7 +14,7 @@ namespace TestApi
     class TlsServerApi : private networking::TlsServer
     {
     public:
-        TlsServerApi();
+        TlsServerApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
         virtual ~TlsServerApi();
 
         /**
@@ -72,6 +72,13 @@ namespace TestApi
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
     };
-}
+
+    class TlsServerApi_ShortMsg : public TlsServerApi
+    {
+    public:
+        TlsServerApi_ShortMsg();
+        virtual ~TlsServerApi_ShortMsg();
+    };
+} // namespace TestApi
 
 #endif // TLS_SERVER_API_H_

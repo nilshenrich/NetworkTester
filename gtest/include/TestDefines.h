@@ -17,7 +17,8 @@ namespace TestConstants
     const std::chrono::milliseconds WAITFOR_MSG_LONG_TLS{500};
 
     // Message max length
-    const size_t MAXLEN_MSG_B{1000000};
+    const size_t MAXLEN_MSG_B{std::numeric_limits<size_t>::max() - 1};
+    const size_t MAXLEN_MSG_SHORT_B{8};
 }
 
 namespace TestApi

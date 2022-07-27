@@ -13,7 +13,7 @@ namespace TestApi
     class TcpClientApi : private networking::TcpClient
     {
     public:
-        TcpClientApi();
+        TcpClientApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
         virtual ~TcpClientApi();
 
         /**
@@ -56,6 +56,14 @@ namespace TestApi
         // Buffered messages
         std::vector<std::string> bufferedMsg;
     };
+
+    class TcpClientApi_ShortMsg : public TcpClientApi
+    {
+    public:
+        TcpClientApi_ShortMsg();
+        virtual ~TcpClientApi_ShortMsg();
+    };
+
 } // namespace TestApi
 
 #endif // TCP_CLIENT_API_H_
