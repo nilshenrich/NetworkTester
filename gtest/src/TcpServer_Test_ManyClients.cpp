@@ -20,7 +20,6 @@ void TcpServer_Test_ManyClients::SetUp()
     {
         unique_ptr<TestApi::TcpClientApi> tcpClientNew{new TestApi::TcpClientApi()};
         ASSERT_EQ(tcpClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
-        this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TCP); // TODO: Remove when feature/connectionEstablish merged
 
         // Find out ID of newly connected client (The one, that is not added to clients collection yet)
         vector<int> connectedClients{tcpServer.getClientIds()};
