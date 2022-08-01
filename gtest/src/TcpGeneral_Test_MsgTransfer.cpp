@@ -1,5 +1,3 @@
-// TODO: Add tests: Send/Receive maxLen/TooLong msg in both directions
-
 #include "TcpGeneral_Test_MsgTransfer.h"
 
 using namespace std;
@@ -124,47 +122,127 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
     EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
-// TODO: Implement test
 // ====================================================================================================================
 // Desc:       Send message with max length from client to server
 // Steps:      Send message with max length from short client to short server
 // Exp Result: Message receive by server
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
+{
+    // Generate message with max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
 
-// TODO: Implement test
+    // Send message from client to server
+    EXPECT_TRUE(tcpClient_selfShort_frgnShort.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check if message received by server
+    vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverShort_clientShort, msg}};
+    EXPECT_EQ(tcpServer_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
+}
+
 // ====================================================================================================================
 // Desc:       Send message exceeding max receiving length from client to server
 // Steps:      Send message with length max+1 from long client to short server
 // Exp Result: Message sent but not received
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
+{
+    // Generate message with more than max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
 
-// TODO: Implement test
+    // Send message from client to server
+    EXPECT_TRUE(tcpClient_selfLong_frgnShort.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check no message received by server
+    EXPECT_EQ(tcpServer_selfShort_frgnLong.getBufferedMsg().size(), 0);
+}
+
 // ====================================================================================================================
 // Desc:       Send message exceeding max sending length from client to server
 // Steps:      Try sending message with length max+1 from short client to long server
 // Exp Result: Message not sent
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
+{
+    // Generate message with max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
 
-// TODO: Implement test
+    // Send message from client to server
+    EXPECT_FALSE(tcpClient_selfShort_frgnLong.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check no message received by server
+    EXPECT_EQ(tcpServer_selfLong_frgnShort.getBufferedMsg().size(), 0);
+}
+
 // ====================================================================================================================
 // Desc:       Send message with max length from server to client
 // Steps:      Send message with max length from short server to short client
 // Exp Result: Message receive by client
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
+{
+    // Generate message with max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
 
-// TODO: Implement test
+    // Send message from server to client
+    EXPECT_TRUE(tcpServer_selfShort_frgnShort.sendMsg(clientId_serverShort_clientShort, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check if message received by client
+    vector<string> messagesExpected{msg};
+    EXPECT_EQ(tcpClient_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
+}
+
 // ====================================================================================================================
 // Desc:       Send message exceeding max receiving length from server to client
 // Steps:      Send message with length max+1 from long server to short client
 // Exp Result: Message sent but not received
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
+{
+    // Generate message with max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
 
-// TODO: Implement test
+    // Send message from server to client
+    EXPECT_TRUE(tcpServer_selfLong_frgnShort.sendMsg(clientId_serverLong_clientShort, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check no message received by client
+    EXPECT_EQ(tcpClient_selfShort_frgnLong.getBufferedMsg().size(), 0);
+}
+
 // ====================================================================================================================
 // Desc:       Send message exceeding max sending length from server to client
 // Steps:      Try sending message with length max+1 from short server to long client
 // Exp Result: Message not sent
 // ====================================================================================================================
+TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
+{
+    // Generate message with max elements of ASCII characters 33 - 126
+    string msg;
+    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
+        msg += static_cast<char>(i % 94 + 33);
+
+    // Send message from server to client
+    EXPECT_FALSE(tcpServer_selfShort_frgnLong.sendMsg(clientId_serverShort_clientLong, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+
+    // Check no message received by client
+    EXPECT_EQ(tcpClient_selfLong_frgnShort.getBufferedMsg().size(), 0);
+}
 
 // ====================================================================================================================
 // Desc:       Send long message from client to server
