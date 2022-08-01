@@ -76,6 +76,7 @@ void TcpGeneral_Test_MsgTransfer::SetUp()
     return;
 }
 
+// TODO: Stop all clients and server
 void TcpGeneral_Test_MsgTransfer::TearDown()
 {
     // Stop TCP server and client
