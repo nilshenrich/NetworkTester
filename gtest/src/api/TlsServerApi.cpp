@@ -27,6 +27,7 @@ bool TlsServerApi::sendMsg(const int tlsClientId, const std::string &tlsMsg)
 
 vector<MessageFromClient> TlsServerApi::getBufferedMsg()
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
@@ -42,6 +43,7 @@ vector<int> TlsServerApi::getClientIds()
 
 void TlsServerApi::workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient)
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back({tlsClientId, move(tlsMsgFromClient)});
     return;
 }

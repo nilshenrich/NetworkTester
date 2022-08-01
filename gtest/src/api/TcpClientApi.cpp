@@ -27,11 +27,13 @@ bool TcpClientApi::sendMsg(const std::string &tcpMsg)
 
 vector<string> TcpClientApi::getBufferedMsg()
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
 void TcpClientApi::workOnMessage_TcpClient(const std::string tcpMsgFromServer)
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back(move(tcpMsgFromServer));
     return;
 }

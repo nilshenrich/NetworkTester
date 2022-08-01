@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <mutex>
 
 #include "TcpClient.h"
 #include "TestDefines.h"
@@ -55,6 +56,7 @@ namespace TestApi
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
+        std::mutex bufferedMsg_m;
     };
 
     class TcpClientApi_ShortMsg : public TcpClientApi

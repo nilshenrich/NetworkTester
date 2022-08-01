@@ -27,11 +27,13 @@ bool TlsClientApi::sendMsg(const std::string &tlsMsg)
 
 vector<string> TlsClientApi::getBufferedMsg()
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
 void TlsClientApi::workOnMessage_TlsClient(const std::string tlsMsgFromServer)
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back(move(tlsMsgFromServer));
     return;
 }

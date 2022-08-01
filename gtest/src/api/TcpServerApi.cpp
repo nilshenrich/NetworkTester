@@ -27,6 +27,7 @@ bool TcpServerApi::sendMsg(const int tcpClientId, const std::string &tcpMsg)
 
 vector<MessageFromClient> TcpServerApi::getBufferedMsg()
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
@@ -42,6 +43,7 @@ vector<int> TcpServerApi::getClientIds()
 
 void TcpServerApi::workOnMessage_TcpServer(const int tcpClientId, const std::string tcpMsgFromClient)
 {
+    lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back({tcpClientId, move(tcpMsgFromClient)});
     return;
 }

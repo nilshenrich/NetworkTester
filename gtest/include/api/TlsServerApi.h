@@ -71,6 +71,7 @@ namespace TestApi
 
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
+        std::mutex bufferedMsg_m;
     };
 
     class TlsServerApi_ShortMsg : public TlsServerApi
