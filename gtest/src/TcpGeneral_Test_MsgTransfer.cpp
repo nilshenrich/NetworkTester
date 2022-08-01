@@ -11,18 +11,70 @@ TcpGeneral_Test_MsgTransfer::~TcpGeneral_Test_MsgTransfer() {}
 
 void TcpGeneral_Test_MsgTransfer::SetUp()
 {
-    // Get free TCP port
-    port_serverLong_clientLong = HelperFunctions::getFreePort();
+    // ==============================================
+    // ========== Long server, long client ==========
+    // ==============================================
+    {
+        // Get free TCP port
+        port_serverLong_clientLong = HelperFunctions::getFreePort();
 
-    // Start TCP server and connect client
-    ASSERT_EQ(tcpServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
-    ASSERT_EQ(tcpClient_selfLong_frgnLong.start("localhost", port_serverLong_clientLong), NETWORKCLIENT_START_OK);
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfLong_frgnLong.start("localhost", port_serverLong_clientLong), NETWORKCLIENT_START_OK);
 
-    // Get client ID
-    vector<int> clientIds{tcpServer_selfLong_frgnLong.getClientIds()};
-    ASSERT_EQ(clientIds.size(), 1);
-    clientId_serverLong_clientLong = clientIds[0];
+        // Get client ID
+        vector<int> clientIds{tcpServer_selfLong_frgnLong.getClientIds()};
+        ASSERT_EQ(clientIds.size(), 1);
+        clientId_serverLong_clientLong = clientIds[0];
+    }
+    // ==============================================
+    // ========== Long server, short client =========
+    // ==============================================
+    {
+        // Get free TCP port
+        port_serverLong_clientShort = HelperFunctions::getFreePort();
 
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfLong_frgnShort.start(port_serverLong_clientShort), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfLong_frgnShort.start("localhost", port_serverLong_clientShort), NETWORKCLIENT_START_OK);
+
+        // Get client ID
+        vector<int> clientIds{tcpServer_selfLong_frgnShort.getClientIds()};
+        ASSERT_EQ(clientIds.size(), 1);
+        clientId_serverLong_clientShort = clientIds[0];
+    }
+    // ==============================================
+    // ========== Short server, long client =========
+    // ==============================================
+    {
+        // Get free TCP port
+        port_serverShort_clientLong = HelperFunctions::getFreePort();
+
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfShort_frgnLong.start(port_serverShort_clientLong), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfShort_frgnLong.start("localhost", port_serverShort_clientLong), NETWORKCLIENT_START_OK);
+
+        // Get client ID
+        vector<int> clientIds{tcpServer_selfShort_frgnLong.getClientIds()};
+        ASSERT_EQ(clientIds.size(), 1);
+        clientId_serverShort_clientLong = clientIds[0];
+    }
+    // ==============================================
+    // ========= Short server, short client =========
+    // ==============================================
+    {
+        // Get free TCP port
+        port_serverShort_clientShort = HelperFunctions::getFreePort();
+
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfShort_frgnShort.start(port_serverShort_clientShort), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfShort_frgnShort.start("localhost", port_serverShort_clientShort), NETWORKCLIENT_START_OK);
+
+        // Get client ID
+        vector<int> clientIds{tcpServer_selfShort_frgnShort.getClientIds()};
+        ASSERT_EQ(clientIds.size(), 1);
+        clientId_serverShort_clientShort = clientIds[0];
+    }
     return;
 }
 
