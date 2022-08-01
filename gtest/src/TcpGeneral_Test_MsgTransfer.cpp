@@ -76,12 +76,17 @@ void TcpGeneral_Test_MsgTransfer::SetUp()
     return;
 }
 
-// TODO: Stop all clients and server
 void TcpGeneral_Test_MsgTransfer::TearDown()
 {
     // Stop TCP server and client
     tcpClient_selfLong_frgnLong.stop();
+    tcpClient_selfLong_frgnShort.stop();
+    tcpClient_selfShort_frgnLong.stop();
+    tcpClient_selfShort_frgnShort.stop();
     tcpServer_selfLong_frgnLong.stop();
+    tcpServer_selfLong_frgnShort.stop();
+    tcpServer_selfShort_frgnLong.stop();
+    tcpServer_selfShort_frgnShort.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
