@@ -20,7 +20,6 @@ void TlsServer_Test_ManyClients::SetUp()
     {
         unique_ptr<TestApi::TlsClientApi> tlsClientNew{new TestApi::TlsClientApi()};
         ASSERT_EQ(tlsClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
-        this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TLS); // TODO: Remove when feature/connectionEstablish merged
 
         // Find out ID of newly connected client (The one, that is not added to clients collection yet)
         vector<int> connectedClients{tlsServer.getClientIds()};

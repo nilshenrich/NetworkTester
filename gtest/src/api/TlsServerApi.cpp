@@ -4,8 +4,10 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsServerApi::TlsServerApi() : TlsServer{'\x00'} {}
+TlsServerApi::TlsServerApi(size_t messageMaxLen) : TlsServer{'\x00', messageMaxLen} {}
 TlsServerApi::~TlsServerApi() {}
+TlsServerApi_ShortMsg::TlsServerApi_ShortMsg() : TlsServerApi{TestConstants::MAXLEN_MSG_SHORT_B} {}
+TlsServerApi_ShortMsg::~TlsServerApi_ShortMsg() {}
 
 int TlsServerApi::start(const int port, const string pathToCaCert, const string pathToListenerCert, const string pathToListenerKey)
 {

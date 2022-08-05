@@ -4,8 +4,10 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpClientApi::TcpClientApi() : TcpClient{'\x00'} {}
+TcpClientApi::TcpClientApi(size_t messageMaxLen) : TcpClient{'\x00', messageMaxLen, TestConstants::CONNECTION_TIMEOUT_TCP_ms} {}
 TcpClientApi::~TcpClientApi() {}
+TcpClientApi_ShortMsg::TcpClientApi_ShortMsg() : TcpClientApi{TestConstants::MAXLEN_MSG_SHORT_B} {}
+TcpClientApi_ShortMsg::~TcpClientApi_ShortMsg() {}
 
 int TcpClientApi::start(const std::string &ip, const int port)
 {

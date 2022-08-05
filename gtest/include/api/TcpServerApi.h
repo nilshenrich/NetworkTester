@@ -14,7 +14,7 @@ namespace TestApi
     class TcpServerApi : private networking::TcpServer
     {
     public:
-        TcpServerApi();
+        TcpServerApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
         virtual ~TcpServerApi();
 
         /**
@@ -73,6 +73,14 @@ namespace TestApi
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
+
+    class TcpServerApi_ShortMsg : public TcpServerApi
+    {
+    public:
+        TcpServerApi_ShortMsg();
+        virtual ~TcpServerApi_ShortMsg();
+    };
+
 } // namespace TestApi
 
 #endif // TCP_SERVER_API_H_

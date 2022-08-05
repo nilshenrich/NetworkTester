@@ -2,7 +2,6 @@
 #define TLS_SERVER_TEST_MANYCLIENTS_H_
 
 #include <gtest/gtest.h>
-#include <chrono> // TODO: Remove when feature/connectionEstablish merged
 #include <thread>
 #include <map>
 #include <memory>
