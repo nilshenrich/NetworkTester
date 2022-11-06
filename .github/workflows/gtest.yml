@@ -44,8 +44,8 @@ jobs:
 
       - name: Run all tests
         run: |
-          cd /home/runner/work/NetworkTester/NetworkTester/gtest/build/
-          ./networktester --gtest_output=json:results.json
+          cd /home/runner/work/NetworkTester/NetworkTester/gtest/
+          ./RunAllTests.sh
 
       - name: Read JSON result file
         if: always()
