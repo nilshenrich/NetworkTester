@@ -47,16 +47,10 @@ jobs:
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/
           ./RunAllTests.sh
 
-      - name: Read JSON result file
-        if: always()
-        uses: andstor/file-reader-action@v1
-        with:
-          path: "/home/runner/work/NetworkTester/NetworkTester/gtest/build/results.json"
-
       - name: Archive results JSON file
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: gtest-complete-report
-          path: /home/runner/work/NetworkTester/NetworkTester/gtest/build/results.json
+          path: /home/runner/work/NetworkTester/NetworkTester/gtest/results.json
           if-no-files-found: error
