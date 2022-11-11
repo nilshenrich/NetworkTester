@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class TcpClient_Test_Start : public testing::Test
+    class Fragmentation_TcpClient_Test_Start : public testing::Test
     {
     public:
-        TcpClient_Test_Start();
-        virtual ~TcpClient_Test_Start();
+        Fragmentation_TcpClient_Test_Start();
+        virtual ~Fragmentation_TcpClient_Test_Start();
 
     protected:
         void SetUp() override;

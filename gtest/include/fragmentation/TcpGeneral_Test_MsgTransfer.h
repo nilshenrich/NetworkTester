@@ -1,5 +1,5 @@
-#ifndef FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_
-#define FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_
+#ifndef FRAGMENTATION_TCP_GENERAL_TEST_MSGTRANSFER_H_
+#define FRAGMENTATION_TCP_GENERAL_TEST_MSGTRANSFER_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TcpGeneral_Test_MsgTransfer : public testing::Test
+    class Fragmentation_TcpGeneral_Test_MsgTransfer : public testing::Test
     {
     public:
-        TcpGeneral_Test_MsgTransfer();
-        virtual ~TcpGeneral_Test_MsgTransfer();
+        Fragmentation_TcpGeneral_Test_MsgTransfer();
+        virtual ~Fragmentation_TcpGeneral_Test_MsgTransfer();
 
     protected:
         void SetUp() override;
@@ -47,4 +47,4 @@ namespace Test
     };
 }
 
-#endif // FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_
+#endif // FRAGMENTATION_TCP_GENERAL_TEST_MSGTRANSFER_H_

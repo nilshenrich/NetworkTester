@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TcpServer_Test_Send : public testing::Test
+    class Fragmentation_TcpServer_Test_Send : public testing::Test
     {
     public:
-        TcpServer_Test_Send();
-        virtual ~TcpServer_Test_Send();
+        Fragmentation_TcpServer_Test_Send();
+        virtual ~Fragmentation_TcpServer_Test_Send();
 
     protected:
         void SetUp() override;

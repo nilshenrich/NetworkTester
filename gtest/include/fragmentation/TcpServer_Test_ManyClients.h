@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TcpServer_Test_ManyClients : public testing::Test
+    class Fragmentation_TcpServer_Test_ManyClients : public testing::Test
     {
     public:
-        TcpServer_Test_ManyClients();
-        ~TcpServer_Test_ManyClients();
+        Fragmentation_TcpServer_Test_ManyClients();
+        ~Fragmentation_TcpServer_Test_ManyClients();
 
     protected:
         void SetUp() override;

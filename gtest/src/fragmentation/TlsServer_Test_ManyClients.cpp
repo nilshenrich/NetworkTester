@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TlsServer_Test_ManyClients::TlsServer_Test_ManyClients() {}
-TlsServer_Test_ManyClients::~TlsServer_Test_ManyClients() {}
+Fragmentation_TlsServer_Test_ManyClients::Fragmentation_TlsServer_Test_ManyClients() {}
+Fragmentation_TlsServer_Test_ManyClients::~Fragmentation_TlsServer_Test_ManyClients() {}
 
-void TlsServer_Test_ManyClients::SetUp()
+void Fragmentation_TlsServer_Test_ManyClients::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
@@ -37,7 +37,7 @@ void TlsServer_Test_ManyClients::SetUp()
     }
 }
 
-void TlsServer_Test_ManyClients::TearDown()
+void Fragmentation_TlsServer_Test_ManyClients::TearDown()
 {
     // Stop server and all clients
     for (auto &client : tlsClients)
@@ -55,7 +55,7 @@ void TlsServer_Test_ManyClients::TearDown()
 // Steps:      All clients send messages to server in single thread
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TlsServer_Test_ManyClients, SendingClientsSingleThread)
+TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingClientsSingleThread)
 {
     // Create messages to send
     map<int, string> messages;
@@ -82,7 +82,7 @@ TEST_F(TlsServer_Test_ManyClients, SendingClientsSingleThread)
 // Steps:      Server sends messages to all clients in single thread
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TlsServer_Test_ManyClients, SendingServerSingleThread)
+TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingServerSingleThread)
 {
     map<int, string> messages;
     for (auto &client : tlsClients)
@@ -109,7 +109,7 @@ TEST_F(TlsServer_Test_ManyClients, SendingServerSingleThread)
 // Steps:      All clients send messages to server in multiple threads
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
+TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
 {
     // Create messages to send
     map<int, string> messages;
@@ -140,7 +140,7 @@ TEST_F(TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
 // Steps:      Server sends messages to all clients in multiple threads
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TlsServer_Test_ManyClients, SendingServerMultipleThreads)
+TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingServerMultipleThreads)
 {
     map<int, string> messages;
     for (auto &client : tlsClients)

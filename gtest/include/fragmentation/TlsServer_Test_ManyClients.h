@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TlsServer_Test_ManyClients : public testing::Test
+    class Fragmentation_TlsServer_Test_ManyClients : public testing::Test
     {
     public:
-        TlsServer_Test_ManyClients();
-        ~TlsServer_Test_ManyClients();
+        Fragmentation_TlsServer_Test_ManyClients();
+        ~Fragmentation_TlsServer_Test_ManyClients();
 
     protected:
         void SetUp() override;

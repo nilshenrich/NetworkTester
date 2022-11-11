@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpClient_Test_Send::TcpClient_Test_Send() {}
-TcpClient_Test_Send::~TcpClient_Test_Send() {}
+Fragmentation_TcpClient_Test_Send::Fragmentation_TcpClient_Test_Send() {}
+Fragmentation_TcpClient_Test_Send::~Fragmentation_TcpClient_Test_Send() {}
 
-void TcpClient_Test_Send::SetUp()
+void Fragmentation_TcpClient_Test_Send::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
@@ -19,7 +19,7 @@ void TcpClient_Test_Send::SetUp()
     return;
 }
 
-void TcpClient_Test_Send::TearDown()
+void Fragmentation_TcpClient_Test_Send::TearDown()
 {
     // Stop TCP server and client
     tcpClient.stop();
@@ -36,7 +36,7 @@ void TcpClient_Test_Send::TearDown()
 // Steps:      Try to send message to server that has stopped running immediately before
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TcpClient_Test_Send, NegTest_ServerNotRunning)
+TEST_F(Fragmentation_TcpClient_Test_Send, NegTest_ServerNotRunning)
 {
     // Stop TCP server
     tcpServer.stop();
@@ -56,7 +56,7 @@ TEST_F(TcpClient_Test_Send, NegTest_ServerNotRunning)
 // Steps:      Try to send message to server while client is not running
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TcpClient_Test_Send, NegTest_ClientNotRunning)
+TEST_F(Fragmentation_TcpClient_Test_Send, NegTest_ClientNotRunning)
 {
     // Stop TCP client
     tcpClient.stop();

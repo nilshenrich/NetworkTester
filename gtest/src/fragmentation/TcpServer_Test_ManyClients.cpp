@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpServer_Test_ManyClients::TcpServer_Test_ManyClients() {}
-TcpServer_Test_ManyClients::~TcpServer_Test_ManyClients() {}
+Fragmentation_TcpServer_Test_ManyClients::Fragmentation_TcpServer_Test_ManyClients() {}
+Fragmentation_TcpServer_Test_ManyClients::~Fragmentation_TcpServer_Test_ManyClients() {}
 
-void TcpServer_Test_ManyClients::SetUp()
+void Fragmentation_TcpServer_Test_ManyClients::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
@@ -37,7 +37,7 @@ void TcpServer_Test_ManyClients::SetUp()
     }
 }
 
-void TcpServer_Test_ManyClients::TearDown()
+void Fragmentation_TcpServer_Test_ManyClients::TearDown()
 {
     // Stop server and all clients
     for (auto &client : tcpClients)
@@ -55,7 +55,7 @@ void TcpServer_Test_ManyClients::TearDown()
 // Steps:      All clients send messages to server in single thread
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingClientsSingleThread)
+TEST_F(Fragmentation_TcpServer_Test_ManyClients, SendingClientsSingleThread)
 {
     // Create messages to send
     map<int, string> messages;
@@ -82,7 +82,7 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsSingleThread)
 // Steps:      Server sends messages to all clients in single thread
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingServerSingleThread)
+TEST_F(Fragmentation_TcpServer_Test_ManyClients, SendingServerSingleThread)
 {
     map<int, string> messages;
     for (auto &client : tcpClients)
@@ -109,7 +109,7 @@ TEST_F(TcpServer_Test_ManyClients, SendingServerSingleThread)
 // Steps:      All clients send messages to server in multiple threads
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
+TEST_F(Fragmentation_TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
 {
     // Create messages to send
     map<int, string> messages;
@@ -140,7 +140,7 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
 // Steps:      Server sends messages to all clients in multiple threads
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingServerMultipleThreads)
+TEST_F(Fragmentation_TcpServer_Test_ManyClients, SendingServerMultipleThreads)
 {
     map<int, string> messages;
     for (auto &client : tcpClients)

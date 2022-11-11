@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpServer_Test_Send::TcpServer_Test_Send() {}
-TcpServer_Test_Send::~TcpServer_Test_Send() {}
+Fragmentation_TcpServer_Test_Send::Fragmentation_TcpServer_Test_Send() {}
+Fragmentation_TcpServer_Test_Send::~Fragmentation_TcpServer_Test_Send() {}
 
-void TcpServer_Test_Send::SetUp()
+void Fragmentation_TcpServer_Test_Send::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
@@ -24,7 +24,7 @@ void TcpServer_Test_Send::SetUp()
     return;
 }
 
-void TcpServer_Test_Send::TearDown()
+void Fragmentation_TcpServer_Test_Send::TearDown()
 {
     // Stop TCP server and client
     tcpClient.stop();
@@ -41,7 +41,7 @@ void TcpServer_Test_Send::TearDown()
 // Steps:      Try to send message to client that is not connected
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TcpServer_Test_Send, NegTest_ClientNotConnected)
+TEST_F(Fragmentation_TcpServer_Test_Send, NegTest_ClientNotConnected)
 {
     // Send message to client that is not connected
     EXPECT_FALSE(tcpServer.sendMsg(clientId + 1, "Test message"));
@@ -58,7 +58,7 @@ TEST_F(TcpServer_Test_Send, NegTest_ClientNotConnected)
 // Steps:      Try to send message to client that is disconnected immediately before
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TcpServer_Test_Send, NegTest_ClientDisconnectedBefore)
+TEST_F(Fragmentation_TcpServer_Test_Send, NegTest_ClientDisconnectedBefore)
 {
     // Disconnect client
     tcpClient.stop();
@@ -78,7 +78,7 @@ TEST_F(TcpServer_Test_Send, NegTest_ClientDisconnectedBefore)
 // Steps:      Try to send message to client while server is not running
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TcpServer_Test_Send, NegTest_ServerNotRunning)
+TEST_F(Fragmentation_TcpServer_Test_Send, NegTest_ServerNotRunning)
 {
     // Stop TCP server
     tcpServer.stop();

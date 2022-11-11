@@ -1,5 +1,5 @@
-#ifndef FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_
-#define FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_
+#ifndef FRAGMENTATION_TLS_GENERAL_TEST_MSGTRANSFER_H_
+#define FRAGMENTATION_TLS_GENERAL_TEST_MSGTRANSFER_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TlsGeneral_Test_MsgTransfer : public testing::Test
+    class Fragmentation_TlsGeneral_Test_MsgTransfer : public testing::Test
     {
     public:
-        TlsGeneral_Test_MsgTransfer();
-        virtual ~TlsGeneral_Test_MsgTransfer();
+        Fragmentation_TlsGeneral_Test_MsgTransfer();
+        virtual ~Fragmentation_TlsGeneral_Test_MsgTransfer();
 
     protected:
         void SetUp() override;
@@ -47,4 +47,4 @@ namespace Test
     };
 }
 
-#endif // FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_
+#endif // FRAGMENTATION_TLS_GENERAL_TEST_MSGTRANSFER_H_

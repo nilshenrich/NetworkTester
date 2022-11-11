@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpGeneral_Test_MsgTransfer::TcpGeneral_Test_MsgTransfer() {}
-TcpGeneral_Test_MsgTransfer::~TcpGeneral_Test_MsgTransfer() {}
+Fragmentation_TcpGeneral_Test_MsgTransfer::Fragmentation_TcpGeneral_Test_MsgTransfer() {}
+Fragmentation_TcpGeneral_Test_MsgTransfer::~Fragmentation_TcpGeneral_Test_MsgTransfer() {}
 
-void TcpGeneral_Test_MsgTransfer::SetUp()
+void Fragmentation_TcpGeneral_Test_MsgTransfer::SetUp()
 {
     // ==============================================
     // ========== Long server, long client ==========
@@ -76,7 +76,7 @@ void TcpGeneral_Test_MsgTransfer::SetUp()
     return;
 }
 
-void TcpGeneral_Test_MsgTransfer::TearDown()
+void Fragmentation_TcpGeneral_Test_MsgTransfer::TearDown()
 {
     // Stop TCP server and client
     tcpClient_selfLong_frgnLong.stop();
@@ -99,7 +99,7 @@ void TcpGeneral_Test_MsgTransfer::TearDown()
 // Steps:      Send normal message from client to server
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
 {
     // Send message from client to server
     string msg{"Hello server!"};
@@ -116,7 +116,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
 // Steps:      Send normal message from server to client
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 {
     // Send message from server to client
     string msg{"Hello client!"};
@@ -133,7 +133,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 // Steps:      Send message with max length from short client to short server
 // Exp Result: Message receive by server
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -154,7 +154,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
 // Steps:      Send message with length max+1 from long client to short server
 // Exp Result: Message sent but not received
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
 {
     // Generate message with more than max elements of ASCII characters 33 - 126
     string msg;
@@ -174,7 +174,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
 // Steps:      Try sending message with length max+1 from short client to long server
 // Exp Result: Message not sent
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -194,7 +194,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
 // Steps:      Send message with max length from short server to short client
 // Exp Result: Message receive by client
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -215,7 +215,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
 // Steps:      Send message with length max+1 from long server to short client
 // Exp Result: Message sent but not received
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -235,7 +235,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
 // Steps:      Try sending message with length max+1 from short server to long client
 // Exp Result: Message not sent
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -255,7 +255,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
 // Steps:      Send long message from client to server (1000000)
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;
@@ -276,7 +276,7 @@ TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 // Steps:      Send long message from server to client (1000000)
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
+TEST_F(Fragmentation_TcpGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;

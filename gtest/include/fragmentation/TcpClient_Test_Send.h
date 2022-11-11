@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TcpClient_Test_Send : public testing::Test
+    class Fragmentation_TcpClient_Test_Send : public testing::Test
     {
     public:
-        TcpClient_Test_Send();
-        virtual ~TcpClient_Test_Send();
+        Fragmentation_TcpClient_Test_Send();
+        virtual ~Fragmentation_TcpClient_Test_Send();
 
     protected:
         void SetUp() override;

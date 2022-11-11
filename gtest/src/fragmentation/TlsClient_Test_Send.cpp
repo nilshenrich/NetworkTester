@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TlsClient_Test_Send::TlsClient_Test_Send() {}
-TlsClient_Test_Send::~TlsClient_Test_Send() {}
+Fragmentation_TlsClient_Test_Send::Fragmentation_TlsClient_Test_Send() {}
+Fragmentation_TlsClient_Test_Send::~Fragmentation_TlsClient_Test_Send() {}
 
-void TlsClient_Test_Send::SetUp()
+void Fragmentation_TlsClient_Test_Send::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
@@ -19,7 +19,7 @@ void TlsClient_Test_Send::SetUp()
     return;
 }
 
-void TlsClient_Test_Send::TearDown()
+void Fragmentation_TlsClient_Test_Send::TearDown()
 {
     // Stop TLS server and client
     tlsClient.stop();
@@ -36,7 +36,7 @@ void TlsClient_Test_Send::TearDown()
 // Steps:      Try to send message to server that has stopped running immediately before
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsClient_Test_Send, NegTest_ServerNotRunning)
+TEST_F(Fragmentation_TlsClient_Test_Send, NegTest_ServerNotRunning)
 {
     // Stop TLS server
     tlsServer.stop();
@@ -56,7 +56,7 @@ TEST_F(TlsClient_Test_Send, NegTest_ServerNotRunning)
 // Steps:      Try to send message to server while client is not running
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsClient_Test_Send, NegTest_ClientNotRunning)
+TEST_F(Fragmentation_TlsClient_Test_Send, NegTest_ClientNotRunning)
 {
     // Stop TLS client
     tlsClient.stop();

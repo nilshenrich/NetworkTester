@@ -13,11 +13,11 @@
 
 namespace Test
 {
-    class TlsClient_Test_Send : public testing::Test
+    class Fragmentation_TlsClient_Test_Send : public testing::Test
     {
     public:
-        TlsClient_Test_Send();
-        virtual ~TlsClient_Test_Send();
+        Fragmentation_TlsClient_Test_Send();
+        virtual ~Fragmentation_TlsClient_Test_Send();
 
     protected:
         void SetUp() override;

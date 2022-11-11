@@ -9,11 +9,11 @@
 
 namespace Test
 {
-    class TlsServer_Test_Start : public testing::Test
+    class Fragmentation_TlsServer_Test_Start : public testing::Test
     {
     public:
-        TlsServer_Test_Start();
-        virtual ~TlsServer_Test_Start();
+        Fragmentation_TlsServer_Test_Start();
+        virtual ~Fragmentation_TlsServer_Test_Start();
 
     protected:
         void SetUp() override;

@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class TlsGeneral_Test_Connect : public testing::Test
+    class Fragmentation_TlsGeneral_Test_Connect : public testing::Test
     {
     public:
-        TlsGeneral_Test_Connect();
-        virtual ~TlsGeneral_Test_Connect();
+        Fragmentation_TlsGeneral_Test_Connect();
+        virtual ~Fragmentation_TlsGeneral_Test_Connect();
 
     protected:
         void SetUp() override;

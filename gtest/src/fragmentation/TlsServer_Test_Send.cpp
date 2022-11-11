@@ -4,10 +4,10 @@ using namespace std;
 using namespace Test;
 using namespace networking;
 
-TlsServer_Test_Send::TlsServer_Test_Send() {}
-TlsServer_Test_Send::~TlsServer_Test_Send() {}
+Fragmentation_TlsServer_Test_Send::Fragmentation_TlsServer_Test_Send() {}
+Fragmentation_TlsServer_Test_Send::~Fragmentation_TlsServer_Test_Send() {}
 
-void TlsServer_Test_Send::SetUp()
+void Fragmentation_TlsServer_Test_Send::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
@@ -24,7 +24,7 @@ void TlsServer_Test_Send::SetUp()
     return;
 }
 
-void TlsServer_Test_Send::TearDown()
+void Fragmentation_TlsServer_Test_Send::TearDown()
 {
     // Stop TLS server and client
     tlsClient.stop();
@@ -41,7 +41,7 @@ void TlsServer_Test_Send::TearDown()
 // Steps:      Try to send message to client that is not connected
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Send, NegTest_ClientNotConnected)
+TEST_F(Fragmentation_TlsServer_Test_Send, NegTest_ClientNotConnected)
 {
     // Send message to client that is not connected
     EXPECT_FALSE(tlsServer.sendMsg(clientId + 1, "Test message"));
@@ -58,7 +58,7 @@ TEST_F(TlsServer_Test_Send, NegTest_ClientNotConnected)
 // Steps:      Try to send message to client that is disconnected immediately before
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Send, NegTest_ClientDisconnectedBefore)
+TEST_F(Fragmentation_TlsServer_Test_Send, NegTest_ClientDisconnectedBefore)
 {
     // Disconnect client
     tlsClient.stop();
@@ -78,7 +78,7 @@ TEST_F(TlsServer_Test_Send, NegTest_ClientDisconnectedBefore)
 // Steps:      Try to send message to client while server is not running
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsServer_Test_Send, NegTest_ServerNotRunning)
+TEST_F(Fragmentation_TlsServer_Test_Send, NegTest_ServerNotRunning)
 {
     // Stop TLS server
     tlsServer.stop();
