@@ -1,27 +1,27 @@
-#include "fragmentation/TlsGeneral_Test_MsgTransfer.h"
+#include "fragmentation/TcpConnection_Test_MsgTransfer.h"
 
 using namespace std;
 using namespace Test;
 using namespace networking;
 
-Fragmentation_TlsGeneral_Test_MsgTransfer::Fragmentation_TlsGeneral_Test_MsgTransfer() {}
-Fragmentation_TlsGeneral_Test_MsgTransfer::~Fragmentation_TlsGeneral_Test_MsgTransfer() {}
+Fragmentation_TcpConnection_Test_MsgTransfer::Fragmentation_TcpConnection_Test_MsgTransfer() {}
+Fragmentation_TcpConnection_Test_MsgTransfer::~Fragmentation_TcpConnection_Test_MsgTransfer() {}
 
-void Fragmentation_TlsGeneral_Test_MsgTransfer::SetUp()
+void Fragmentation_TcpConnection_Test_MsgTransfer::SetUp()
 {
     // ==============================================
     // ========== Long server, long client ==========
     // ==============================================
     {
-        // Get free TLS port
+        // Get free TCP port
         port_serverLong_clientLong = HelperFunctions::getFreePort();
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfLong_frgnLong.start("localhost", port_serverLong_clientLong), NETWORKCLIENT_START_OK);
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfLong_frgnLong.start("localhost", port_serverLong_clientLong), NETWORKCLIENT_START_OK);
 
         // Get client ID
-        vector<int> clientIds{tlsServer_selfLong_frgnLong.getClientIds()};
+        vector<int> clientIds{tcpServer_selfLong_frgnLong.getClientIds()};
         ASSERT_EQ(clientIds.size(), 1);
         clientId_serverLong_clientLong = clientIds[0];
     }
@@ -29,15 +29,15 @@ void Fragmentation_TlsGeneral_Test_MsgTransfer::SetUp()
     // ========== Long server, short client =========
     // ==============================================
     {
-        // Get free TLS port
+        // Get free TCP port
         port_serverLong_clientShort = HelperFunctions::getFreePort();
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfLong_frgnShort.start(port_serverLong_clientShort), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfLong_frgnShort.start("localhost", port_serverLong_clientShort), NETWORKCLIENT_START_OK);
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfLong_frgnShort.start(port_serverLong_clientShort), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfLong_frgnShort.start("localhost", port_serverLong_clientShort), NETWORKCLIENT_START_OK);
 
         // Get client ID
-        vector<int> clientIds{tlsServer_selfLong_frgnShort.getClientIds()};
+        vector<int> clientIds{tcpServer_selfLong_frgnShort.getClientIds()};
         ASSERT_EQ(clientIds.size(), 1);
         clientId_serverLong_clientShort = clientIds[0];
     }
@@ -45,15 +45,15 @@ void Fragmentation_TlsGeneral_Test_MsgTransfer::SetUp()
     // ========== Short server, long client =========
     // ==============================================
     {
-        // Get free TLS port
+        // Get free TCP port
         port_serverShort_clientLong = HelperFunctions::getFreePort();
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfShort_frgnLong.start(port_serverShort_clientLong), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfShort_frgnLong.start("localhost", port_serverShort_clientLong), NETWORKCLIENT_START_OK);
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfShort_frgnLong.start(port_serverShort_clientLong), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfShort_frgnLong.start("localhost", port_serverShort_clientLong), NETWORKCLIENT_START_OK);
 
         // Get client ID
-        vector<int> clientIds{tlsServer_selfShort_frgnLong.getClientIds()};
+        vector<int> clientIds{tcpServer_selfShort_frgnLong.getClientIds()};
         ASSERT_EQ(clientIds.size(), 1);
         clientId_serverShort_clientLong = clientIds[0];
     }
@@ -61,32 +61,32 @@ void Fragmentation_TlsGeneral_Test_MsgTransfer::SetUp()
     // ========= Short server, short client =========
     // ==============================================
     {
-        // Get free TLS port
+        // Get free TCP port
         port_serverShort_clientShort = HelperFunctions::getFreePort();
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfShort_frgnShort.start(port_serverShort_clientShort), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfShort_frgnShort.start("localhost", port_serverShort_clientShort), NETWORKCLIENT_START_OK);
+        // Start TCP server and connect client
+        ASSERT_EQ(tcpServer_selfShort_frgnShort.start(port_serverShort_clientShort), NETWORKLISTENER_START_OK);
+        ASSERT_EQ(tcpClient_selfShort_frgnShort.start("localhost", port_serverShort_clientShort), NETWORKCLIENT_START_OK);
 
         // Get client ID
-        vector<int> clientIds{tlsServer_selfShort_frgnShort.getClientIds()};
+        vector<int> clientIds{tcpServer_selfShort_frgnShort.getClientIds()};
         ASSERT_EQ(clientIds.size(), 1);
         clientId_serverShort_clientShort = clientIds[0];
     }
     return;
 }
 
-void Fragmentation_TlsGeneral_Test_MsgTransfer::TearDown()
+void Fragmentation_TcpConnection_Test_MsgTransfer::TearDown()
 {
-    // Stop TLS server and client
-    tlsClient_selfLong_frgnLong.stop();
-    tlsClient_selfLong_frgnShort.stop();
-    tlsClient_selfShort_frgnLong.stop();
-    tlsClient_selfShort_frgnShort.stop();
-    tlsServer_selfLong_frgnLong.stop();
-    tlsServer_selfLong_frgnShort.stop();
-    tlsServer_selfShort_frgnLong.stop();
-    tlsServer_selfShort_frgnShort.stop();
+    // Stop TCP server and client
+    tcpClient_selfLong_frgnLong.stop();
+    tcpClient_selfLong_frgnShort.stop();
+    tcpClient_selfShort_frgnLong.stop();
+    tcpClient_selfShort_frgnShort.stop();
+    tcpServer_selfLong_frgnLong.stop();
+    tcpServer_selfLong_frgnShort.stop();
+    tcpServer_selfShort_frgnLong.stop();
+    tcpServer_selfShort_frgnShort.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
@@ -99,16 +99,16 @@ void Fragmentation_TlsGeneral_Test_MsgTransfer::TearDown()
 // Steps:      Send normal message from client to server
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_NormalMsg)
 {
     // Send message from client to server
     string msg{"Hello server!"};
-    EXPECT_TRUE(tlsClient_selfLong_frgnLong.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpClient_selfLong_frgnLong.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by server
     vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverLong_clientLong, msg}};
-    EXPECT_EQ(tlsServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -116,16 +116,16 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_NormalM
 // Steps:      Send normal message from server to client
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_NormalMsg)
 {
     // Send message from server to client
     string msg{"Hello client!"};
-    EXPECT_TRUE(tlsServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by client
     vector<string> messagesExpected{msg};
-    EXPECT_EQ(tlsClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -133,7 +133,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_NormalM
 // Steps:      Send message with max length from short client to short server
 // Exp Result: Message receive by server
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -141,12 +141,12 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfShort_frgnShort.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpClient_selfShort_frgnShort.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by server
     vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverShort_clientShort, msg}};
-    EXPECT_EQ(tlsServer_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpServer_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -154,7 +154,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
 // Steps:      Send message with length max+1 from long client to short server
 // Exp Result: Message sent but not received
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
 {
     // Generate message with more than max elements of ASCII characters 33 - 126
     string msg;
@@ -162,11 +162,11 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedM
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfLong_frgnShort.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpClient_selfLong_frgnShort.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check no message received by server
-    EXPECT_EQ(tlsServer_selfShort_frgnLong.getBufferedMsg().size(), 0);
+    EXPECT_EQ(tcpServer_selfShort_frgnLong.getBufferedMsg().size(), 0);
 }
 
 // ====================================================================================================================
@@ -174,7 +174,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedM
 // Steps:      Try sending message with length max+1 from short client to long server
 // Exp Result: Message not sent
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -182,11 +182,11 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedM
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_FALSE(tlsClient_selfShort_frgnLong.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_FALSE(tcpClient_selfShort_frgnLong.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check no message received by server
-    EXPECT_EQ(tlsServer_selfLong_frgnShort.getBufferedMsg().size(), 0);
+    EXPECT_EQ(tcpServer_selfLong_frgnShort.getBufferedMsg().size(), 0);
 }
 
 // ====================================================================================================================
@@ -194,7 +194,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ClientToServer_ExceedM
 // Steps:      Send message with max length from short server to short client
 // Exp Result: Message receive by client
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -202,12 +202,12 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfShort_frgnShort.sendMsg(clientId_serverShort_clientShort, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpServer_selfShort_frgnShort.sendMsg(clientId_serverShort_clientShort, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by client
     vector<string> messagesExpected{msg};
-    EXPECT_EQ(tlsClient_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -215,7 +215,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
 // Steps:      Send message with length max+1 from long server to short client
 // Exp Result: Message sent but not received
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -223,11 +223,11 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedM
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfLong_frgnShort.sendMsg(clientId_serverLong_clientShort, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_TRUE(tcpServer_selfLong_frgnShort.sendMsg(clientId_serverLong_clientShort, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check no message received by client
-    EXPECT_EQ(tlsClient_selfShort_frgnLong.getBufferedMsg().size(), 0);
+    EXPECT_EQ(tcpClient_selfShort_frgnLong.getBufferedMsg().size(), 0);
 }
 
 // ====================================================================================================================
@@ -235,7 +235,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedM
 // Steps:      Try sending message with length max+1 from short server to long client
 // Exp Result: Message not sent
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
 {
     // Generate message with max elements of ASCII characters 33 - 126
     string msg;
@@ -243,11 +243,11 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedM
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_FALSE(tlsServer_selfShort_frgnLong.sendMsg(clientId_serverShort_clientLong, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
+    EXPECT_FALSE(tcpServer_selfShort_frgnLong.sendMsg(clientId_serverShort_clientLong, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check no message received by client
-    EXPECT_EQ(tlsClient_selfLong_frgnShort.getBufferedMsg().size(), 0);
+    EXPECT_EQ(tcpClient_selfLong_frgnShort.getBufferedMsg().size(), 0);
 }
 
 // ====================================================================================================================
@@ -255,7 +255,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, NegTest_ServerToClient_ExceedM
 // Steps:      Send long message from client to server (1000000)
 // Exp Result: Message received by server
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;
@@ -263,12 +263,12 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfLong_frgnLong.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TLS);
+    EXPECT_TRUE(tcpClient_selfLong_frgnLong.sendMsg(msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by server
     vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverLong_clientLong, msg}};
-    EXPECT_EQ(tlsServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -276,7 +276,7 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ClientToServer_LongMsg
 // Steps:      Send long message from server to client (1000000)
 // Exp Result: Message received by client
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
+TEST_F(Fragmentation_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_LongMsg)
 {
     // Generate message with 1000000 elements of ASCII characters 33 - 126
     string msg;
@@ -284,10 +284,10 @@ TEST_F(Fragmentation_TlsGeneral_Test_MsgTransfer, PosTest_ServerToClient_LongMsg
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TLS);
+    EXPECT_TRUE(tcpServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by client
     vector<string> messagesExpected{msg};
-    EXPECT_EQ(tlsClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }

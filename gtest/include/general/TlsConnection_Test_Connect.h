@@ -1,5 +1,5 @@
-#ifndef GENERAL_TLS_GENERAL_TEST_CONNECT_H_
-#define GENERAL_TLS_GENERAL_TEST_CONNECT_H_
+#ifndef GENERAL_TLS_CONNECTION_TEST_CONNECT_H_
+#define GENERAL_TLS_CONNECTION_TEST_CONNECT_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class General_TlsGeneral_Test_Connect : public testing::Test
+    class General_TlsConnection_Test_Connect : public testing::Test
     {
     public:
-        General_TlsGeneral_Test_Connect();
-        virtual ~General_TlsGeneral_Test_Connect();
+        General_TlsConnection_Test_Connect();
+        virtual ~General_TlsConnection_Test_Connect();
 
     protected:
         void SetUp() override;
@@ -30,4 +30,4 @@ namespace Test
     };
 }
 
-#endif // GENERAL_TLS_GENERAL_TEST_CONNECT_H_
+#endif // GENERAL_TLS_CONNECTION_TEST_CONNECT_H_
