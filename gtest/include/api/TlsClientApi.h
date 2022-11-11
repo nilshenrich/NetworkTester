@@ -59,11 +59,66 @@ namespace TestApi
         std::mutex bufferedMsg_m;
     };
 
+    class TlsClientApi_forwarding : private networking::TlsClient
+    {
+    public:
+        TlsClientApi_forwarding();
+        virtual ~TlsClientApi_forwarding();
+
+        /**
+         * @brief Connect to TLS server
+         *
+         * @param ip IP address of TLS server
+         * @param port TLS port of TLS server
+         * @return int TLSCLIENT_CONNECT_OK if successful, other if failed
+         */
+        int start(const std::string &ip, const int port, const std::string pathToCaCert = KeyPaths::CaCert, const std::string pathToClientCert = KeyPaths::ClientCert, const std::string pathToClientKey = KeyPaths::ClientKey);
+
+        /**
+         * @brief Disconnect from TLS server
+         */
+        void stop();
+
+        /**
+         * @brief Send message to TLS server
+         *
+         * @param tcpMsg Message to send
+         * @return bool true if successful, false if failed
+         */
+        bool sendMsg(const std::string &tcpMsg);
+
+        /**
+         * @brief Get buffered message from TLS server and clear buffer
+         *
+         * @return std::vector<std::string> Vector of buffered messages
+         */
+        std::string getBufferedMsg();
+
+    private:
+        /**
+         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
+         *
+         * @param tcpMsgFromServer Nachricht vom Server
+         */
+        void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
+
+        // Buffered messages
+        std::string bufferedMsg;
+        std::mutex bufferedMsg_m;
+    };
+
     class TlsClientApi_fragmentation_ShortMsg : public TlsClientApi_fragmentation
     {
     public:
         TlsClientApi_fragmentation_ShortMsg();
         virtual ~TlsClientApi_fragmentation_ShortMsg();
+    };
+
+    class TlsClientApi_forwarding_ShortMsg : public TlsClientApi_forwarding
+    {
+    public:
+        TlsClientApi_forwarding_ShortMsg();
+        virtual ~TlsClientApi_forwarding_ShortMsg();
     };
 
 } // namespace TestApi
