@@ -1,34 +1,34 @@
-#include "TcpServer_Test_ManyClients.h"
+#include "fragmentation/TlsServer_Test_ManyClients.h"
 
 using namespace std;
 using namespace Test;
 using namespace networking;
 
-TcpServer_Test_ManyClients::TcpServer_Test_ManyClients() {}
-TcpServer_Test_ManyClients::~TcpServer_Test_ManyClients() {}
+TlsServer_Test_ManyClients::TlsServer_Test_ManyClients() {}
+TlsServer_Test_ManyClients::~TlsServer_Test_ManyClients() {}
 
-void TcpServer_Test_ManyClients::SetUp()
+void TlsServer_Test_ManyClients::SetUp()
 {
-    // Get free TCP port
+    // Get free TLS port
     port = HelperFunctions::getFreePort();
 
-    // Start TCP server
-    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
+    // Start TLS server
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
 
-    // Create and connect all TCP clients
+    // Create and connect all TLS clients
     for (int i{0}; i < numberOfClients; i += 1)
     {
-        unique_ptr<TestApi::TcpClientApi> tcpClientNew{new TestApi::TcpClientApi()};
-        ASSERT_EQ(tcpClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
+        unique_ptr<TestApi::TlsClientApi_fragmentation> tlsClientNew{new TestApi::TlsClientApi_fragmentation()};
+        ASSERT_EQ(tlsClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
 
         // Find out ID of newly connected client (The one, that is not added to clients collection yet)
-        vector<int> connectedClients{tcpServer.getClientIds()};
+        vector<int> connectedClients{tlsServer.getClientIds()};
         bool newClientAdded{false};
         for (int id : connectedClients)
         {
-            if (tcpClients.find(id) == tcpClients.end())
+            if (tlsClients.find(id) == tlsClients.end())
             {
-                tcpClients[id] = move(tcpClientNew);
+                tlsClients[id] = move(tlsClientNew);
                 newClientAdded = true;
                 break;
             }
@@ -37,12 +37,12 @@ void TcpServer_Test_ManyClients::SetUp()
     }
 }
 
-void TcpServer_Test_ManyClients::TearDown()
+void TlsServer_Test_ManyClients::TearDown()
 {
     // Stop server and all clients
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         client.second->stop();
-    tcpServer.stop();
+    tlsServer.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
@@ -55,20 +55,20 @@ void TcpServer_Test_ManyClients::TearDown()
 // Steps:      All clients send messages to server in single thread
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingClientsSingleThread)
+TEST_F(TlsServer_Test_ManyClients, SendingClientsSingleThread)
 {
     // Create messages to send
     map<int, string> messages;
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         messages[client.first] = "Sending from client " + to_string(client.first) + " to server in single thread";
 
     // Send messages consecutively
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         EXPECT_TRUE(client.second->sendMsg(messages[client.first]));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check all messages are received by server (Order doesn't matter)
-    vector<TestApi::MessageFromClient> messagesReceived{tcpServer.getBufferedMsg()};
+    vector<TestApi::MessageFromClient> messagesReceived{tlsServer.getBufferedMsg()};
     EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
     for (auto &msg : messages)
     {
@@ -82,19 +82,19 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsSingleThread)
 // Steps:      Server sends messages to all clients in single thread
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingServerSingleThread)
+TEST_F(TlsServer_Test_ManyClients, SendingServerSingleThread)
 {
     map<int, string> messages;
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         messages[client.first] = "Sending from server to client " + to_string(client.first) + " in single thread";
 
     // Send messages consecutively
     for (auto &msg : messages)
-        EXPECT_TRUE(tcpServer.sendMsg(msg.first, msg.second));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+        EXPECT_TRUE(tlsServer.sendMsg(msg.first, msg.second));
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check all messages are received by clients
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
     {
         vector<string> messagesReceived{client.second->getBufferedMsg()};
         EXPECT_EQ(messagesReceived.size(), 1);
@@ -109,24 +109,24 @@ TEST_F(TcpServer_Test_ManyClients, SendingServerSingleThread)
 // Steps:      All clients send messages to server in multiple threads
 // Exp Result: All messages received (Order doesn't matter)
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
+TEST_F(TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
 {
     // Create messages to send
     map<int, string> messages;
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         messages[client.first] = "Sending from client " + to_string(client.first) + " to server in multiple threads";
 
     // Send messages in parallel
     vector<thread> sendingThreads;
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         sendingThreads.push_back(thread{[&]()
                                         { EXPECT_TRUE(client.second->sendMsg(messages[client.first])); }});
     for (thread &t : sendingThreads)
         t.join();
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check all messages are received by server (Order doesn't matter)
-    vector<TestApi::MessageFromClient> messagesReceived{tcpServer.getBufferedMsg()};
+    vector<TestApi::MessageFromClient> messagesReceived{tlsServer.getBufferedMsg()};
     EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
     for (auto &msg : messages)
     {
@@ -140,10 +140,10 @@ TEST_F(TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
 // Steps:      Server sends messages to all clients in multiple threads
 // Exp Result: All messages received
 // ====================================================================================================================
-TEST_F(TcpServer_Test_ManyClients, SendingServerMultipleThreads)
+TEST_F(TlsServer_Test_ManyClients, SendingServerMultipleThreads)
 {
     map<int, string> messages;
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
         messages[client.first] = "Sending from server to client " + to_string(client.first) + " in multiple threads";
 
     // Send messages in parallel
@@ -151,13 +151,13 @@ TEST_F(TcpServer_Test_ManyClients, SendingServerMultipleThreads)
     for (auto &msg : messages)
         sendingThreads.push_back(thread{
             [&]()
-            { EXPECT_TRUE(tcpServer.sendMsg(msg.first, msg.second)); }});
+            { EXPECT_TRUE(tlsServer.sendMsg(msg.first, msg.second)); }});
     for (thread &t : sendingThreads)
         t.join();
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check all messages are received by clients
-    for (auto &client : tcpClients)
+    for (auto &client : tlsClients)
     {
         vector<string> messagesReceived{client.second->getBufferedMsg()};
         EXPECT_EQ(messagesReceived.size(), 1);

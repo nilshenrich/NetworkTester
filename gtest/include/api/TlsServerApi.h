@@ -11,11 +11,11 @@
 
 namespace TestApi
 {
-    class TlsServerApi : private networking::TlsServer
+    class TlsServerApi_fragmentation : private networking::TlsServer
     {
     public:
-        TlsServerApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
-        virtual ~TlsServerApi();
+        TlsServerApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
+        virtual ~TlsServerApi_fragmentation();
 
         /**
          * @brief Start TLS server
@@ -74,11 +74,11 @@ namespace TestApi
         std::mutex bufferedMsg_m;
     };
 
-    class TlsServerApi_ShortMsg : public TlsServerApi
+    class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation
     {
     public:
-        TlsServerApi_ShortMsg();
-        virtual ~TlsServerApi_ShortMsg();
+        TlsServerApi_fragmentation_ShortMsg();
+        virtual ~TlsServerApi_fragmentation_ShortMsg();
     };
 } // namespace TestApi
 

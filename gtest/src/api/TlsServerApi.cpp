@@ -4,34 +4,34 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsServerApi::TlsServerApi(size_t messageMaxLen) : TlsServer{'\x00', messageMaxLen} {}
-TlsServerApi::~TlsServerApi() {}
-TlsServerApi_ShortMsg::TlsServerApi_ShortMsg() : TlsServerApi{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TlsServerApi_ShortMsg::~TlsServerApi_ShortMsg() {}
+TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : TlsServer{'\x00', messageMaxLen} {}
+TlsServerApi_fragmentation::~TlsServerApi_fragmentation() {}
+TlsServerApi_fragmentation_ShortMsg::TlsServerApi_fragmentation_ShortMsg() : TlsServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
+TlsServerApi_fragmentation_ShortMsg::~TlsServerApi_fragmentation_ShortMsg() {}
 
-int TlsServerApi::start(const int port, const string pathToCaCert, const string pathToListenerCert, const string pathToListenerKey)
+int TlsServerApi_fragmentation::start(const int port, const string pathToCaCert, const string pathToListenerCert, const string pathToListenerKey)
 {
     return TlsServer::start(port, pathToCaCert.c_str(), pathToListenerCert.c_str(), pathToListenerKey.c_str());
 }
 
-void TlsServerApi::stop()
+void TlsServerApi_fragmentation::stop()
 {
     TlsServer::stop();
     return;
 }
 
-bool TlsServerApi::sendMsg(const int tlsClientId, const std::string &tlsMsg)
+bool TlsServerApi_fragmentation::sendMsg(const int tlsClientId, const std::string &tlsMsg)
 {
     return TlsServer::sendMsg(tlsClientId, tlsMsg);
 }
 
-vector<MessageFromClient> TlsServerApi::getBufferedMsg()
+vector<MessageFromClient> TlsServerApi_fragmentation::getBufferedMsg()
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
-vector<int> TlsServerApi::getClientIds()
+vector<int> TlsServerApi_fragmentation::getClientIds()
 {
     // Get IDs from activeConnections
     vector<int> clientIds;
@@ -41,14 +41,14 @@ vector<int> TlsServerApi::getClientIds()
     return clientIds;
 }
 
-void TlsServerApi::workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient)
+void TlsServerApi_fragmentation::workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient)
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back({tlsClientId, move(tlsMsgFromClient)});
     return;
 }
 
-void TlsServerApi::workOnClosed_TlsServer(const int tlsClientId)
+void TlsServerApi_fragmentation::workOnClosed_TlsServer(const int tlsClientId)
 {
     return;
 }

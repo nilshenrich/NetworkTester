@@ -1,29 +1,29 @@
-#include "TlsClient_Test_Send.h"
+#include "fragmentation/TcpClient_Test_Send.h"
 
 using namespace std;
 using namespace Test;
 using namespace networking;
 
-TlsClient_Test_Send::TlsClient_Test_Send() {}
-TlsClient_Test_Send::~TlsClient_Test_Send() {}
+TcpClient_Test_Send::TcpClient_Test_Send() {}
+TcpClient_Test_Send::~TcpClient_Test_Send() {}
 
-void TlsClient_Test_Send::SetUp()
+void TcpClient_Test_Send::SetUp()
 {
-    // Get free TLS port
+    // Get free TCP port
     port = HelperFunctions::getFreePort();
 
-    // Start TLS server and connect client
-    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
-    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    // Start TCP server and connect client
+    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
 
     return;
 }
 
-void TlsClient_Test_Send::TearDown()
+void TcpClient_Test_Send::TearDown()
 {
-    // Stop TLS server and client
-    tlsClient.stop();
-    tlsServer.stop();
+    // Stop TCP server and client
+    tcpClient.stop();
+    tcpServer.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
@@ -36,17 +36,17 @@ void TlsClient_Test_Send::TearDown()
 // Steps:      Try to send message to server that has stopped running immediately before
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsClient_Test_Send, NegTest_ServerNotRunning)
+TEST_F(TcpClient_Test_Send, NegTest_ServerNotRunning)
 {
-    // Stop TLS server
-    tlsServer.stop();
+    // Stop TCP server
+    tcpServer.stop();
 
     // Send message to server that has stopped running immediately before
-    EXPECT_FALSE(tlsClient.sendMsg("Test message"));
+    EXPECT_FALSE(tcpClient.sendMsg("Test message"));
 
     // Check if no message was received by server
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-    EXPECT_EQ(tlsServer.getBufferedMsg().size(), 0);
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+    EXPECT_EQ(tcpServer.getBufferedMsg().size(), 0);
 
     return;
 }
@@ -56,17 +56,17 @@ TEST_F(TlsClient_Test_Send, NegTest_ServerNotRunning)
 // Steps:      Try to send message to server while client is not running
 // Exp Result: Message is not sent
 // ====================================================================================================================
-TEST_F(TlsClient_Test_Send, NegTest_ClientNotRunning)
+TEST_F(TcpClient_Test_Send, NegTest_ClientNotRunning)
 {
-    // Stop TLS client
-    tlsClient.stop();
+    // Stop TCP client
+    tcpClient.stop();
 
     // Send message to server while client is not running
-    EXPECT_FALSE(tlsClient.sendMsg("Test message"));
+    EXPECT_FALSE(tcpClient.sendMsg("Test message"));
 
     // Check if no message was received by server
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-    EXPECT_EQ(tlsServer.getBufferedMsg().size(), 0);
+    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
+    EXPECT_EQ(tcpServer.getBufferedMsg().size(), 0);
 
     return;
 }

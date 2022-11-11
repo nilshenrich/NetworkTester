@@ -1,5 +1,5 @@
-#ifndef TLS_CLIENT_TEST_SEND_H_
-#define TLS_CLIENT_TEST_SEND_H_
+#ifndef FRAGMENTATION_TLS_CLIENT_TEST_SEND_H_
+#define FRAGMENTATION_TLS_CLIENT_TEST_SEND_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -24,12 +24,12 @@ namespace Test
         void TearDown() override;
 
         // TLS server and Client
-        TestApi::TlsServerApi tlsServer{};
-        TestApi::TlsClientApi tlsClient{};
+        TestApi::TlsServerApi_fragmentation tlsServer{};
+        TestApi::TlsClientApi_fragmentation tlsClient{};
 
         // Port to use
         int port;
     };
 }
 
-#endif // TLS_CLIENT_TEST_SEND_H_
+#endif // FRAGMENTATION_TLS_CLIENT_TEST_SEND_H_

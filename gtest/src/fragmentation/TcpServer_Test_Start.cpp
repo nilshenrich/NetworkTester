@@ -1,4 +1,4 @@
-#include "TcpServer_Test_Start.h"
+#include "fragmentation/TcpServer_Test_Start.h"
 
 using namespace std;
 using namespace Test;
@@ -74,7 +74,7 @@ TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 {
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
-    TestApi::TcpClientApi tcpClient{};
+    TestApi::TcpClientApi_fragmentation tcpClient{};
     ASSERT_EQ(tcpClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tcpServer.start(HelperFunctions::getFreePort()), -1);
 }
@@ -87,6 +87,6 @@ TEST_F(TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 TEST_F(TcpServer_Test_Start, NegTest_PortInUse)
 {
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
-    TestApi::TcpServerApi tcpServer2{};
+    TestApi::TcpServerApi_fragmentation tcpServer2{};
     EXPECT_EQ(tcpServer2.start(port), NETWORKLISTENER_ERROR_START_BIND_PORT);
 }

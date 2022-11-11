@@ -1,5 +1,5 @@
-#ifndef TCP_SERVER_TEST_START_H_
-#define TCP_SERVER_TEST_START_H_
+#ifndef FRAGMENTATION_TCP_SERVER_TEST_START_H_
+#define FRAGMENTATION_TCP_SERVER_TEST_START_H_
 
 #include <gtest/gtest.h>
 
@@ -20,11 +20,11 @@ namespace Test
         void TearDown() override;
 
         // TCP Server
-        TestApi::TcpServerApi tcpServer{};
+        TestApi::TcpServerApi_fragmentation tcpServer{};
 
         // Port to use
         int port;
     };
 } // namespace Test
 
-#endif // TCP_SERVER_TEST_START_H_
+#endif // FRAGMENTATION_TCP_SERVER_TEST_START_H_

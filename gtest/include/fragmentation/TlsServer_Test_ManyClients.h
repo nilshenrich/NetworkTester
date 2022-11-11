@@ -1,5 +1,5 @@
-#ifndef TLS_SERVER_TEST_MANYCLIENTS_H_
-#define TLS_SERVER_TEST_MANYCLIENTS_H_
+#ifndef FRAGMENTATION_TLS_SERVER_TEST_MANYCLIENTS_H_
+#define FRAGMENTATION_TLS_SERVER_TEST_MANYCLIENTS_H_
 
 #include <gtest/gtest.h>
 #include <thread>
@@ -24,8 +24,8 @@ namespace Test
         void TearDown() override;
 
         // TLS server and collection of clients
-        TestApi::TlsServerApi tlsServer;
-        std::map<int, std::unique_ptr<TestApi::TlsClientApi>> tlsClients;
+        TestApi::TlsServerApi_fragmentation tlsServer;
+        std::map<int, std::unique_ptr<TestApi::TlsClientApi_fragmentation>> tlsClients;
         const int numberOfClients{100};
 
         // Port to use
@@ -33,4 +33,4 @@ namespace Test
     };
 }
 
-#endif // TLS_SERVER_TEST_MANYCLIENTS_H_
+#endif // FRAGMENTATION_TLS_SERVER_TEST_MANYCLIENTS_H_

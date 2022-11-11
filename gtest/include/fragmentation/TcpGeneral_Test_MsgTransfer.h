@@ -1,5 +1,5 @@
-#ifndef TCP_GENERAL_TEST_MESSAGES_H_
-#define TCP_GENERAL_TEST_MESSAGES_H_
+#ifndef FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_
+#define FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -24,14 +24,14 @@ namespace Test
         void TearDown() override;
 
         // TCP server and Client
-        TestApi::TcpServerApi tcpServer_selfLong_frgnLong{};
-        TestApi::TcpClientApi tcpClient_selfLong_frgnLong{};
-        TestApi::TcpServerApi tcpServer_selfLong_frgnShort{};
-        TestApi::TcpClientApi tcpClient_selfLong_frgnShort{};
-        TestApi::TcpServerApi_ShortMsg tcpServer_selfShort_frgnLong{};
-        TestApi::TcpClientApi_ShortMsg tcpClient_selfShort_frgnLong{};
-        TestApi::TcpServerApi_ShortMsg tcpServer_selfShort_frgnShort{};
-        TestApi::TcpClientApi_ShortMsg tcpClient_selfShort_frgnShort{};
+        TestApi::TcpServerApi_fragmentation tcpServer_selfLong_frgnLong{};
+        TestApi::TcpClientApi_fragmentation tcpClient_selfLong_frgnLong{};
+        TestApi::TcpServerApi_fragmentation tcpServer_selfLong_frgnShort{};
+        TestApi::TcpClientApi_fragmentation tcpClient_selfLong_frgnShort{};
+        TestApi::TcpServerApi_fragmentation_ShortMsg tcpServer_selfShort_frgnLong{};
+        TestApi::TcpClientApi_fragmentation_ShortMsg tcpClient_selfShort_frgnLong{};
+        TestApi::TcpServerApi_fragmentation_ShortMsg tcpServer_selfShort_frgnShort{};
+        TestApi::TcpClientApi_fragmentation_ShortMsg tcpClient_selfShort_frgnShort{};
 
         // Port to use
         int port_serverLong_clientLong;
@@ -47,4 +47,4 @@ namespace Test
     };
 }
 
-#endif // TCP_GENERAL_TEST_MESSAGES_H_
+#endif // FRAGMENTATION_TCP_GENERAL_TEST_MESSAGES_H_

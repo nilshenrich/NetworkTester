@@ -1,5 +1,5 @@
-#ifndef TCP_SERVER_TEST_MANYCLIENTS_H_
-#define TCP_SERVER_TEST_MANYCLIENTS_H_
+#ifndef FRAGMENTATION_TCP_SERVER_TEST_MANYCLIENTS_H_
+#define FRAGMENTATION_TCP_SERVER_TEST_MANYCLIENTS_H_
 
 #include <gtest/gtest.h>
 #include <thread>
@@ -24,8 +24,8 @@ namespace Test
         void TearDown() override;
 
         // TCP server and collection of clients
-        TestApi::TcpServerApi tcpServer;
-        std::map<int, std::unique_ptr<TestApi::TcpClientApi>> tcpClients;
+        TestApi::TcpServerApi_fragmentation tcpServer;
+        std::map<int, std::unique_ptr<TestApi::TcpClientApi_fragmentation>> tcpClients;
         const int numberOfClients{100};
 
         // Port to use
@@ -33,4 +33,4 @@ namespace Test
     };
 }
 
-#endif // TCP_SERVER_TEST_MANYCLIENTS_H_
+#endif // FRAGMENTATION_TCP_SERVER_TEST_MANYCLIENTS_H_

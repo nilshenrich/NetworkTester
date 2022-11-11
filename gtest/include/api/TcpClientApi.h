@@ -11,11 +11,11 @@
 
 namespace TestApi
 {
-    class TcpClientApi : private networking::TcpClient
+    class TcpClientApi_fragmentation : private networking::TcpClient
     {
     public:
-        TcpClientApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
-        virtual ~TcpClientApi();
+        TcpClientApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
+        virtual ~TcpClientApi_fragmentation();
 
         /**
          * @brief Connect to TCP server
@@ -59,11 +59,11 @@ namespace TestApi
         std::mutex bufferedMsg_m;
     };
 
-    class TcpClientApi_ShortMsg : public TcpClientApi
+    class TcpClientApi_fragmentation_ShortMsg : public TcpClientApi_fragmentation
     {
     public:
-        TcpClientApi_ShortMsg();
-        virtual ~TcpClientApi_ShortMsg();
+        TcpClientApi_fragmentation_ShortMsg();
+        virtual ~TcpClientApi_fragmentation_ShortMsg();
     };
 
 } // namespace TestApi

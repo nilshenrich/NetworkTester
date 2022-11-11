@@ -1,5 +1,5 @@
-#ifndef TCP_CLIENT_TEST_SEND_H_
-#define TCP_CLIENT_TEST_SEND_H_
+#ifndef FRAGMENTATION_TCP_CLIENT_TEST_SEND_H_
+#define FRAGMENTATION_TCP_CLIENT_TEST_SEND_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -24,12 +24,12 @@ namespace Test
         void TearDown() override;
 
         // TCP server and Client
-        TestApi::TcpServerApi tcpServer{};
-        TestApi::TcpClientApi tcpClient{};
+        TestApi::TcpServerApi_fragmentation tcpServer{};
+        TestApi::TcpClientApi_fragmentation tcpClient{};
 
         // Port to use
         int port;
     };
 }
 
-#endif // TCP_CLIENT_TEST_SEND_H_
+#endif // FRAGMENTATION_TCP_CLIENT_TEST_SEND_H_

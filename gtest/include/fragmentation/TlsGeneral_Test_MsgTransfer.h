@@ -1,5 +1,5 @@
-#ifndef TLS_GENERAL_TEST_MESSAGES_H_
-#define TLS_GENERAL_TEST_MESSAGES_H_
+#ifndef FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_
+#define FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -24,14 +24,14 @@ namespace Test
         void TearDown() override;
 
         // TLS server and Client
-        TestApi::TlsServerApi tlsServer_selfLong_frgnLong{};
-        TestApi::TlsClientApi tlsClient_selfLong_frgnLong{};
-        TestApi::TlsServerApi tlsServer_selfLong_frgnShort{};
-        TestApi::TlsClientApi tlsClient_selfLong_frgnShort{};
-        TestApi::TlsServerApi_ShortMsg tlsServer_selfShort_frgnLong{};
-        TestApi::TlsClientApi_ShortMsg tlsClient_selfShort_frgnLong{};
-        TestApi::TlsServerApi_ShortMsg tlsServer_selfShort_frgnShort{};
-        TestApi::TlsClientApi_ShortMsg tlsClient_selfShort_frgnShort{};
+        TestApi::TlsServerApi_fragmentation tlsServer_selfLong_frgnLong{};
+        TestApi::TlsClientApi_fragmentation tlsClient_selfLong_frgnLong{};
+        TestApi::TlsServerApi_fragmentation tlsServer_selfLong_frgnShort{};
+        TestApi::TlsClientApi_fragmentation tlsClient_selfLong_frgnShort{};
+        TestApi::TlsServerApi_fragmentation_ShortMsg tlsServer_selfShort_frgnLong{};
+        TestApi::TlsClientApi_fragmentation_ShortMsg tlsClient_selfShort_frgnLong{};
+        TestApi::TlsServerApi_fragmentation_ShortMsg tlsServer_selfShort_frgnShort{};
+        TestApi::TlsClientApi_fragmentation_ShortMsg tlsClient_selfShort_frgnShort{};
 
         // Port to use
         int port_serverLong_clientLong;
@@ -47,4 +47,4 @@ namespace Test
     };
 }
 
-#endif // TLS_GENERAL_TEST_MESSAGES_H_
+#endif // FRAGMENTATION_TLS_GENERAL_TEST_MESSAGES_H_

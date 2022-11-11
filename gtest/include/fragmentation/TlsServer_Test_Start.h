@@ -1,5 +1,5 @@
-#ifndef TLS_SERVER_TEST_START_H_
-#define TLS_SERVER_TEST_START_H_
+#ifndef FRAGMENTATION_TLS_SERVER_TEST_START_H_
+#define FRAGMENTATION_TLS_SERVER_TEST_START_H_
 
 #include <gtest/gtest.h>
 
@@ -20,11 +20,11 @@ namespace Test
         void TearDown() override;
 
         // TLS Server
-        TestApi::TlsServerApi tlsServer{};
+        TestApi::TlsServerApi_fragmentation tlsServer{};
 
         // Port to use
         int port;
     };
 } // namespace Test
 
-#endif // TLS_SERVER_TEST_START_H_
+#endif // FRAGMENTATION_TLS_SERVER_TEST_START_H_

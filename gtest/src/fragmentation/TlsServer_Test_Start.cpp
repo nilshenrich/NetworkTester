@@ -1,4 +1,4 @@
-#include "TlsServer_Test_Start.h"
+#include "fragmentation/TlsServer_Test_Start.h"
 
 using namespace std;
 using namespace Test;
@@ -74,7 +74,7 @@ TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 {
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
-    TestApi::TlsClientApi tlsClient{};
+    TestApi::TlsClientApi_fragmentation tlsClient{};
     ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsServer.start(HelperFunctions::getFreePort()), -1);
 }
@@ -87,7 +87,7 @@ TEST_F(TlsServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 TEST_F(TlsServer_Test_Start, NegTest_PortInUse)
 {
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
-    TestApi::TlsServerApi tlsServer2{};
+    TestApi::TlsServerApi_fragmentation tlsServer2{};
     EXPECT_EQ(tlsServer2.start(port), NETWORKLISTENER_ERROR_START_BIND_PORT);
 }
 
