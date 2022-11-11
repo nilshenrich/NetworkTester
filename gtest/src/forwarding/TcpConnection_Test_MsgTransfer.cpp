@@ -107,7 +107,7 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_NormalM
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by server
-    vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverLong_clientLong, msg}};
+    map<int, string> messagesExpected{{clientId_serverLong_clientLong, msg}};
     EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
@@ -124,8 +124,7 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_NormalM
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by client
-    vector<string> messagesExpected{msg};
-    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), msg);
 }
 
 // ====================================================================================================================
@@ -145,7 +144,7 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by server
-    vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverShort_clientShort, msg}};
+    map<int, string> messagesExpected{{clientId_serverShort_clientShort, msg}};
     EXPECT_EQ(tcpServer_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
 }
 
@@ -206,8 +205,7 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check if message received by client
-    vector<string> messagesExpected{msg};
-    EXPECT_EQ(tcpClient_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfShort_frgnShort.getBufferedMsg(), msg);
 }
 
 // ====================================================================================================================
@@ -267,7 +265,7 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ClientToServer_LongMsg
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by server
-    vector<TestApi::MessageFromClient> messagesExpected{TestApi::MessageFromClient{clientId_serverLong_clientLong, msg}};
+    map<int, string> messagesExpected{{clientId_serverLong_clientLong, msg}};
     EXPECT_EQ(tcpServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
 }
 
@@ -288,6 +286,5 @@ TEST_F(Forwarding_TcpConnection_Test_MsgTransfer, PosTest_ServerToClient_LongMsg
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TCP);
 
     // Check if message received by client
-    vector<string> messagesExpected{msg};
-    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    EXPECT_EQ(tcpClient_selfLong_frgnLong.getBufferedMsg(), msg);
 }

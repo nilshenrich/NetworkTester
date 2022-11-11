@@ -68,12 +68,12 @@ TEST_F(Forwarding_TcpServer_Test_ManyClients, SendingClientsSingleThread)
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check all messages are received by server (Order doesn't matter)
-    vector<TestApi::MessageFromClient> messagesReceived{tcpServer.getBufferedMsg()};
+    // TODO: First check if key exists in received messages
+    map<int, string> messagesReceived{tcpServer.getBufferedMsg()};
     EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
-    for (auto &msg : messages)
+    for (auto &client : tcpClients)
     {
-        TestApi::MessageFromClient messageExpected{msg.first, msg.second};
-        EXPECT_NE(find(messagesReceived.begin(), messagesReceived.end(), messageExpected), messagesReceived.end()) << "Message not found in buffer: " << messageExpected;
+        EXPECT_EQ(messagesReceived[client.first], messages[client.first]) << "Message from client " << client.first << " doesn't match buffer" << messages[client.first];
     }
 }
 
@@ -96,11 +96,7 @@ TEST_F(Forwarding_TcpServer_Test_ManyClients, SendingServerSingleThread)
     // Check all messages are received by clients
     for (auto &client : tcpClients)
     {
-        vector<string> messagesReceived{client.second->getBufferedMsg()};
-        EXPECT_EQ(messagesReceived.size(), 1);
-        if (messagesReceived.empty())
-            continue;
-        EXPECT_EQ(messagesReceived[0], messages[client.first]);
+        EXPECT_EQ(client.second->getBufferedMsg(), messages[client.first]);
     }
 }
 
@@ -126,12 +122,12 @@ TEST_F(Forwarding_TcpServer_Test_ManyClients, SendingClientsMultipleThreads)
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TCP);
 
     // Check all messages are received by server (Order doesn't matter)
-    vector<TestApi::MessageFromClient> messagesReceived{tcpServer.getBufferedMsg()};
+    // TODO: First check if key exists in received messages
+    map<int, string> messagesReceived{tcpServer.getBufferedMsg()};
     EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
-    for (auto &msg : messages)
+    for (auto &client : tcpClients)
     {
-        TestApi::MessageFromClient messageExpected{msg.first, msg.second};
-        EXPECT_NE(find(messagesReceived.begin(), messagesReceived.end(), messageExpected), messagesReceived.end()) << "Message not found in buffer: " << messageExpected;
+        EXPECT_EQ(messagesReceived[client.first], messages[client.first]) << "Message from client " << client.first << " doesn't match buffer" << messages[client.first];
     }
 }
 
@@ -159,10 +155,6 @@ TEST_F(Forwarding_TcpServer_Test_ManyClients, SendingServerMultipleThreads)
     // Check all messages are received by clients
     for (auto &client : tcpClients)
     {
-        vector<string> messagesReceived{client.second->getBufferedMsg()};
-        EXPECT_EQ(messagesReceived.size(), 1);
-        if (messagesReceived.empty())
-            continue;
-        EXPECT_EQ(messagesReceived[0], messages[client.first]);
+        EXPECT_EQ(client.second->getBufferedMsg(), messages[client.first]);
     }
 }
