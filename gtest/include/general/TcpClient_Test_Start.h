@@ -1,5 +1,5 @@
-#ifndef FRAGMENTATION_TCP_CLIENT_TEST_START_H_
-#define FRAGMENTATION_TCP_CLIENT_TEST_START_H_
+#ifndef GENERAL_TCP_CLIENT_TEST_START_H_
+#define GENERAL_TCP_CLIENT_TEST_START_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class Fragmentation_TcpClient_Test_Start : public testing::Test
+    class General_TcpClient_Test_Start : public testing::Test
     {
     public:
-        Fragmentation_TcpClient_Test_Start();
-        virtual ~Fragmentation_TcpClient_Test_Start();
+        General_TcpClient_Test_Start();
+        virtual ~General_TcpClient_Test_Start();
 
     protected:
         void SetUp() override;
@@ -30,4 +30,4 @@ namespace Test
     };
 }
 
-#endif // FRAGMENTATION_TCP_CLIENT_TEST_START_H_
+#endif // GENERAL_TCP_CLIENT_TEST_START_H_

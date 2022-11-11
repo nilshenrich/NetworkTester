@@ -1,5 +1,5 @@
-#ifndef FRAGMENTATION_TLS_SERVER_TEST_START_H_
-#define FRAGMENTATION_TLS_SERVER_TEST_START_H_
+#ifndef GENERAL_TLS_SERVER_TEST_START_H_
+#define GENERAL_TLS_SERVER_TEST_START_H_
 
 #include <gtest/gtest.h>
 
@@ -9,11 +9,11 @@
 
 namespace Test
 {
-    class Fragmentation_TlsServer_Test_Start : public testing::Test
+    class General_TlsServer_Test_Start : public testing::Test
     {
     public:
-        Fragmentation_TlsServer_Test_Start();
-        virtual ~Fragmentation_TlsServer_Test_Start();
+        General_TlsServer_Test_Start();
+        virtual ~General_TlsServer_Test_Start();
 
     protected:
         void SetUp() override;
@@ -27,4 +27,4 @@ namespace Test
     };
 } // namespace Test
 
-#endif // FRAGMENTATION_TLS_SERVER_TEST_START_H_
+#endif // GENERAL_TLS_SERVER_TEST_START_H_

@@ -1,13 +1,13 @@
-#include "fragmentation/TlsClient_Test_Start.h"
+#include "general/TlsClient_Test_Start.h"
 
 using namespace std;
 using namespace Test;
 using namespace networking;
 
-Fragmentation_TlsClient_Test_Start::Fragmentation_TlsClient_Test_Start() {}
-Fragmentation_TlsClient_Test_Start::~Fragmentation_TlsClient_Test_Start() {}
+General_TlsClient_Test_Start::General_TlsClient_Test_Start() {}
+General_TlsClient_Test_Start::~General_TlsClient_Test_Start() {}
 
-void Fragmentation_TlsClient_Test_Start::SetUp()
+void General_TlsClient_Test_Start::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
@@ -15,7 +15,7 @@ void Fragmentation_TlsClient_Test_Start::SetUp()
     return;
 }
 
-void Fragmentation_TlsClient_Test_Start::TearDown()
+void General_TlsClient_Test_Start::TearDown()
 {
     // Stop TLS server and client
     tlsClient.stop();
@@ -32,7 +32,7 @@ void Fragmentation_TlsClient_Test_Start::TearDown()
 // Steps:      Start TLS client with correct parameters
 // Exp Result: NETWORKCLIENT_START_OK
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, PosTest)
+TEST_F(General_TlsClient_Test_Start, PosTest)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsServer.getClientIds().size(), 1);
@@ -43,7 +43,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, PosTest)
 // Steps:      Try to start TLS client with -1
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_PORT
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongPort_Negative)
+TEST_F(General_TlsClient_Test_Start, NegTest_WrongPort_Negative)
 {
     EXPECT_EQ(tlsClient.start("localhost", -1), NETWORKCLIENT_ERROR_START_WRONG_PORT);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -54,7 +54,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongPort_Negative)
 // Steps:      Try to start TLS client with 65536
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_PORT
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongPort_TooBig)
+TEST_F(General_TlsClient_Test_Start, NegTest_WrongPort_TooBig)
 {
     EXPECT_EQ(tlsClient.start("localhost", 65536), NETWORKCLIENT_ERROR_START_WRONG_PORT);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -65,7 +65,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongPort_TooBig)
 // Steps:      Try to start TLS client after stopping server
 // Exp Result: NETWORKCLIENT_ERROR_START_CONNECT
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_ServerNotRunning)
+TEST_F(General_TlsClient_Test_Start, NegTest_ServerNotRunning)
 {
     tlsServer.stop();
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_ERROR_START_CONNECT);
@@ -77,7 +77,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_ServerNotRunning)
 // Steps:      Try to start TLS client and then try to start it again
 // Exp Result: -1
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_AlreadyRunning)
+TEST_F(General_TlsClient_Test_Start, NegTest_AlreadyRunning)
 {
     EXPECT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
     EXPECT_EQ(tlsClient.start("localhost", port), -1);
@@ -89,7 +89,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_AlreadyRunning)
 // Steps:      Try to start TLS client with wrong path to CA certificate
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CA_PATH
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongCaPath)
+TEST_F(General_TlsClient_Test_Start, NegTest_WrongCaPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, "fake/path/to/ca.crt", KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA_PATH);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -100,7 +100,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongCaPath)
 // Steps:      Try to start TLS client with wrong path to client certificate
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CERT_PATH
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongCertPath)
+TEST_F(General_TlsClient_Test_Start, NegTest_WrongCertPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, "fake/path/to/client.crt", KeyPaths::ListenerKey), NETWORKCLIENT_ERROR_START_WRONG_CERT_PATH);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -111,7 +111,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongCertPath)
 // Steps:      Try to start TLS client with wrong path to client key
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_KEY_PATH
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongKeyPath)
+TEST_F(General_TlsClient_Test_Start, NegTest_WrongKeyPath)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, "fake/path/to/client.key"), NETWORKCLIENT_ERROR_START_WRONG_KEY_PATH);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -122,7 +122,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_WrongKeyPath)
 // Steps:      Try to start TLS client with incorrect CA certificate
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CA
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_FakeCa)
+TEST_F(General_TlsClient_Test_Start, NegTest_FakeCa)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, FakeKeyPaths::CaCert, KeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CA);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -133,7 +133,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_FakeCa)
 // Steps:      Try to start TLS client with incorrect client certificate
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_CERT
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_FakeCert)
+TEST_F(General_TlsClient_Test_Start, NegTest_FakeCert)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, FakeKeyPaths::ClientCert, KeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_CERT);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);
@@ -144,7 +144,7 @@ TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_FakeCert)
 // Steps:      Try to start TLS client with incorrect client key
 // Exp Result: NETWORKCLIENT_ERROR_START_WRONG_KEY
 // ====================================================================================================================
-TEST_F(Fragmentation_TlsClient_Test_Start, NegTest_FakeKey)
+TEST_F(General_TlsClient_Test_Start, NegTest_FakeKey)
 {
     EXPECT_EQ(tlsClient.start("localhost", port, KeyPaths::CaCert, KeyPaths::ClientCert, FakeKeyPaths::ClientKey), NETWORKCLIENT_ERROR_START_WRONG_KEY);
     EXPECT_EQ(tlsServer.getClientIds().size(), 0);

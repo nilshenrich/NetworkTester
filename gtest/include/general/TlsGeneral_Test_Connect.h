@@ -1,5 +1,5 @@
-#ifndef FRAGMENTATION_TLS_CLIENT_TEST_START_H_
-#define FRAGMENTATION_TLS_CLIENT_TEST_START_H_
+#ifndef GENERAL_TLS_GENERAL_TEST_CONNECT_H_
+#define GENERAL_TLS_GENERAL_TEST_CONNECT_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class Fragmentation_TlsClient_Test_Start : public testing::Test
+    class General_TlsGeneral_Test_Connect : public testing::Test
     {
     public:
-        Fragmentation_TlsClient_Test_Start();
-        virtual ~Fragmentation_TlsClient_Test_Start();
+        General_TlsGeneral_Test_Connect();
+        virtual ~General_TlsGeneral_Test_Connect();
 
     protected:
         void SetUp() override;
@@ -30,4 +30,4 @@ namespace Test
     };
 }
 
-#endif // FRAGMENTATION_TLS_CLIENT_TEST_START_H_
+#endif // GENERAL_TLS_GENERAL_TEST_CONNECT_H_

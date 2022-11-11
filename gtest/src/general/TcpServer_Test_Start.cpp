@@ -1,20 +1,20 @@
-#include "fragmentation/TcpServer_Test_Start.h"
+#include "general/TcpServer_Test_Start.h"
 
 using namespace std;
 using namespace Test;
 using namespace networking;
 
-Fragmentation_TcpServer_Test_Start::Fragmentation_TcpServer_Test_Start() {}
-Fragmentation_TcpServer_Test_Start::~Fragmentation_TcpServer_Test_Start() {}
+General_TcpServer_Test_Start::General_TcpServer_Test_Start() {}
+General_TcpServer_Test_Start::~General_TcpServer_Test_Start() {}
 
-void Fragmentation_TcpServer_Test_Start::SetUp()
+void General_TcpServer_Test_Start::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
     return;
 }
 
-void Fragmentation_TcpServer_Test_Start::TearDown()
+void General_TcpServer_Test_Start::TearDown()
 {
     // Stop TCP server
     tcpServer.stop();
@@ -30,7 +30,7 @@ void Fragmentation_TcpServer_Test_Start::TearDown()
 // Steps:      Start TCP server with correct parameters
 // Exp Result: NETWORKLISTENER_START_OK
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, PosTest)
+TEST_F(General_TcpServer_Test_Start, PosTest)
 {
     EXPECT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
 }
@@ -40,7 +40,7 @@ TEST_F(Fragmentation_TcpServer_Test_Start, PosTest)
 // Steps:      Try to start TCP server with -1
 // Exp Result: NETWORKLISTENER_ERROR_START_WRONG_PORT
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_WrongPort_Negative)
+TEST_F(General_TcpServer_Test_Start, NegTest_WrongPort_Negative)
 {
     EXPECT_EQ(tcpServer.start(-1), NETWORKLISTENER_ERROR_START_WRONG_PORT);
 }
@@ -50,7 +50,7 @@ TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_WrongPort_Negative)
 // Steps:      Try to start TCP server with 65536
 // Exp Result: NETWORKLISTENER_ERROR_START_WRONG_PORT
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_WrongPort_TooBig)
+TEST_F(General_TcpServer_Test_Start, NegTest_WrongPort_TooBig)
 {
     EXPECT_EQ(tcpServer.start(65536), NETWORKLISTENER_ERROR_START_WRONG_PORT);
 }
@@ -60,7 +60,7 @@ TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_WrongPort_TooBig)
 // Steps:      Start TCP server and then try to start it again on free port
 // Exp Result: -1
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
+TEST_F(General_TcpServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 {
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
     EXPECT_EQ(tcpServer.start(HelperFunctions::getFreePort()), -1);
@@ -71,7 +71,7 @@ TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_AlreadyRunning_NoConnections)
 // Steps:      Start TCP server, connect a client and then try to start it again on free port
 // Exp Result: -1
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
+TEST_F(General_TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 {
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
     TestApi::TcpClientApi_fragmentation tcpClient{};
@@ -84,7 +84,7 @@ TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_AlreadyRunning_OneConnection)
 // Steps:      Start TCP server and try starting another instance with same port
 // Exp Result: NETWORKLISTENER_ERROR_START_BIND_PORT
 // ====================================================================================================================
-TEST_F(Fragmentation_TcpServer_Test_Start, NegTest_PortInUse)
+TEST_F(General_TcpServer_Test_Start, NegTest_PortInUse)
 {
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
     TestApi::TcpServerApi_fragmentation tcpServer2{};
