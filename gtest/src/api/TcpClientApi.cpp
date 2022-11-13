@@ -11,6 +11,7 @@ TcpClientApi_forwarding::~TcpClientApi_forwarding() {}
 TcpClientApi_fragmentation_ShortMsg::TcpClientApi_fragmentation_ShortMsg() : TcpClientApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
 TcpClientApi_fragmentation_ShortMsg::~TcpClientApi_fragmentation_ShortMsg() {}
 TcpClientApi_forwarding_ShortMsg::TcpClientApi_forwarding_ShortMsg() : TcpClientApi_forwarding{} {}
+TcpClientApi_forwarding_ShortMsg::~TcpClientApi_forwarding_ShortMsg() {}
 
 int TcpClientApi_fragmentation::start(const std::string &ip, const int port)
 {

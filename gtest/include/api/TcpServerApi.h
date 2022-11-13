@@ -2,6 +2,7 @@
 #define TCP_SERVER_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -133,8 +134,8 @@ namespace TestApi
         void workOnClosed_TcpServer(const int tcpClientId) override;
 
         // Buffered messages
-        std::map<int, std::string> bufferedMsg;
-        std::mutex bufferedMsg_m;
+        std::function<std::ostringstream *(int clientId)> generateForwardingStream;
+        std::map<int, std::ostringstream> bufferedMsg;
     };
 
     class TcpServerApi_fragmentation_ShortMsg : public TcpServerApi_fragmentation

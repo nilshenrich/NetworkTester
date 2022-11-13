@@ -2,6 +2,7 @@
 #define TLS_SERVER_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -133,8 +134,8 @@ namespace TestApi
         void workOnClosed_TlsServer(const int tlsClientId) override;
 
         // Buffered messages
-        std::map<int, std::string> bufferedMsg;
-        std::mutex bufferedMsg_m;
+        std::function<std::ostringstream *(int clientId)> generateForwardingStream;
+        std::map<int, std::ostringstream> bufferedMsg;
     };
 
     class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation

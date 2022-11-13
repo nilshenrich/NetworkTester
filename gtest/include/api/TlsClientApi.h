@@ -2,6 +2,7 @@
 #define TLS_CLIENT_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -103,8 +104,7 @@ namespace TestApi
         void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
 
         // Buffered messages
-        std::string bufferedMsg;
-        std::mutex bufferedMsg_m;
+        std::ostringstream bufferedMsg_os{std::ios_base::ate};
     };
 
     class TlsClientApi_fragmentation_ShortMsg : public TlsClientApi_fragmentation
