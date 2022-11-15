@@ -133,9 +133,16 @@ namespace TestApi
          */
         void workOnClosed_TlsServer(const int tlsClientId) override;
 
+        /**
+         * @brief Generate an output stream to a string for each client
+         *
+         * @param clientId
+         * @return std::ostringstream*
+         */
+        static std::ostringstream *generateForwardingStream(int clientId);
+
         // Buffered messages
-        std::function<std::ostringstream *(int clientId)> generateForwardingStream;
-        std::map<int, std::ostringstream> bufferedMsg;
+        static std::map<int, std::ostringstream> bufferedMsg;
     };
 
     class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation

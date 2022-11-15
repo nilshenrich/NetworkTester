@@ -6,7 +6,7 @@ using namespace networking;
 
 TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : TcpServer{'\x00', messageMaxLen} {}
 TcpServerApi_fragmentation::~TcpServerApi_fragmentation() {}
-TcpServerApi_forwarding::TcpServerApi_forwarding() : TcpServer{TcpServerApi_forwarding::generateForwardingStream} {}
+TcpServerApi_forwarding::TcpServerApi_forwarding() : TcpServer{&TcpServerApi_forwarding::generateForwardingStream} {}
 TcpServerApi_forwarding::~TcpServerApi_forwarding() {}
 TcpServerApi_fragmentation_ShortMsg::TcpServerApi_fragmentation_ShortMsg() : TcpServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
 TcpServerApi_fragmentation_ShortMsg::~TcpServerApi_fragmentation_ShortMsg() {}
@@ -100,4 +100,14 @@ void TcpServerApi_forwarding::workOnMessage_TcpServer(const int tcpClientId, con
 void TcpServerApi_forwarding::workOnClosed_TcpServer(const int tcpClientId)
 {
     return;
+}
+
+map<int, ostringstream> TcpServerApi_forwarding::bufferedMsg;
+ostringstream *TcpServerApi_forwarding::generateForwardingStream(int clientId)
+{
+    // If stream already exists, just return pointer to
+    // If stream doesn't exist yet, create it and return pointer to
+    if (bufferedMsg.find(clientId) == bufferedMsg.end())
+        bufferedMsg[clientId] = ostringstream(ios_base::ate);
+    return &bufferedMsg[clientId];
 }

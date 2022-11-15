@@ -133,9 +133,17 @@ namespace TestApi
          */
         void workOnClosed_TcpServer(const int tcpClientId) override;
 
+        /**
+         * @brief Generate an output stream to a string for each client
+         *
+         * @param clientId
+         * @return std::ostringstream*
+         */
+        static std::ostringstream *generateForwardingStream(int clientId);
+
         // Buffered messages
-        std::function<std::ostringstream *(int clientId)> generateForwardingStream;
-        std::map<int, std::ostringstream> bufferedMsg;
+        // TODO: Bad practice having static
+        static std::map<int, std::ostringstream> bufferedMsg;
     };
 
     class TcpServerApi_fragmentation_ShortMsg : public TcpServerApi_fragmentation
