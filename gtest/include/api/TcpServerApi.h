@@ -143,7 +143,7 @@ namespace TestApi
 
         // Buffered messages
         // TODO: Bad practice having static
-        static std::map<int, std::ostringstream> bufferedMsg;
+        static std::map<int, std::ostringstream *> bufferedMsg;
     };
 
     class TcpServerApi_fragmentation_ShortMsg : public TcpServerApi_fragmentation

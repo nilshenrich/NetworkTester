@@ -77,7 +77,7 @@ map<int, string> TcpServerApi_forwarding::getBufferedMsg()
 {
     map<int, string> ret;
     for (auto &v : bufferedMsg)
-        ret[v.first] = v.second.str();
+        ret[v.first] = v.second->str();
     bufferedMsg.clear();
     return ret;
 }
@@ -102,12 +102,12 @@ void TcpServerApi_forwarding::workOnClosed_TcpServer(const int tcpClientId)
     return;
 }
 
-map<int, ostringstream> TcpServerApi_forwarding::bufferedMsg;
+map<int, ostringstream *> TcpServerApi_forwarding::bufferedMsg;
 ostringstream *TcpServerApi_forwarding::generateForwardingStream(int clientId)
 {
     // If stream already exists, just return pointer to
     // If stream doesn't exist yet, create it and return pointer to
     if (bufferedMsg.find(clientId) == bufferedMsg.end())
-        bufferedMsg[clientId] = ostringstream(ios_base::ate);
-    return &bufferedMsg[clientId];
+        bufferedMsg[clientId] = new ostringstream{ios_base::ate};
+    return bufferedMsg[clientId];
 }
