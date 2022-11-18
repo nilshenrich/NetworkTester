@@ -70,6 +70,9 @@ namespace TestApi
          */
         void workOnClosed(const int tlsClientId);
 
+        // TLS server
+        networking::TlsServer tlsServer;
+
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
@@ -119,19 +122,14 @@ namespace TestApi
 
     private:
         /**
-         * @brief Buffer incoming messages
-         *
-         * @param tlsClientId ID des Clients
-         * @param tlsMsgFromClient Nachricht vom Client
-         */
-        void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
-
-        /**
          * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
         void workOnClosed(const int tlsClientId);
+
+        // TLS server
+        networking::TlsServer tlsServer;
 
         /**
          * @brief Generate an output stream to a string for each client
@@ -139,10 +137,10 @@ namespace TestApi
          * @param clientId
          * @return std::ostringstream*
          */
-        static std::ostringstream *generateForwardingStream(int clientId);
+        std::ostringstream *generateForwardingStream(int clientId);
 
         // Buffered messages
-        static std::map<int, std::ostringstream *> bufferedMsg;
+        std::map<int, std::ostringstream *> bufferedMsg;
     };
 
     class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation

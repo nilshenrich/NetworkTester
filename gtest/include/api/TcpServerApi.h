@@ -70,6 +70,9 @@ namespace TestApi
          */
         void workOnClosed(const int tcpClientId);
 
+        // TCP server
+        networking::TcpServer tcpServer;
+
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
@@ -119,19 +122,14 @@ namespace TestApi
 
     private:
         /**
-         * @brief Buffer incoming messages
-         *
-         * @param tcpClientId ID des Clients
-         * @param tcpMsgFromClient Nachricht vom Client
-         */
-        void workOnMessage(const int tcpClientId, const std::string tcpMsgFromClient);
-
-        /**
          * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
         void workOnClosed(const int tcpClientId);
+
+        // TCP server
+        networking::TcpServer tcpServer;
 
         /**
          * @brief Generate an output stream to a string for each client
