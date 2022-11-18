@@ -124,14 +124,14 @@ namespace TestApi
          * @param tcpClientId ID des Clients
          * @param tcpMsgFromClient Nachricht vom Client
          */
-        void workOnMessage_TcpServer(const int tcpClientId, const std::string tcpMsgFromClient);
+        void workOnMessage(const int tcpClientId, const std::string tcpMsgFromClient);
 
         /**
          * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TcpServer(const int tcpClientId);
+        void workOnClosed(const int tcpClientId);
 
         /**
          * @brief Generate an output stream to a string for each client

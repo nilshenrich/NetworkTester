@@ -61,21 +61,21 @@ namespace TestApi
          * @param tlsClientId ID des Clients
          * @param tlsMsgFromClient Nachricht vom Client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient);
+        void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
          * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId);
+        void workOnClosed(const int tlsClientId);
 
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TlsServerApi_forwarding : private networking::TlsServer
+    class TlsServerApi_forwarding
     {
     public:
         TlsServerApi_forwarding();
@@ -124,14 +124,14 @@ namespace TestApi
          * @param tlsClientId ID des Clients
          * @param tlsMsgFromClient Nachricht vom Client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient);
+        void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
          * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId);
+        void workOnClosed(const int tlsClientId);
 
         /**
          * @brief Generate an output stream to a string for each client
