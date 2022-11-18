@@ -142,7 +142,7 @@ namespace TestApi
         static std::ostringstream *generateForwardingStream(int clientId);
 
         // Buffered messages
-        static std::map<int, std::ostringstream> bufferedMsg;
+        static std::map<int, std::ostringstream *> bufferedMsg;
     };
 
     class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation

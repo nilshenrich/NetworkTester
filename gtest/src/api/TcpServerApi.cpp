@@ -77,7 +77,11 @@ map<int, string> TcpServerApi_forwarding::getBufferedMsg()
 {
     map<int, string> ret;
     for (auto &v : bufferedMsg)
-        ret[v.first] = v.second->str();
+    {
+        string msg{v.second->str()};
+        if (msg.size())
+            ret[v.first] = msg;
+    }
     bufferedMsg.clear();
     return ret;
 }

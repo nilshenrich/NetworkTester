@@ -77,7 +77,11 @@ map<int, string> TlsServerApi_forwarding::getBufferedMsg()
 {
     map<int, string> ret;
     for (auto &v : bufferedMsg)
-        ret[v.first] = v.second.str();
+    {
+        string msg{v.second->str()};
+        if (msg.size())
+            ret[v.first] = msg;
+    }
     bufferedMsg.clear();
     return ret;
 }
@@ -102,12 +106,12 @@ void TlsServerApi_forwarding::workOnClosed_TlsServer(const int tlsClientId)
     return;
 }
 
-map<int, ostringstream> TlsServerApi_forwarding::bufferedMsg;
+map<int, ostringstream *> TlsServerApi_forwarding::bufferedMsg;
 ostringstream *TlsServerApi_forwarding::generateForwardingStream(int clientId)
 {
     // If stream already exists, just return pointer to
     // If stream doesn't exist yet, create it and return pointer to
     if (bufferedMsg.find(clientId) == bufferedMsg.end())
-        bufferedMsg[clientId] = ostringstream(ios_base::ate);
-    return &bufferedMsg[clientId];
+        bufferedMsg[clientId] = new ostringstream{ios_base::ate};
+    return bufferedMsg[clientId];
 }
