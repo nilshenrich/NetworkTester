@@ -12,7 +12,7 @@
 
 namespace TestApi
 {
-    class TlsServerApi_fragmentation : private networking::TlsServer
+    class TlsServerApi_fragmentation
     {
     public:
         TlsServerApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
@@ -56,19 +56,19 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Client empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
          * @param tlsClientId ID des Clients
          * @param tlsMsgFromClient Nachricht vom Client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
+        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
-         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId) override;
+        void workOnClosed_TlsServer(const int tlsClientId);
 
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
@@ -119,19 +119,19 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Client empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
          * @param tlsClientId ID des Clients
          * @param tlsMsgFromClient Nachricht vom Client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
+        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
-         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId) override;
+        void workOnClosed_TlsServer(const int tlsClientId);
 
         /**
          * @brief Generate an output stream to a string for each client
