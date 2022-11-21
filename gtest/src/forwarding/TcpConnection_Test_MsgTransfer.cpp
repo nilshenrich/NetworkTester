@@ -1,5 +1,7 @@
 #include "forwarding/TcpConnection_Test_MsgTransfer.h"
 
+// TODO: Forwarding mode does not have a maximum message length
+
 using namespace std;
 using namespace Test;
 using namespace networking;

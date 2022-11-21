@@ -36,8 +36,7 @@ vector<MessageFromClient> TcpServerApi_fragmentation::getBufferedMsg()
 
 vector<int> TcpServerApi_fragmentation::getClientIds()
 {
-    // TODO: Implement
-    return {};
+    return tcpServer.getAllClientIds();
 }
 
 void TcpServerApi_fragmentation::workOnMessage(const int tcpClientId, const string tcpMsgFromClient)
@@ -78,8 +77,7 @@ map<int, string> TcpServerApi_forwarding::getBufferedMsg()
 
 vector<int> TcpServerApi_forwarding::getClientIds()
 {
-    // TODO: Implement
-    return {};
+    return tcpServer.getAllClientIds();
 }
 
 void TcpServerApi_forwarding::workOnClosed(const int) {}

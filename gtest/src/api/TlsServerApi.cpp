@@ -36,8 +36,7 @@ vector<MessageFromClient> TlsServerApi_fragmentation::getBufferedMsg()
 
 vector<int> TlsServerApi_fragmentation::getClientIds()
 {
-    // TODO: Implement
-    return {};
+    return tlsServer.getAllClientIds();
 }
 
 void TlsServerApi_fragmentation::workOnMessage(const int tlsClientId, const string tlsMsgFromClient)
@@ -78,8 +77,7 @@ map<int, string> TlsServerApi_forwarding::getBufferedMsg()
 
 vector<int> TlsServerApi_forwarding::getClientIds()
 {
-    // TODO: Implement
-    return {};
+    return tlsServer.getAllClientIds();
 }
 
 void TlsServerApi_forwarding::workOnClosed(const int) {}
