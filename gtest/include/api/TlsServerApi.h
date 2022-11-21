@@ -12,7 +12,7 @@
 
 namespace TestApi
 {
-    class TlsServerApi_fragmentation : private networking::TlsServer
+    class TlsServerApi_fragmentation
     {
     public:
         TlsServerApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
@@ -56,26 +56,29 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Client empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
-         * @param tlsClientId ID des Clients
-         * @param tlsMsgFromClient Nachricht vom Client
+         * @param tlsClientId       Client ID
+         * @param tlsMsgFromClient  Message from client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
+        void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
-         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId) override;
+        void workOnClosed(const int tlsClientId);
+
+        // TLS server
+        networking::TlsServer tlsServer;
 
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TlsServerApi_forwarding : private networking::TlsServer
+    class TlsServerApi_forwarding
     {
     public:
         TlsServerApi_forwarding();
@@ -119,19 +122,14 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Client empfangen wurde, diese puffern
-         *
-         * @param tlsClientId ID des Clients
-         * @param tlsMsgFromClient Nachricht vom Client
-         */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
-
-        /**
-         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId) override;
+        void workOnClosed(const int tlsClientId);
+
+        // TLS server
+        networking::TlsServer tlsServer;
 
         /**
          * @brief Generate an output stream to a string for each client
@@ -139,10 +137,10 @@ namespace TestApi
          * @param clientId
          * @return std::ostringstream*
          */
-        static std::ostringstream *generateForwardingStream(int clientId);
+        std::ostringstream *generateForwardingStream(int clientId);
 
         // Buffered messages
-        static std::map<int, std::ostringstream *> bufferedMsg;
+        std::map<int, std::ostringstream *> bufferedMsg;
     };
 
     class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation
