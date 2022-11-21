@@ -4,9 +4,9 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : tcpServer{'\x00', messageMaxLen, bind(&TcpServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TcpServerApi_fragmentation::workOnClosed, this, placeholders::_1)} {}
+TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : tcpServer{'\x00', bind(&TcpServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TcpServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
 TcpServerApi_fragmentation::~TcpServerApi_fragmentation() {}
-TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1), bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1)} {}
+TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
 TcpServerApi_forwarding::~TcpServerApi_forwarding() {}
 TcpServerApi_fragmentation_ShortMsg::TcpServerApi_fragmentation_ShortMsg() : TcpServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
 TcpServerApi_fragmentation_ShortMsg::~TcpServerApi_fragmentation_ShortMsg() {}

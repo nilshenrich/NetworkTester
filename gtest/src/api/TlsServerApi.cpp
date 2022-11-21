@@ -4,9 +4,9 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', messageMaxLen, bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1)} {}
+TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
 TlsServerApi_fragmentation::~TlsServerApi_fragmentation() {}
-TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1), bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1)} {}
+TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
 TlsServerApi_forwarding::~TlsServerApi_forwarding() {}
 TlsServerApi_fragmentation_ShortMsg::TlsServerApi_fragmentation_ShortMsg() : TlsServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
 TlsServerApi_fragmentation_ShortMsg::~TlsServerApi_fragmentation_ShortMsg() {}
