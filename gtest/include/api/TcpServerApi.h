@@ -58,8 +58,8 @@ namespace TestApi
         /**
          * @brief Buffer incoming messages
          *
-         * @param tcpClientId ID des Clients
-         * @param tcpMsgFromClient Nachricht vom Client
+         * @param tcpClientId       Client ID
+         * @param tcpMsgFromClient  Message from client
          */
         void workOnMessage(const int tcpClientId, const std::string tcpMsgFromClient);
 

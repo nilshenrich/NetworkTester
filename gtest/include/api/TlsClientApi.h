@@ -12,7 +12,7 @@
 
 namespace TestApi
 {
-    class TlsClientApi_fragmentation : private networking::TlsClient
+    class TlsClientApi_fragmentation
     {
     public:
         TlsClientApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
@@ -49,18 +49,20 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
-         *
-         * @param tcpMsgFromServer Nachricht vom Server
+         * @brief Buffer incoming messages
+         * @param tlsMsgFromClient Message from server
          */
-        void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
+        void workOnMessage(const std::string tlsMsgFromServer);
+
+        // TCP client
+        networking::TlsClient tlsClient;
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TlsClientApi_forwarding : private networking::TlsClient
+    class TlsClientApi_forwarding
     {
     public:
         TlsClientApi_forwarding();
@@ -96,12 +98,8 @@ namespace TestApi
         std::string getBufferedMsg();
 
     private:
-        /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
-         *
-         * @param tcpMsgFromServer Nachricht vom Server
-         */
-        void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
+        // TCP client
+        networking::TlsClient tlsClient;
 
         // Buffered messages
         std::ostringstream bufferedMsg_os{std::ios_base::ate};

@@ -12,7 +12,7 @@
 
 namespace TestApi
 {
-    class TcpClientApi_fragmentation : private networking::TcpClient
+    class TcpClientApi_fragmentation
     {
     public:
         TcpClientApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
@@ -49,18 +49,21 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
-         * @param tcpMsgFromServer Nachricht vom Server
+         * @param tcpMsgFromServer Message from server
          */
-        void workOnMessage_TcpClient(const std::string tcpMsgFromServer) override;
+        void workOnMessage(const std::string tcpMsgFromServer);
+
+        // TCP client
+        networking::TcpClient tcpClient;
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TcpClientApi_forwarding : private networking::TcpClient
+    class TcpClientApi_forwarding
     {
     public:
         TcpClientApi_forwarding();
@@ -96,12 +99,8 @@ namespace TestApi
         std::string getBufferedMsg();
 
     private:
-        /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
-         *
-         * @param tcpMsgFromServer Nachricht vom Server
-         */
-        void workOnMessage_TcpClient(const std::string tcpMsgFromServer) override;
+        // TCP client
+        networking::TcpClient tcpClient;
 
         // Buffered message
         std::ostringstream bufferedMsg_os{std::ios_base::ate};

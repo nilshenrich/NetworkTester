@@ -58,8 +58,8 @@ namespace TestApi
         /**
          * @brief Buffer incoming messages
          *
-         * @param tlsClientId ID des Clients
-         * @param tlsMsgFromClient Nachricht vom Client
+         * @param tlsClientId       Client ID
+         * @param tlsMsgFromClient  Message from client
          */
         void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
