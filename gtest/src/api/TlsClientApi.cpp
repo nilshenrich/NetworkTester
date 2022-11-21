@@ -4,36 +4,61 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsClientApi::TlsClientApi(size_t messageMaxLen) : TlsClient{'\x00', messageMaxLen, TestConstants::CONNECTION_TIMEOUT_TLS_ms} {}
-TlsClientApi::~TlsClientApi() {}
-TlsClientApi_ShortMsg::TlsClientApi_ShortMsg() : TlsClientApi{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TlsClientApi_ShortMsg::~TlsClientApi_ShortMsg() {}
+TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : tlsClient{'\x00', messageMaxLen, TestConstants::CONNECTION_TIMEOUT_TLS_ms, bind(&TlsClientApi_fragmentation::workOnMessage, this, placeholders::_1)} {}
+TlsClientApi_fragmentation::~TlsClientApi_fragmentation() {}
+TlsClientApi_forwarding::TlsClientApi_forwarding() : tlsClient{bufferedMsg_os} {}
+TlsClientApi_forwarding::~TlsClientApi_forwarding() {}
+TlsClientApi_fragmentation_ShortMsg::TlsClientApi_fragmentation_ShortMsg() : TlsClientApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
+TlsClientApi_fragmentation_ShortMsg::~TlsClientApi_fragmentation_ShortMsg() {}
+TlsClientApi_forwarding_ShortMsg::TlsClientApi_forwarding_ShortMsg() : TlsClientApi_forwarding{} {}
+TlsClientApi_forwarding_ShortMsg::~TlsClientApi_forwarding_ShortMsg() {}
 
-int TlsClientApi::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
+int TlsClientApi_fragmentation::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
 {
-    return TlsClient::start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
+    return tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
 }
 
-void TlsClientApi::stop()
+void TlsClientApi_fragmentation::stop()
 {
-    TlsClient::stop();
+    tlsClient.stop();
     return;
 }
 
-bool TlsClientApi::sendMsg(const std::string &tlsMsg)
+bool TlsClientApi_fragmentation::sendMsg(const std::string &tlsMsg)
 {
-    return TlsClient::sendMsg(tlsMsg);
+    return tlsClient.sendMsg(tlsMsg);
 }
 
-vector<string> TlsClientApi::getBufferedMsg()
+vector<string> TlsClientApi_fragmentation::getBufferedMsg()
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
-void TlsClientApi::workOnMessage_TlsClient(const std::string tlsMsgFromServer)
+void TlsClientApi_fragmentation::workOnMessage(const std::string tlsMsgFromServer)
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back(move(tlsMsgFromServer));
     return;
+}
+
+int TlsClientApi_forwarding::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
+{
+    return tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
+}
+
+void TlsClientApi_forwarding::stop()
+{
+    tlsClient.stop();
+    return;
+}
+
+bool TlsClientApi_forwarding::sendMsg(const std::string &tlsMsg)
+{
+    return tlsClient.sendMsg(tlsMsg);
+}
+
+string TlsClientApi_forwarding::getBufferedMsg()
+{
+    return bufferedMsg_os.str();
 }

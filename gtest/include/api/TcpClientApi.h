@@ -2,6 +2,7 @@
 #define TCP_CLIENT_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -11,11 +12,11 @@
 
 namespace TestApi
 {
-    class TcpClientApi : private networking::TcpClient
+    class TcpClientApi_fragmentation
     {
     public:
-        TcpClientApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
-        virtual ~TcpClientApi();
+        TcpClientApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
+        virtual ~TcpClientApi_fragmentation();
 
         /**
          * @brief Connect to TCP server
@@ -48,22 +49,75 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
-         * @param tcpMsgFromServer Nachricht vom Server
+         * @param tcpMsgFromServer Message from server
          */
-        void workOnMessage_TcpClient(const std::string tcpMsgFromServer) override;
+        void workOnMessage(const std::string tcpMsgFromServer);
+
+        // TCP client
+        networking::TcpClient tcpClient;
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TcpClientApi_ShortMsg : public TcpClientApi
+    class TcpClientApi_forwarding
     {
     public:
-        TcpClientApi_ShortMsg();
-        virtual ~TcpClientApi_ShortMsg();
+        TcpClientApi_forwarding();
+        virtual ~TcpClientApi_forwarding();
+
+        /**
+         * @brief Connect to TCP server
+         *
+         * @param ip IP address of TCP server
+         * @param port TCP port of TCP server
+         * @return int NETWORKCLIENT_CONNECT_OK if successful, other if failed
+         */
+        int start(const std::string &ip, const int port);
+
+        /**
+         * @brief Disconnect from TCP server
+         */
+        void stop();
+
+        /**
+         * @brief Send message to TCP server
+         *
+         * @param tcpMsg Message to send
+         * @return bool true if successful, false if failed
+         */
+        bool sendMsg(const std::string &tcpMsg);
+
+        /**
+         * @brief Get buffered message from TCP server and clear buffer
+         *
+         * @return std::string Vector of buffered messages
+         */
+        std::string getBufferedMsg();
+
+    private:
+        // TCP client
+        networking::TcpClient tcpClient;
+
+        // Buffered message
+        std::ostringstream bufferedMsg_os{std::ios_base::ate};
+    };
+
+    class TcpClientApi_fragmentation_ShortMsg : public TcpClientApi_fragmentation
+    {
+    public:
+        TcpClientApi_fragmentation_ShortMsg();
+        virtual ~TcpClientApi_fragmentation_ShortMsg();
+    };
+
+    class TcpClientApi_forwarding_ShortMsg : public TcpClientApi_forwarding
+    {
+    public:
+        TcpClientApi_forwarding_ShortMsg();
+        virtual ~TcpClientApi_forwarding_ShortMsg();
     };
 
 } // namespace TestApi

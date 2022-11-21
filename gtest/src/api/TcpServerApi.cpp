@@ -4,51 +4,86 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpServerApi::TcpServerApi(size_t messageMaxLen) : TcpServer{'\x00', messageMaxLen} {}
-TcpServerApi::~TcpServerApi() {}
-TcpServerApi_ShortMsg::TcpServerApi_ShortMsg() : TcpServerApi{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TcpServerApi_ShortMsg::~TcpServerApi_ShortMsg() {}
+TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : tcpServer{'\x00', messageMaxLen, bind(&TcpServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TcpServerApi_fragmentation::workOnClosed, this, placeholders::_1)} {}
+TcpServerApi_fragmentation::~TcpServerApi_fragmentation() {}
+TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1), bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1)} {}
+TcpServerApi_forwarding::~TcpServerApi_forwarding() {}
+TcpServerApi_fragmentation_ShortMsg::TcpServerApi_fragmentation_ShortMsg() : TcpServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
+TcpServerApi_fragmentation_ShortMsg::~TcpServerApi_fragmentation_ShortMsg() {}
+TcpServerApi_forwarding_ShortMsg::TcpServerApi_forwarding_ShortMsg() : TcpServerApi_forwarding{} {}
+TcpServerApi_forwarding_ShortMsg::~TcpServerApi_forwarding_ShortMsg() {}
 
-int TcpServerApi::start(const int port)
+int TcpServerApi_fragmentation::start(const int port)
 {
-    return TcpServer::start(port);
+    return tcpServer.start(port);
 }
 
-void TcpServerApi::stop()
+void TcpServerApi_fragmentation::stop()
 {
-    TcpServer::stop();
-    return;
+    tcpServer.stop();
 }
 
-bool TcpServerApi::sendMsg(const int tcpClientId, const std::string &tcpMsg)
+bool TcpServerApi_fragmentation::sendMsg(const int tcpClientId, const string &tcpMsg)
 {
-    return TcpServer::sendMsg(tcpClientId, tcpMsg);
+    return tcpServer.sendMsg(tcpClientId, tcpMsg);
 }
 
-vector<MessageFromClient> TcpServerApi::getBufferedMsg()
+vector<MessageFromClient> TcpServerApi_fragmentation::getBufferedMsg()
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     return move(bufferedMsg);
 }
 
-vector<int> TcpServerApi::getClientIds()
+vector<int> TcpServerApi_fragmentation::getClientIds()
 {
-    // Get IDs from activeConnections
-    vector<int> clientIds;
-    lock_guard<mutex> lck(activeConnections_m);
-    for (auto &client : activeConnections)
-        clientIds.push_back(client.first);
-    return clientIds;
+    return tcpServer.getAllClientIds();
 }
 
-void TcpServerApi::workOnMessage_TcpServer(const int tcpClientId, const std::string tcpMsgFromClient)
+void TcpServerApi_fragmentation::workOnMessage(const int tcpClientId, const string tcpMsgFromClient)
 {
     lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back({tcpClientId, move(tcpMsgFromClient)});
-    return;
 }
 
-void TcpServerApi::workOnClosed_TcpServer(const int tcpClientId)
+void TcpServerApi_fragmentation::workOnClosed(const int) {}
+
+int TcpServerApi_forwarding::start(const int port)
 {
-    return;
+    return tcpServer.start(port);
+}
+
+void TcpServerApi_forwarding::stop()
+{
+    tcpServer.stop();
+}
+
+bool TcpServerApi_forwarding::sendMsg(const int tcpClientId, const string &tcpMsg)
+{
+    return tcpServer.sendMsg(tcpClientId, tcpMsg);
+}
+
+map<int, string> TcpServerApi_forwarding::getBufferedMsg()
+{
+    map<int, string> messages;
+    for (auto &v : bufferedMsg)
+    {
+        string msg{v.second->str()};
+        if (msg.size())
+            messages[v.first] = msg;
+    }
+    bufferedMsg.clear();
+    return messages;
+}
+
+vector<int> TcpServerApi_forwarding::getClientIds()
+{
+    return tcpServer.getAllClientIds();
+}
+
+void TcpServerApi_forwarding::workOnClosed(const int) {}
+
+ostringstream *TcpServerApi_forwarding::generateForwardingStream(int clientId)
+{
+    bufferedMsg[clientId] = new ostringstream;
+    return bufferedMsg[clientId];
 }

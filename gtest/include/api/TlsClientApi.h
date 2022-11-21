@@ -2,6 +2,7 @@
 #define TLS_CLIENT_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -11,11 +12,11 @@
 
 namespace TestApi
 {
-    class TlsClientApi : private networking::TlsClient
+    class TlsClientApi_fragmentation
     {
     public:
-        TlsClientApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
-        virtual ~TlsClientApi();
+        TlsClientApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
+        virtual ~TlsClientApi_fragmentation();
 
         /**
          * @brief Connect to TLS server
@@ -48,22 +49,74 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Server empfangen wurde, diese puffern
-         *
-         * @param tcpMsgFromServer Nachricht vom Server
+         * @brief Buffer incoming messages
+         * @param tlsMsgFromClient Message from server
          */
-        void workOnMessage_TlsClient(const std::string tcpMsgFromServer) override;
+        void workOnMessage(const std::string tlsMsgFromServer);
+
+        // TCP client
+        networking::TlsClient tlsClient;
 
         // Buffered messages
         std::vector<std::string> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TlsClientApi_ShortMsg : public TlsClientApi
+    class TlsClientApi_forwarding
     {
     public:
-        TlsClientApi_ShortMsg();
-        virtual ~TlsClientApi_ShortMsg();
+        TlsClientApi_forwarding();
+        virtual ~TlsClientApi_forwarding();
+
+        /**
+         * @brief Connect to TLS server
+         *
+         * @param ip IP address of TLS server
+         * @param port TLS port of TLS server
+         * @return int TLSCLIENT_CONNECT_OK if successful, other if failed
+         */
+        int start(const std::string &ip, const int port, const std::string pathToCaCert = KeyPaths::CaCert, const std::string pathToClientCert = KeyPaths::ClientCert, const std::string pathToClientKey = KeyPaths::ClientKey);
+
+        /**
+         * @brief Disconnect from TLS server
+         */
+        void stop();
+
+        /**
+         * @brief Send message to TLS server
+         *
+         * @param tcpMsg Message to send
+         * @return bool true if successful, false if failed
+         */
+        bool sendMsg(const std::string &tcpMsg);
+
+        /**
+         * @brief Get buffered message from TLS server and clear buffer
+         *
+         * @return std::vector<std::string> Vector of buffered messages
+         */
+        std::string getBufferedMsg();
+
+    private:
+        // TCP client
+        networking::TlsClient tlsClient;
+
+        // Buffered messages
+        std::ostringstream bufferedMsg_os{std::ios_base::ate};
+    };
+
+    class TlsClientApi_fragmentation_ShortMsg : public TlsClientApi_fragmentation
+    {
+    public:
+        TlsClientApi_fragmentation_ShortMsg();
+        virtual ~TlsClientApi_fragmentation_ShortMsg();
+    };
+
+    class TlsClientApi_forwarding_ShortMsg : public TlsClientApi_forwarding
+    {
+    public:
+        TlsClientApi_forwarding_ShortMsg();
+        virtual ~TlsClientApi_forwarding_ShortMsg();
     };
 
 } // namespace TestApi

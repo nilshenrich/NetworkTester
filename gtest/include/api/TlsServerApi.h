@@ -2,6 +2,7 @@
 #define TLS_SERVER_API_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <mutex>
@@ -11,11 +12,11 @@
 
 namespace TestApi
 {
-    class TlsServerApi : private networking::TlsServer
+    class TlsServerApi_fragmentation
     {
     public:
-        TlsServerApi(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
-        virtual ~TlsServerApi();
+        TlsServerApi_fragmentation(size_t messageMaxLen = TestConstants::MAXLEN_MSG_B);
+        virtual ~TlsServerApi_fragmentation();
 
         /**
          * @brief Start TLS server
@@ -42,7 +43,7 @@ namespace TestApi
         /**
          * @brief Get buffered message from TLS clients and clear buffer
          *
-         * @return std::vector<std::string> Vector of buffered messages
+         * @return std::vector<MessageFromClient> Vector of buffered messages
          */
         std::vector<MessageFromClient> getBufferedMsg();
 
@@ -55,31 +56,107 @@ namespace TestApi
 
     private:
         /**
-         * @brief Wenn eine Nachricht vom Client empfangen wurde, diese puffern
+         * @brief Buffer incoming messages
          *
-         * @param tlsClientId ID des Clients
-         * @param tlsMsgFromClient Nachricht vom Client
+         * @param tlsClientId       Client ID
+         * @param tlsMsgFromClient  Message from client
          */
-        void workOnMessage_TlsServer(const int tlsClientId, const std::string tlsMsgFromClient) override;
+        void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
-         * @brief Wenn ein Client geschlossen wurde, diesen aus der Liste entfernen
+         * @brief Remove closed connections from buffer
          *
          * @param tcpClientId ID des Clients
          */
-        void workOnClosed_TlsServer(const int tlsClientId) override;
+        void workOnClosed(const int tlsClientId);
+
+        // TLS server
+        networking::TlsServer tlsServer;
 
         // Buffered messages
         std::vector<MessageFromClient> bufferedMsg;
         std::mutex bufferedMsg_m;
     };
 
-    class TlsServerApi_ShortMsg : public TlsServerApi
+    class TlsServerApi_forwarding
     {
     public:
-        TlsServerApi_ShortMsg();
-        virtual ~TlsServerApi_ShortMsg();
+        TlsServerApi_forwarding();
+        virtual ~TlsServerApi_forwarding();
+
+        /**
+         * @brief Start TLS server
+         *
+         * @param port TLS port to listen on
+         * @return int NETWORKLISTENER_START_OK if successful, other if failed
+         */
+        int start(const int port, const std::string pathToCaCert = KeyPaths::CaCert, const std::string pathToListenerCert = KeyPaths::ListenerCert, const std::string pathToListenerKey = KeyPaths::ListenerKey);
+
+        /**
+         * @brief Stop TLS server
+         */
+        void stop();
+
+        /**
+         * @brief Send message to TLS client
+         *
+         * @param tlsClientId TLS client ID
+         * @param tlsMsg Message to send
+         * @return bool true if successful, false if failed
+         */
+        bool sendMsg(const int tlsClientId, const std::string &tlsMsg);
+
+        /**
+         * @brief Get buffered message from TLS clients and clear buffer
+         *
+         * @return std::map<int, std::string> Vector of buffered messages
+         */
+        std::map<int, std::string> getBufferedMsg();
+
+        /**
+         * @brief Get IDs of all connected clients
+         *
+         * @return std::vector<int> Vector of client IDs
+         */
+        std::vector<int> getClientIds();
+
+    private:
+        /**
+         * @brief Remove closed connections from buffer
+         *
+         * @param tcpClientId ID des Clients
+         */
+        void workOnClosed(const int tlsClientId);
+
+        // TLS server
+        networking::TlsServer tlsServer;
+
+        /**
+         * @brief Generate an output stream to a string for each client
+         *
+         * @param clientId
+         * @return std::ostringstream*
+         */
+        std::ostringstream *generateForwardingStream(int clientId);
+
+        // Buffered messages
+        std::map<int, std::ostringstream *> bufferedMsg;
     };
+
+    class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation
+    {
+    public:
+        TlsServerApi_fragmentation_ShortMsg();
+        virtual ~TlsServerApi_fragmentation_ShortMsg();
+    };
+
+    class TlsServerApi_forwarding_ShortMsg : public TlsServerApi_forwarding
+    {
+    public:
+        TlsServerApi_forwarding_ShortMsg();
+        virtual ~TlsServerApi_forwarding_ShortMsg();
+    };
+
 } // namespace TestApi
 
 #endif // TLS_SERVER_API_H_
