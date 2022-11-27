@@ -4,7 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpClientApi_fragmentation::TcpClientApi_fragmentation(size_t messageMaxLen) : tcpClient{'\x00', bind(&TcpClientApi_fragmentation::workOnMessage, this, placeholders::_1), messageMaxLen, TestConstants::CONNECTION_TIMEOUT_TCP_ms} {}
+TcpClientApi_fragmentation::TcpClientApi_fragmentation(size_t messageMaxLen) : tcpClient{'\x00', bind(&TcpClientApi_fragmentation::workOnMessage, this, placeholders::_1), TestConstants::CONNECTION_TIMEOUT_TCP_ms, messageMaxLen} {}
 TcpClientApi_fragmentation::~TcpClientApi_fragmentation() {}
 TcpClientApi_forwarding::TcpClientApi_forwarding() : tcpClient{bufferedMsg_os} {}
 TcpClientApi_forwarding::~TcpClientApi_forwarding() {}
