@@ -24,26 +24,14 @@ namespace Test
         void TearDown() override;
 
         // TCP server and Client
-        TestApi::TcpServerApi_forwarding tcpServer_selfLong_frgnLong{};
-        TestApi::TcpClientApi_forwarding tcpClient_selfLong_frgnLong{};
-        TestApi::TcpServerApi_forwarding tcpServer_selfLong_frgnShort{};
-        TestApi::TcpClientApi_forwarding tcpClient_selfLong_frgnShort{};
-        TestApi::TcpServerApi_forwarding_ShortMsg tcpServer_selfShort_frgnLong{};
-        TestApi::TcpClientApi_forwarding_ShortMsg tcpClient_selfShort_frgnLong{};
-        TestApi::TcpServerApi_forwarding_ShortMsg tcpServer_selfShort_frgnShort{};
-        TestApi::TcpClientApi_forwarding_ShortMsg tcpClient_selfShort_frgnShort{};
+        TestApi::TcpServerApi_forwarding tcpServer{};
+        TestApi::TcpClientApi_forwarding tcpClient{};
 
         // Port to use
-        int port_serverLong_clientLong;
-        int port_serverLong_clientShort;
-        int port_serverShort_clientLong;
-        int port_serverShort_clientShort;
+        int port;
 
         // Client ID
-        int clientId_serverLong_clientLong;
-        int clientId_serverLong_clientShort;
-        int clientId_serverShort_clientLong;
-        int clientId_serverShort_clientShort;
+        int clientId;
     };
 }
 

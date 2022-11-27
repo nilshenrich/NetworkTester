@@ -24,26 +24,14 @@ namespace Test
         void TearDown() override;
 
         // TLS server and Client
-        TestApi::TlsServerApi_forwarding tlsServer_selfLong_frgnLong{};
-        TestApi::TlsClientApi_forwarding tlsClient_selfLong_frgnLong{};
-        TestApi::TlsServerApi_forwarding tlsServer_selfLong_frgnShort{};
-        TestApi::TlsClientApi_forwarding tlsClient_selfLong_frgnShort{};
-        TestApi::TlsServerApi_forwarding_ShortMsg tlsServer_selfShort_frgnLong{};
-        TestApi::TlsClientApi_forwarding_ShortMsg tlsClient_selfShort_frgnLong{};
-        TestApi::TlsServerApi_forwarding_ShortMsg tlsServer_selfShort_frgnShort{};
-        TestApi::TlsClientApi_forwarding_ShortMsg tlsClient_selfShort_frgnShort{};
+        TestApi::TlsServerApi_forwarding tlsServer{};
+        TestApi::TlsClientApi_forwarding tlsClient{};
 
         // Port to use
-        int port_serverLong_clientLong;
-        int port_serverLong_clientShort;
-        int port_serverShort_clientLong;
-        int port_serverShort_clientShort;
+        int port;
 
         // Client ID
-        int clientId_serverLong_clientLong;
-        int clientId_serverLong_clientShort;
-        int clientId_serverShort_clientLong;
-        int clientId_serverShort_clientShort;
+        int clientId;
     };
 }
 

@@ -1,7 +1,5 @@
 #include "forwarding/TlsConnection_Test_MsgTransfer.h"
 
-// TODO: Forwarding mode does not have a maximum message length
-
 using namespace std;
 using namespace Test;
 using namespace networking;
@@ -11,84 +9,26 @@ Forwarding_TlsConnection_Test_MsgTransfer::~Forwarding_TlsConnection_Test_MsgTra
 
 void Forwarding_TlsConnection_Test_MsgTransfer::SetUp()
 {
-    // ==============================================
-    // ========== Long server, long client ==========
-    // ==============================================
-    {
-        // Get free TLS port
-        port_serverLong_clientLong = HelperFunctions::getFreePort();
+    // Get free TLS port
+    port = HelperFunctions::getFreePort();
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfLong_frgnLong.start("localhost", port_serverLong_clientLong), NETWORKCLIENT_START_OK);
+    // Start TLS server and connect client
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
 
-        // Get client ID
-        vector<int> clientIds{tlsServer_selfLong_frgnLong.getClientIds()};
-        ASSERT_EQ(clientIds.size(), 1);
-        clientId_serverLong_clientLong = clientIds[0];
-    }
-    // ==============================================
-    // ========== Long server, short client =========
-    // ==============================================
-    {
-        // Get free TLS port
-        port_serverLong_clientShort = HelperFunctions::getFreePort();
+    // Get client ID
+    vector<int> clientIds{tlsServer.getClientIds()};
+    ASSERT_EQ(clientIds.size(), 1);
+    clientId = clientIds[0];
 
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfLong_frgnShort.start(port_serverLong_clientShort), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfLong_frgnShort.start("localhost", port_serverLong_clientShort), NETWORKCLIENT_START_OK);
-
-        // Get client ID
-        vector<int> clientIds{tlsServer_selfLong_frgnShort.getClientIds()};
-        ASSERT_EQ(clientIds.size(), 1);
-        clientId_serverLong_clientShort = clientIds[0];
-    }
-    // ==============================================
-    // ========== Short server, long client =========
-    // ==============================================
-    {
-        // Get free TLS port
-        port_serverShort_clientLong = HelperFunctions::getFreePort();
-
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfShort_frgnLong.start(port_serverShort_clientLong), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfShort_frgnLong.start("localhost", port_serverShort_clientLong), NETWORKCLIENT_START_OK);
-
-        // Get client ID
-        vector<int> clientIds{tlsServer_selfShort_frgnLong.getClientIds()};
-        ASSERT_EQ(clientIds.size(), 1);
-        clientId_serverShort_clientLong = clientIds[0];
-    }
-    // ==============================================
-    // ========= Short server, short client =========
-    // ==============================================
-    {
-        // Get free TLS port
-        port_serverShort_clientShort = HelperFunctions::getFreePort();
-
-        // Start TLS server and connect client
-        ASSERT_EQ(tlsServer_selfShort_frgnShort.start(port_serverShort_clientShort), NETWORKLISTENER_START_OK);
-        ASSERT_EQ(tlsClient_selfShort_frgnShort.start("localhost", port_serverShort_clientShort), NETWORKCLIENT_START_OK);
-
-        // Get client ID
-        vector<int> clientIds{tlsServer_selfShort_frgnShort.getClientIds()};
-        ASSERT_EQ(clientIds.size(), 1);
-        clientId_serverShort_clientShort = clientIds[0];
-    }
     return;
 }
 
 void Forwarding_TlsConnection_Test_MsgTransfer::TearDown()
 {
     // Stop TLS server and client
-    tlsClient_selfLong_frgnLong.stop();
-    tlsClient_selfLong_frgnShort.stop();
-    tlsClient_selfShort_frgnLong.stop();
-    tlsClient_selfShort_frgnShort.stop();
-    tlsServer_selfLong_frgnLong.stop();
-    tlsServer_selfLong_frgnShort.stop();
-    tlsServer_selfShort_frgnLong.stop();
-    tlsServer_selfShort_frgnShort.stop();
+    tlsClient.stop();
+    tlsServer.stop();
 
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
@@ -105,12 +45,12 @@ TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ClientToServer_NormalM
 {
     // Send message from client to server
     string msg{"Hello server!"};
-    EXPECT_TRUE(tlsClient_selfLong_frgnLong.sendMsg(msg));
+    EXPECT_TRUE(tlsClient.sendMsg(msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check if message received by server
-    map<int, string> messagesExpected{{clientId_serverLong_clientLong, msg}};
-    EXPECT_EQ(tlsServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    map<int, string> messagesExpected{{clientId, msg}};
+    EXPECT_EQ(tlsServer.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -122,132 +62,11 @@ TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ServerToClient_NormalM
 {
     // Send message from server to client
     string msg{"Hello client!"};
-    EXPECT_TRUE(tlsServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
+    EXPECT_TRUE(tlsServer.sendMsg(clientId, msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
 
     // Check if message received by client
-    EXPECT_EQ(tlsClient_selfLong_frgnLong.getBufferedMsg(), msg);
-}
-
-// ====================================================================================================================
-// Desc:       Send message with max length from client to server
-// Steps:      Send message with max length from short client to short server
-// Exp Result: Message receive by server
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ClientToServer_MaxLen)
-{
-    // Generate message with max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfShort_frgnShort.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check if message received by server
-    map<int, string> messagesExpected{{clientId_serverShort_clientShort, msg}};
-    EXPECT_EQ(tlsServer_selfShort_frgnShort.getBufferedMsg(), messagesExpected);
-}
-
-// ====================================================================================================================
-// Desc:       Send message exceeding max receiving length from client to server
-// Steps:      Send message with length max+1 from long client to short server
-// Exp Result: Message sent but not received
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnRec)
-{
-    // Generate message with more than max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfLong_frgnShort.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check no message received by server
-    EXPECT_EQ(tlsServer_selfShort_frgnLong.getBufferedMsg().size(), 0);
-}
-
-// ====================================================================================================================
-// Desc:       Send message exceeding max sending length from client to server
-// Steps:      Try sending message with length max+1 from short client to long server
-// Exp Result: Message not sent
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, NegTest_ClientToServer_ExceedMaxLen_OnSend)
-{
-    // Generate message with max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from client to server
-    EXPECT_FALSE(tlsClient_selfShort_frgnLong.sendMsg(msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check no message received by server
-    EXPECT_EQ(tlsServer_selfLong_frgnShort.getBufferedMsg().size(), 0);
-}
-
-// ====================================================================================================================
-// Desc:       Send message with max length from server to client
-// Steps:      Send message with max length from short server to short client
-// Exp Result: Message receive by client
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ServerToClient_MaxLen)
-{
-    // Generate message with max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfShort_frgnShort.sendMsg(clientId_serverShort_clientShort, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check if message received by client
-    EXPECT_EQ(tlsClient_selfShort_frgnShort.getBufferedMsg(), msg);
-}
-
-// ====================================================================================================================
-// Desc:       Send message exceeding max receiving length from server to client
-// Steps:      Send message with length max+1 from long server to short client
-// Exp Result: Message sent but not received
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnRec)
-{
-    // Generate message with max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfLong_frgnShort.sendMsg(clientId_serverLong_clientShort, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check no message received by client
-    EXPECT_EQ(tlsClient_selfShort_frgnLong.getBufferedMsg().size(), 0);
-}
-
-// ====================================================================================================================
-// Desc:       Send message exceeding max sending length from server to client
-// Steps:      Try sending message with length max+1 from short server to long client
-// Exp Result: Message not sent
-// ====================================================================================================================
-TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, NegTest_ServerToClient_ExceedMaxLen_OnSend)
-{
-    // Generate message with max elements of ASCII characters 33 - 126
-    string msg;
-    for (size_t i = 0; i < TestConstants::MAXLEN_MSG_SHORT_B + 1; i += 1)
-        msg += static_cast<char>(i % 94 + 33);
-
-    // Send message from server to client
-    EXPECT_FALSE(tlsServer_selfShort_frgnLong.sendMsg(clientId_serverShort_clientLong, msg));
-    this_thread::sleep_for(TestConstants::WAITFOR_MSG_TLS);
-
-    // Check no message received by client
-    EXPECT_EQ(tlsClient_selfLong_frgnShort.getBufferedMsg().size(), 0);
+    EXPECT_EQ(tlsClient.getBufferedMsg(), msg);
 }
 
 // ====================================================================================================================
@@ -263,12 +82,12 @@ TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ClientToServer_LongMsg
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from client to server
-    EXPECT_TRUE(tlsClient_selfLong_frgnLong.sendMsg(msg));
+    EXPECT_TRUE(tlsClient.sendMsg(msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TLS);
 
     // Check if message received by server
-    map<int, string> messagesExpected{{clientId_serverLong_clientLong, msg}};
-    EXPECT_EQ(tlsServer_selfLong_frgnLong.getBufferedMsg(), messagesExpected);
+    map<int, string> messagesExpected{{clientId, msg}};
+    EXPECT_EQ(tlsServer.getBufferedMsg(), messagesExpected);
 }
 
 // ====================================================================================================================
@@ -284,9 +103,9 @@ TEST_F(Forwarding_TlsConnection_Test_MsgTransfer, PosTest_ServerToClient_LongMsg
         msg += static_cast<char>(i % 94 + 33);
 
     // Send message from server to client
-    EXPECT_TRUE(tlsServer_selfLong_frgnLong.sendMsg(clientId_serverLong_clientLong, msg));
+    EXPECT_TRUE(tlsServer.sendMsg(clientId, msg));
     this_thread::sleep_for(TestConstants::WAITFOR_MSG_LONG_TLS);
 
     // Check if message received by client
-    EXPECT_EQ(tlsClient_selfLong_frgnLong.getBufferedMsg(), msg);
+    EXPECT_EQ(tlsClient.getBufferedMsg(), msg);
 }
