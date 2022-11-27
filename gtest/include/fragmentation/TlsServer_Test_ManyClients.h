@@ -26,7 +26,6 @@ namespace Test
         // TLS server and collection of clients
         TestApi::TlsServerApi_fragmentation tlsServer;
         std::map<int, std::unique_ptr<TestApi::TlsClientApi_fragmentation>> tlsClients;
-        const int numberOfClients{100};
 
         // Port to use
         int port;

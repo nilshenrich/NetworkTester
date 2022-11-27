@@ -16,7 +16,7 @@ void Forwarding_TlsServer_Test_ManyClients::SetUp()
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
 
     // Create and connect all TLS clients
-    for (int i{0}; i < numberOfClients; i += 1)
+    for (int i{0}; i < TestConstants::MANYCLIENTS_NUMBER; i += 1)
     {
         unique_ptr<TestApi::TlsClientApi_forwarding> tlsClientNew{new TestApi::TlsClientApi_forwarding()};
         ASSERT_EQ(tlsClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
@@ -70,7 +70,7 @@ TEST_F(Forwarding_TlsServer_Test_ManyClients, SendingClientsSingleThread)
     // Check all messages are received by server (Order doesn't matter)
     // TODO: First check if key exists in received messages
     map<int, string> messagesReceived{tlsServer.getBufferedMsg()};
-    EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
+    EXPECT_EQ(messagesReceived.size(), TestConstants::MANYCLIENTS_NUMBER) << "Messages count doesn't match number of clients";
     for (auto &client : tlsClients)
     {
         EXPECT_EQ(messagesReceived[client.first], messages[client.first]) << "Message from client " << client.first << " doesn't match buffer" << messages[client.first];
@@ -124,7 +124,7 @@ TEST_F(Forwarding_TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
     // Check all messages are received by server (Order doesn't matter)
     // TODO: First check if key exists in received messages
     map<int, string> messagesReceived{tlsServer.getBufferedMsg()};
-    EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
+    EXPECT_EQ(messagesReceived.size(), TestConstants::MANYCLIENTS_NUMBER) << "Messages count doesn't match number of clients";
     for (auto &client : tlsClients)
     {
         EXPECT_EQ(messagesReceived[client.first], messages[client.first]) << "Message from client " << client.first << " doesn't match buffer" << messages[client.first];

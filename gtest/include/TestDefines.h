@@ -19,6 +19,9 @@ namespace TestConstants
     // Message max length
     const size_t MAXLEN_MSG_B{std::numeric_limits<size_t>::max() - 1};
     const size_t MAXLEN_MSG_SHORT_B{8};
+
+    // Multi-client mode
+    const int MANYCLIENTS_NUMBER{10};
 }
 
 namespace TestApi

@@ -26,7 +26,6 @@ namespace Test
         // TCP server and collection of clients
         TestApi::TcpServerApi_forwarding tcpServer;
         std::map<int, std::unique_ptr<TestApi::TcpClientApi_forwarding>> tcpClients;
-        const int numberOfClients{100};
 
         // Port to use
         int port;

@@ -16,7 +16,7 @@ void Fragmentation_TlsServer_Test_ManyClients::SetUp()
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
 
     // Create and connect all TLS clients
-    for (int i{0}; i < numberOfClients; i += 1)
+    for (int i{0}; i < TestConstants::MANYCLIENTS_NUMBER; i += 1)
     {
         unique_ptr<TestApi::TlsClientApi_fragmentation> tlsClientNew{new TestApi::TlsClientApi_fragmentation()};
         ASSERT_EQ(tlsClientNew->start("localhost", port), NETWORKCLIENT_START_OK);
@@ -69,7 +69,7 @@ TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingClientsSingleThread)
 
     // Check all messages are received by server (Order doesn't matter)
     vector<TestApi::MessageFromClient> messagesReceived{tlsServer.getBufferedMsg()};
-    EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
+    EXPECT_EQ(messagesReceived.size(), TestConstants::MANYCLIENTS_NUMBER) << "Messages count doesn't match number of clients";
     for (auto &msg : messages)
     {
         TestApi::MessageFromClient messageExpected{msg.first, msg.second};
@@ -127,7 +127,7 @@ TEST_F(Fragmentation_TlsServer_Test_ManyClients, SendingClientsMultipleThreads)
 
     // Check all messages are received by server (Order doesn't matter)
     vector<TestApi::MessageFromClient> messagesReceived{tlsServer.getBufferedMsg()};
-    EXPECT_EQ(messagesReceived.size(), numberOfClients) << "Messages count doesn't match number of clients";
+    EXPECT_EQ(messagesReceived.size(), TestConstants::MANYCLIENTS_NUMBER) << "Messages count doesn't match number of clients";
     for (auto &msg : messages)
     {
         TestApi::MessageFromClient messageExpected{msg.first, msg.second};

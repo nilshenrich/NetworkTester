@@ -26,7 +26,6 @@ namespace Test
         // TCP server and collection of clients
         TestApi::TcpServerApi_fragmentation tcpServer;
         std::map<int, std::unique_ptr<TestApi::TcpClientApi_fragmentation>> tcpClients;
-        const int numberOfClients{100};
 
         // Port to use
         int port;
