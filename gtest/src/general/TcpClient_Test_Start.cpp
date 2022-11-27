@@ -11,6 +11,7 @@ void General_TcpClient_Test_Start::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
+    ASSERT_NE(port, -1) << "No free port found";
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
     return;
 }

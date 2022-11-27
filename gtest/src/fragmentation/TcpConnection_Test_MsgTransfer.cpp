@@ -15,6 +15,7 @@ void Fragmentation_TcpConnection_Test_MsgTransfer::SetUp()
     {
         // Get free TCP port
         port_serverLong_clientLong = HelperFunctions::getFreePort();
+        ASSERT_NE(port_serverLong_clientLong, -1) << "No free port found";
 
         // Start TCP server and connect client
         ASSERT_EQ(tcpServer_selfLong_frgnLong.start(port_serverLong_clientLong), NETWORKLISTENER_START_OK);
@@ -31,6 +32,7 @@ void Fragmentation_TcpConnection_Test_MsgTransfer::SetUp()
     {
         // Get free TCP port
         port_serverLong_clientShort = HelperFunctions::getFreePort();
+        ASSERT_NE(port_serverLong_clientShort, -1) << "No free port found";
 
         // Start TCP server and connect client
         ASSERT_EQ(tcpServer_selfLong_frgnShort.start(port_serverLong_clientShort), NETWORKLISTENER_START_OK);
@@ -47,6 +49,7 @@ void Fragmentation_TcpConnection_Test_MsgTransfer::SetUp()
     {
         // Get free TCP port
         port_serverShort_clientLong = HelperFunctions::getFreePort();
+        ASSERT_NE(port_serverShort_clientLong, -1) << "No free port found";
 
         // Start TCP server and connect client
         ASSERT_EQ(tcpServer_selfShort_frgnLong.start(port_serverShort_clientLong), NETWORKLISTENER_START_OK);
@@ -63,6 +66,7 @@ void Fragmentation_TcpConnection_Test_MsgTransfer::SetUp()
     {
         // Get free TCP port
         port_serverShort_clientShort = HelperFunctions::getFreePort();
+        ASSERT_NE(port_serverShort_clientShort, -1) << "No free port found";
 
         // Start TCP server and connect client
         ASSERT_EQ(tcpServer_selfShort_frgnShort.start(port_serverShort_clientShort), NETWORKLISTENER_START_OK);

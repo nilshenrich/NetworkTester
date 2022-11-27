@@ -11,6 +11,7 @@ void Fragmentation_TcpClient_Test_Send::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
+    ASSERT_NE(port, -1) << "No free port found";
 
     // Start TCP server and connect client
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);

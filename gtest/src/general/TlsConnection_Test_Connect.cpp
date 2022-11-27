@@ -11,6 +11,7 @@ void General_TlsConnection_Test_Connect::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
+    ASSERT_NE(port, -1) << "No free port found";
     return;
 }
 

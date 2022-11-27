@@ -11,6 +11,7 @@ void Forwarding_TcpServer_Test_ManyClients::SetUp()
 {
     // Get free TCP port
     port = HelperFunctions::getFreePort();
+    ASSERT_NE(port, -1) << "No free port found";
 
     // Start TCP server
     ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);

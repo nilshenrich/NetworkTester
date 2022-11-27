@@ -11,6 +11,7 @@ void Forwarding_TlsServer_Test_ManyClients::SetUp()
 {
     // Get free TLS port
     port = HelperFunctions::getFreePort();
+    ASSERT_NE(port, -1) << "No free port found";
 
     // Start TLS server
     ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
