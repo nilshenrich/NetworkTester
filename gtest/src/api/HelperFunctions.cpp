@@ -6,7 +6,7 @@ bool HelperFunctions::pipeError{false};
 
 int HelperFunctions::getFreePort()
 {
-    for (int port{8081}; port < 65536; port += 1)
+    for (int port{1024}; port < 65536; port += 1)
     {
         int sock{socket(AF_INET, SOCK_STREAM, 0)};
         if (-1 == sock)

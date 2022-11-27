@@ -14,8 +14,8 @@ void Forwarding_TlsServer_Test_Send::SetUp()
     ASSERT_NE(port, -1) << "No free port found";
 
     // Start TLS server and connect client
-    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
-    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK);
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK) << "Unable to start TLS server on port " << port;
+    ASSERT_EQ(tlsClient.start("localhost", port), NETWORKCLIENT_START_OK) << "Unable to connect TLS client to localhost on port " << port;
 
     // Get client ID
     vector<int> clientIds{tlsServer.getClientIds()};

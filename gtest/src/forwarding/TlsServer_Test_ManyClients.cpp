@@ -14,7 +14,7 @@ void Forwarding_TlsServer_Test_ManyClients::SetUp()
     ASSERT_NE(port, -1) << "No free port found";
 
     // Start TLS server
-    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK) << "Unable to start TLS server on port " << port;
 
     // Create and connect all TLS clients
     for (int i{0}; i < TestConstants::MANYCLIENTS_NUMBER; i += 1)

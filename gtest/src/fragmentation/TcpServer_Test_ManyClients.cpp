@@ -14,7 +14,7 @@ void Fragmentation_TcpServer_Test_ManyClients::SetUp()
     ASSERT_NE(port, -1) << "No free port found";
 
     // Start TCP server
-    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tcpServer.start(port), NETWORKLISTENER_START_OK) << "Unable to start TCP server on port " << port;
 
     // Create and connect all TCP clients
     for (int i{0}; i < TestConstants::MANYCLIENTS_NUMBER; i += 1)

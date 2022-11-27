@@ -12,7 +12,7 @@ void General_TlsClient_Test_Start::SetUp()
     // Get free TLS port
     port = HelperFunctions::getFreePort();
     ASSERT_NE(port, -1) << "No free port found";
-    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK);
+    ASSERT_EQ(tlsServer.start(port), NETWORKLISTENER_START_OK) << "Unable to start TLS server on port " << port;
     return;
 }
 
