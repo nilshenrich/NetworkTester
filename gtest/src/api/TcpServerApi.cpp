@@ -8,10 +8,6 @@ TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : t
 TcpServerApi_fragmentation::~TcpServerApi_fragmentation() {}
 TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
 TcpServerApi_forwarding::~TcpServerApi_forwarding() {}
-TcpServerApi_fragmentation_ShortMsg::TcpServerApi_fragmentation_ShortMsg() : TcpServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TcpServerApi_fragmentation_ShortMsg::~TcpServerApi_fragmentation_ShortMsg() {}
-TcpServerApi_forwarding_ShortMsg::TcpServerApi_forwarding_ShortMsg() : TcpServerApi_forwarding{} {}
-TcpServerApi_forwarding_ShortMsg::~TcpServerApi_forwarding_ShortMsg() {}
 
 int TcpServerApi_fragmentation::start(const int port)
 {

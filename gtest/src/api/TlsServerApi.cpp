@@ -8,10 +8,6 @@ TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : t
 TlsServerApi_fragmentation::~TlsServerApi_fragmentation() {}
 TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
 TlsServerApi_forwarding::~TlsServerApi_forwarding() {}
-TlsServerApi_fragmentation_ShortMsg::TlsServerApi_fragmentation_ShortMsg() : TlsServerApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TlsServerApi_fragmentation_ShortMsg::~TlsServerApi_fragmentation_ShortMsg() {}
-TlsServerApi_forwarding_ShortMsg::TlsServerApi_forwarding_ShortMsg() : TlsServerApi_forwarding{} {}
-TlsServerApi_forwarding_ShortMsg::~TlsServerApi_forwarding_ShortMsg() {}
 
 int TlsServerApi_fragmentation::start(const int port, const std::string pathToCaCert, const std::string pathToListenerCert, const std::string pathToListenerKey)
 {
