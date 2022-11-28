@@ -106,20 +106,6 @@ namespace TestApi
         std::ostringstream bufferedMsg_os{std::ios_base::ate};
     };
 
-    class TcpClientApi_fragmentation_ShortMsg : public TcpClientApi_fragmentation
-    {
-    public:
-        TcpClientApi_fragmentation_ShortMsg();
-        virtual ~TcpClientApi_fragmentation_ShortMsg();
-    };
-
-    class TcpClientApi_forwarding_ShortMsg : public TcpClientApi_forwarding
-    {
-    public:
-        TcpClientApi_forwarding_ShortMsg();
-        virtual ~TcpClientApi_forwarding_ShortMsg();
-    };
-
 } // namespace TestApi
 
 #endif // TCP_CLIENT_API_H_

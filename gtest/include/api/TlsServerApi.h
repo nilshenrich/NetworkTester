@@ -143,20 +143,6 @@ namespace TestApi
         std::map<int, std::ostringstream *> bufferedMsg;
     };
 
-    class TlsServerApi_fragmentation_ShortMsg : public TlsServerApi_fragmentation
-    {
-    public:
-        TlsServerApi_fragmentation_ShortMsg();
-        virtual ~TlsServerApi_fragmentation_ShortMsg();
-    };
-
-    class TlsServerApi_forwarding_ShortMsg : public TlsServerApi_forwarding
-    {
-    public:
-        TlsServerApi_forwarding_ShortMsg();
-        virtual ~TlsServerApi_forwarding_ShortMsg();
-    };
-
 } // namespace TestApi
 
 #endif // TLS_SERVER_API_H_

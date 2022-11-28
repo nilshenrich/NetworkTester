@@ -143,20 +143,6 @@ namespace TestApi
         std::map<int, std::ostringstream *> bufferedMsg;
     };
 
-    class TcpServerApi_fragmentation_ShortMsg : public TcpServerApi_fragmentation
-    {
-    public:
-        TcpServerApi_fragmentation_ShortMsg();
-        virtual ~TcpServerApi_fragmentation_ShortMsg();
-    };
-
-    class TcpServerApi_forwarding_ShortMsg : public TcpServerApi_forwarding
-    {
-    public:
-        TcpServerApi_forwarding_ShortMsg();
-        virtual ~TcpServerApi_forwarding_ShortMsg();
-    };
-
 } // namespace TestApi
 
 #endif // TCP_SERVER_API_H_

@@ -52,5 +52,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: gtest-complete-report
-          path: /home/runner/work/NetworkTester/NetworkTester/gtest/results.json
+          path: /home/runner/work/NetworkTester/NetworkTester/gtest/results*.json
           if-no-files-found: error

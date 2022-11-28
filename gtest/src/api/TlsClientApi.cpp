@@ -8,10 +8,6 @@ TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : t
 TlsClientApi_fragmentation::~TlsClientApi_fragmentation() {}
 TlsClientApi_forwarding::TlsClientApi_forwarding() : tlsClient{bufferedMsg_os} {}
 TlsClientApi_forwarding::~TlsClientApi_forwarding() {}
-TlsClientApi_fragmentation_ShortMsg::TlsClientApi_fragmentation_ShortMsg() : TlsClientApi_fragmentation{TestConstants::MAXLEN_MSG_SHORT_B} {}
-TlsClientApi_fragmentation_ShortMsg::~TlsClientApi_fragmentation_ShortMsg() {}
-TlsClientApi_forwarding_ShortMsg::TlsClientApi_forwarding_ShortMsg() : TlsClientApi_forwarding{} {}
-TlsClientApi_forwarding_ShortMsg::~TlsClientApi_forwarding_ShortMsg() {}
 
 int TlsClientApi_fragmentation::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
 {
