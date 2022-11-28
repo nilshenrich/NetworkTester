@@ -28,10 +28,10 @@ namespace Test
         TestApi::TlsClientApi_fragmentation tlsClient_selfLong_frgnLong{};
         TestApi::TlsServerApi_fragmentation tlsServer_selfLong_frgnShort{};
         TestApi::TlsClientApi_fragmentation tlsClient_selfLong_frgnShort{};
-        TestApi::TlsServerApi_fragmentation_ShortMsg tlsServer_selfShort_frgnLong{};
-        TestApi::TlsClientApi_fragmentation_ShortMsg tlsClient_selfShort_frgnLong{};
-        TestApi::TlsServerApi_fragmentation_ShortMsg tlsServer_selfShort_frgnShort{};
-        TestApi::TlsClientApi_fragmentation_ShortMsg tlsClient_selfShort_frgnShort{};
+        TestApi::TlsServerApi_fragmentation tlsServer_selfShort_frgnLong{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TlsClientApi_fragmentation tlsClient_selfShort_frgnLong{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TlsServerApi_fragmentation tlsServer_selfShort_frgnShort{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TlsClientApi_fragmentation tlsClient_selfShort_frgnShort{TestConstants::MAXLEN_MSG_SHORT_B};
 
         // Port to use
         int port_serverLong_clientLong;

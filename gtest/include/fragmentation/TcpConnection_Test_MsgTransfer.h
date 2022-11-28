@@ -28,10 +28,10 @@ namespace Test
         TestApi::TcpClientApi_fragmentation tcpClient_selfLong_frgnLong{};
         TestApi::TcpServerApi_fragmentation tcpServer_selfLong_frgnShort{};
         TestApi::TcpClientApi_fragmentation tcpClient_selfLong_frgnShort{};
-        TestApi::TcpServerApi_fragmentation_ShortMsg tcpServer_selfShort_frgnLong{};
-        TestApi::TcpClientApi_fragmentation_ShortMsg tcpClient_selfShort_frgnLong{};
-        TestApi::TcpServerApi_fragmentation_ShortMsg tcpServer_selfShort_frgnShort{};
-        TestApi::TcpClientApi_fragmentation_ShortMsg tcpClient_selfShort_frgnShort{};
+        TestApi::TcpServerApi_fragmentation tcpServer_selfShort_frgnLong{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TcpClientApi_fragmentation tcpClient_selfShort_frgnLong{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TcpServerApi_fragmentation tcpServer_selfShort_frgnShort{TestConstants::MAXLEN_MSG_SHORT_B};
+        TestApi::TcpClientApi_fragmentation tcpClient_selfShort_frgnShort{TestConstants::MAXLEN_MSG_SHORT_B};
 
         // Port to use
         int port_serverLong_clientLong;
