@@ -64,7 +64,14 @@ namespace TestApi
         void workOnMessage(const int tlsClientId, const std::string tlsMsgFromClient);
 
         /**
-         * @brief Remove closed connections from buffer
+         * @brief Do nothing on established connection
+         *
+         * @param tcpClientId
+         */
+        void workOnEstablished(const int tcpClientId);
+
+        /**
+         * @brief Do nothing on established connection
          *
          * @param tcpClientId ID des Clients
          */
@@ -122,7 +129,14 @@ namespace TestApi
 
     private:
         /**
-         * @brief Remove closed connections from buffer
+         * @brief Do nothing on established connection
+         *
+         * @param tcpClientId
+         */
+        void workOnEstablished(const int tcpClientId);
+
+        /**
+         * @brief Do nothing on established connection
          *
          * @param tcpClientId ID des Clients
          */

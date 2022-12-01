@@ -4,9 +4,9 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
+TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TlsServerApi_fragmentation::workOnEstablished, this, placeholders::_1), bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
 TlsServerApi_fragmentation::~TlsServerApi_fragmentation() {}
-TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
+TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::workOnEstablished, this, placeholders::_1), bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
 TlsServerApi_forwarding::~TlsServerApi_forwarding() {}
 
 int TlsServerApi_fragmentation::start(const int port, const std::string pathToCaCert, const std::string pathToListenerCert, const std::string pathToListenerKey)
@@ -40,6 +40,8 @@ void TlsServerApi_fragmentation::workOnMessage(const int tlsClientId, const stri
     lock_guard<mutex> lck{bufferedMsg_m};
     bufferedMsg.push_back({tlsClientId, move(tlsMsgFromClient)});
 }
+
+void TlsServerApi_fragmentation::workOnEstablished(const int) {}
 
 void TlsServerApi_fragmentation::workOnClosed(const int) {}
 
@@ -75,6 +77,8 @@ vector<int> TlsServerApi_forwarding::getClientIds()
 {
     return tlsServer.getAllClientIds();
 }
+
+void TlsServerApi_forwarding::workOnEstablished(const int) {}
 
 void TlsServerApi_forwarding::workOnClosed(const int) {}
 
