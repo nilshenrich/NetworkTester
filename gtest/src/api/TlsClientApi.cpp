@@ -4,7 +4,10 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : tlsClient{'\x00', bind(&TlsClientApi_fragmentation::workOnMessage, this, placeholders::_1), TestConstants::CONNECTION_TIMEOUT_TLS_ms, messageMaxLen} {}
+TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : tlsClient{'\x00', TestConstants::CONNECTION_TIMEOUT_TLS_ms, messageMaxLen}
+{
+    tlsClient.setWorkOnMessage(bind(&TlsClientApi_fragmentation::workOnMessage, this, placeholders::_1));
+}
 TlsClientApi_fragmentation::~TlsClientApi_fragmentation() {}
 TlsClientApi_forwarding::TlsClientApi_forwarding() : tlsClient{bufferedMsg_os} {}
 TlsClientApi_forwarding::~TlsClientApi_forwarding() {}

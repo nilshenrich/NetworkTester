@@ -4,9 +4,19 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : tcpServer{'\x00', bind(&TcpServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TcpServerApi_fragmentation::workOnEstablished, this, placeholders::_1), bind(&TcpServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
+TcpServerApi_fragmentation::TcpServerApi_fragmentation(size_t messageMaxLen) : tcpServer{'\x00', messageMaxLen}
+{
+    tcpServer.setWorkOnMessage(bind(&TcpServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2));
+    tcpServer.setWorkOnEstablished(bind(&TcpServerApi_fragmentation::workOnEstablished, this, placeholders::_1));
+    tcpServer.setWorkOnClosed(bind(&TcpServerApi_fragmentation::workOnClosed, this, placeholders::_1));
+}
 TcpServerApi_fragmentation::~TcpServerApi_fragmentation() {}
-TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{bind(&TcpServerApi_forwarding::workOnEstablished, this, placeholders::_1), bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
+TcpServerApi_forwarding::TcpServerApi_forwarding() : tcpServer{}
+{
+    tcpServer.setCreateForwardStream(bind(&TcpServerApi_forwarding::generateForwardingStream, this, placeholders::_1));
+    tcpServer.setWorkOnEstablished(bind(&TcpServerApi_forwarding::workOnEstablished, this, placeholders::_1));
+    tcpServer.setWorkOnClosed(bind(&TcpServerApi_forwarding::workOnClosed, this, placeholders::_1));
+}
 TcpServerApi_forwarding::~TcpServerApi_forwarding() {}
 
 int TcpServerApi_fragmentation::start(const int port)

@@ -4,9 +4,19 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2), bind(&TlsServerApi_fragmentation::workOnEstablished, this, placeholders::_1), bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1), messageMaxLen} {}
+TlsServerApi_fragmentation::TlsServerApi_fragmentation(size_t messageMaxLen) : tlsServer{'\x00', messageMaxLen}
+{
+    tlsServer.setWorkOnMessage(bind(&TlsServerApi_fragmentation::workOnMessage, this, placeholders::_1, placeholders::_2));
+    tlsServer.setWorkOnEstablished(bind(&TlsServerApi_fragmentation::workOnEstablished, this, placeholders::_1));
+    tlsServer.setWorkOnClosed(bind(&TlsServerApi_fragmentation::workOnClosed, this, placeholders::_1));
+}
 TlsServerApi_fragmentation::~TlsServerApi_fragmentation() {}
-TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{bind(&TlsServerApi_forwarding::workOnEstablished, this, placeholders::_1), bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1), bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1)} {}
+TlsServerApi_forwarding::TlsServerApi_forwarding() : tlsServer{}
+{
+    tlsServer.setCreateForwardStream(bind(&TlsServerApi_forwarding::generateForwardingStream, this, placeholders::_1));
+    tlsServer.setWorkOnEstablished(bind(&TlsServerApi_forwarding::workOnEstablished, this, placeholders::_1));
+    tlsServer.setWorkOnClosed(bind(&TlsServerApi_forwarding::workOnClosed, this, placeholders::_1));
+}
 TlsServerApi_forwarding::~TlsServerApi_forwarding() {}
 
 int TlsServerApi_fragmentation::start(const int port, const std::string pathToCaCert, const std::string pathToListenerCert, const std::string pathToListenerKey)
