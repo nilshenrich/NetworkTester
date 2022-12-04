@@ -18,6 +18,11 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
+      - name: Create certs
+        run: |
+          cd /home/runner/work/NetworkTester/NetworkTester/
+          ./TlsCreateCertFiles.sh
+
       - name: Install gtest
         run: |
           cd /home/runner/work/NetworkTester/NetworkTester/gtest/googletest/
@@ -33,11 +38,6 @@ jobs:
           cd build/
           cmake ..
           make -j8
-
-      - name: Create certs
-        run: |
-          cd /home/runner/work/NetworkTester/NetworkTester/
-          ./TlsCreateCertFiles.sh
 
       - name: Run all tests
         run: |
