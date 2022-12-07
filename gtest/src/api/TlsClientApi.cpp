@@ -45,7 +45,9 @@ void TlsClientApi_fragmentation::workOnMessage(const std::string tlsMsgFromServe
 
 int TlsClientApi_forwarding::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
 {
-    return tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
+    int start{tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str())};
+    this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TLS);
+    return start;
 }
 
 void TlsClientApi_forwarding::stop()

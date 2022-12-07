@@ -45,7 +45,9 @@ void TcpClientApi_fragmentation::workOnMessage(const string tcpMsgFromServer)
 
 int TcpClientApi_forwarding::start(const string &ip, const int port)
 {
-    return tcpClient.start(ip, port);
+    int start{tcpClient.start(ip, port)};
+    this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TCP);
+    return start;
 }
 
 void TcpClientApi_forwarding::stop()
