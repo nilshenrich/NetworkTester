@@ -4,7 +4,7 @@ using namespace std;
 using namespace TestApi;
 using namespace networking;
 
-TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : tlsClient{'\x00', TestConstants::CONNECTION_TIMEOUT_TLS_ms, messageMaxLen}
+TlsClientApi_fragmentation::TlsClientApi_fragmentation(size_t messageMaxLen) : tlsClient{'\x00', messageMaxLen}
 {
     tlsClient.setWorkOnMessage(bind(&TlsClientApi_fragmentation::workOnMessage, this, placeholders::_1));
 }
@@ -14,7 +14,9 @@ TlsClientApi_forwarding::~TlsClientApi_forwarding() {}
 
 int TlsClientApi_fragmentation::start(const std::string &ip, const int port, string pathToCaCert, string pathToClientCert, string pathToClientKey)
 {
-    return tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str());
+    int start{tlsClient.start(ip, port, pathToCaCert.c_str(), pathToClientCert.c_str(), pathToClientKey.c_str())};
+    this_thread::sleep_for(TestConstants::WAITFOR_CONNECT_TLS);
+    return start;
 }
 
 void TlsClientApi_fragmentation::stop()
