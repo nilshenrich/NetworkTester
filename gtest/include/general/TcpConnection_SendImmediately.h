@@ -23,6 +23,10 @@ namespace Test
 
         // Port to use
         int port;
+
+        // TCP server and client
+        networking::TcpServer tcpServer{'\x00'};
+        networking::TcpClient tcpClient{'\x00'};
     };
 }
 

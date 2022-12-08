@@ -12,11 +12,20 @@ void General_TlsConnection_SendImmediately::SetUp()
     // Get free TLS port
     port = HelperFunctions::getFreePort();
     ASSERT_NE(port, -1) << "No free port found";
+
+    // Start server and connect client to
+    tlsServer.start(port, KeyPaths::CaCert.c_str(), KeyPaths::ListenerCert.c_str(), KeyPaths::ListenerKey.c_str());
+    tlsClient.start("localhost", port, KeyPaths::CaCert.c_str(), KeyPaths::ClientCert.c_str(), KeyPaths::ClientKey.c_str());
+
     return;
 }
 
 void General_TlsConnection_SendImmediately::TearDown()
 {
+    // Close client first and server after
+    tlsClient.stop();
+    tlsServer.stop();
+
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
 
@@ -30,9 +39,5 @@ void General_TlsConnection_SendImmediately::TearDown()
 // ====================================================================================================================
 TEST_F(General_TlsConnection_SendImmediately, ClientToServer)
 {
-    TlsServer server{'\x00'};
-    TlsClient client{'\x00'};
-    server.start(port, KeyPaths::CaCert.c_str(), KeyPaths::ListenerCert.c_str(), KeyPaths::ListenerKey.c_str());
-    client.start("localhost", port, KeyPaths::CaCert.c_str(), KeyPaths::ClientCert.c_str(), KeyPaths::ClientKey.c_str());
-    client.sendMsg("Test message");
+    tlsClient.sendMsg("Test message");
 }

@@ -12,11 +12,20 @@ void General_TcpConnection_SendImmediately::SetUp()
     // Get free TCP port
     port = HelperFunctions::getFreePort();
     ASSERT_NE(port, -1) << "No free port found";
+
+    // Start server and connect client to
+    tcpServer.start(port);
+    tcpClient.start("localhost", port);
+
     return;
 }
 
 void General_TcpConnection_SendImmediately::TearDown()
 {
+    // Close client first and server after
+    tcpClient.stop();
+    tcpServer.stop();
+
     // Check if no pipe error occurred
     EXPECT_FALSE(HelperFunctions::getAndResetPipeError()) << "Pipe error occurred!";
 
@@ -30,9 +39,5 @@ void General_TcpConnection_SendImmediately::TearDown()
 // ====================================================================================================================
 TEST_F(General_TcpConnection_SendImmediately, ClientToServer)
 {
-    TcpServer server{'\x00'};
-    TcpClient client{'\x00'};
-    server.start(port);
-    client.start("localhost", port);
-    client.sendMsg("Test message");
+    tcpClient.sendMsg("Test message");
 }

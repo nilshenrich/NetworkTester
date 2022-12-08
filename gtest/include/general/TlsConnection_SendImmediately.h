@@ -24,6 +24,10 @@ namespace Test
 
         // Port to use
         int port;
+
+        // TLS server and client
+        networking::TlsServer tlsServer{'\x00'};
+        networking::TlsClient tlsClient{'\x00'};
     };
 }
 
