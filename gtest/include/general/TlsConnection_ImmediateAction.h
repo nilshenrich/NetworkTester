@@ -1,5 +1,5 @@
-#ifndef GENERAL_TLSCONNECTION_SENDIMMEDIATELY_H_
-#define GENERAL_TLSCONNECTION_SENDIMMEDIATELY_H_
+#ifndef GENERAL_TLSCONNECTION_IMMEDIATEACTION_H_
+#define GENERAL_TLSCONNECTION_IMMEDIATEACTION_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -12,11 +12,11 @@
 
 namespace Test
 {
-    class General_TlsConnection_SendImmediately : public testing::Test
+    class General_TlsConnection_ImmediateAction : public testing::Test
     {
     public:
-        General_TlsConnection_SendImmediately();
-        virtual ~General_TlsConnection_SendImmediately();
+        General_TlsConnection_ImmediateAction();
+        virtual ~General_TlsConnection_ImmediateAction();
 
     protected:
         void SetUp() override;
@@ -31,4 +31,4 @@ namespace Test
     };
 }
 
-#endif // GENERAL_TLSCONNECTION_SENDIMMEDIATELY_H_
+#endif // GENERAL_TLSCONNECTION_IMMEDIATEACTION_H_

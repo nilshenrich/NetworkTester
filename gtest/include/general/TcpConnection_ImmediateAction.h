@@ -1,5 +1,5 @@
-#ifndef GENERAL_TCPCONNECTION_SENDIMMEDIATELY_H_
-#define GENERAL_TCPCONNECTION_SENDIMMEDIATELY_H_
+#ifndef GENERAL_TCPCONNECTION_IMMEDIATEACTION_H_
+#define GENERAL_TCPCONNECTION_IMMEDIATEACTION_H_
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -11,11 +11,11 @@
 
 namespace Test
 {
-    class General_TcpConnection_SendImmediately : public testing::Test
+    class General_TcpConnection_ImmediateAction : public testing::Test
     {
     public:
-        General_TcpConnection_SendImmediately();
-        virtual ~General_TcpConnection_SendImmediately();
+        General_TcpConnection_ImmediateAction();
+        virtual ~General_TcpConnection_ImmediateAction();
 
     protected:
         void SetUp() override;
@@ -30,4 +30,4 @@ namespace Test
     };
 }
 
-#endif // GENERAL_TCPCONNECTION_SENDIMMEDIATELY_H_
+#endif // GENERAL_TCPCONNECTION_IMMEDIATEACTION_H_
