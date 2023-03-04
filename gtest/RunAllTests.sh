@@ -21,7 +21,7 @@ json_file="$currentDir/results.json"
 touch $json_file
 jq -n "{\"tests\":0,\"failures\":0,\"disabled\":0,\"errors\":0,\"timestamp\":\"$dateTime\",\"time\":\"0s\",\"name\":\"AllTests\",\"testsuites\":[]}" > $json_file
 
-# Run test cass of scope and store to JSON file
+# Run test cases of scope and store to JSON file
 temp_file_forwarding="$currentDir/results_temp_forwarding.json"
 run_gtest_tests $tests_forwarding $temp_file_forwarding
 numTestsTotal=`jq -s '.[0].tests + .[1].tests' $json_file $temp_file_forwarding`
